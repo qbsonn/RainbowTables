@@ -45,12 +45,11 @@ public class HashAndReduct {
      */
     public byte[] calculateHash(String _text) {
         byte[] bytesOfMessage = _text.getBytes(StandardCharsets.UTF_8);
-        byte[] thedigest=new byte[1];
+
+        byte[] thedigest=null;
         try {
             MessageDigest md = MessageDigest.getInstance(hashType);
              thedigest = md.digest(bytesOfMessage);
-
-            System.out.println(thedigest);
 
 
 
@@ -60,6 +59,7 @@ public class HashAndReduct {
             e.printStackTrace();
         }
         return thedigest;
+
 
     }
 
@@ -73,7 +73,7 @@ public class HashAndReduct {
      * @return obliczone słowo
      */
 
-    public byte[] reduce (byte[] _hash, int _functionNr, byte _pwLength, int _chainNumber)
+    public byte[] reduce (byte[] _hash, int _functionNr, int _pwLength, int _chainNumber)
     {
         byte[] result = new byte[_pwLength];
         int j=0;
@@ -82,8 +82,13 @@ public class HashAndReduct {
         for (int i = 0; i < _pwLength; i++) {
             hashIndex = hashIndex + _hash[(_chainNumber+j)%hashLength]^_functionNr;
             j = j + _pwLength;
+
             result[i] = (byte)( Math.abs(hashIndex) % charset.length());
+            //result[i] = (byte)( Math.abs(hashIndex) % 128);
         }
+
+    //    System.out.println(result.length);
+
         return result;
     }
 

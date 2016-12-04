@@ -27,6 +27,14 @@ public class Input {
      * Zakres znaków
      */
     private String charset;
+    /**
+     * Tablica zawierajaca punkty startowe lancuchow
+     */
+    private String []startPoints;
+    /**
+     * Dlugosc hasel generowanych w tablicy
+     */
+    private int pwLegth;
 
     /**
      * Konstruktor obiektu klasy input
@@ -34,9 +42,20 @@ public class Input {
         public Input()
         {
 
-            charset="ABCDEFGHIJKLMNOPQRSTUVWXYZ" ;
+            charset="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         }
 
+
+    /**
+     * Ustawianie dlugosci hasel
+     * @param _length
+     */
+    public void setPwLegth(int _length)
+    {
+        pwLegth=_length;
+
+    }
     /**Ustawienie nazwy tablicy
      * @param _name
      */
@@ -113,6 +132,12 @@ public class Input {
      * @return
      */
     public String getCharset() { return charset;}
+
+    /**
+     * Zwraca dlugosc hasla
+     * @return
+     */
+    public int getPwLegth(){return pwLegth;}
 
 
 }
