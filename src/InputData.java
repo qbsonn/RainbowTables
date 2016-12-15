@@ -6,7 +6,7 @@
  *
  * Klasa odpowiadajaca za pobranie danych wejsciowych podanych przez uzytkownika
  */
-public class Input {
+public class InputData {
 
 
     /** Nazwa tablicy*/
@@ -39,7 +39,7 @@ public class Input {
     /**
      * Konstruktor obiektu klasy input
      */
-        public Input()
+        public InputData()
         {
 
             charset="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -97,7 +97,7 @@ public class Input {
      * @param _hash
      */
     public void setHashType(String _hash) {
-        if (_hash == "MD5" || _hash == "SHA-1") {
+        if (_hash == "MD5" || _hash == "SHA1") {
             hashType = _hash;
         } else
             System.out.println("hash error");

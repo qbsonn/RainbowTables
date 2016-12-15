@@ -33,26 +33,21 @@ public class HashAndReduct {
     {
         hashType=_hashType;
         charset=_charset;
-
-
     }
 
     /**
      * Funkcja obliczająca i zwracająca obliczony hash
      *
-     * @param _text tekst na podstawie ktorego liczony jest hash
+     * @param _bytesOfMessage tekst na podstawie ktorego liczony jest hash
      * @return obliczony hash
      */
-    public byte[] calculateHash(String _text) {
-        byte[] bytesOfMessage = _text.getBytes(StandardCharsets.UTF_8);
+    public byte[] calculateHash(byte[] _bytesOfMessage) {
+      //  byte[] bytesOfMessage = _text.getBytes(StandardCharsets.UTF_8);
 
         byte[] thedigest=null;
         try {
             MessageDigest md = MessageDigest.getInstance(hashType);
-             thedigest = md.digest(bytesOfMessage);
-
-
-
+             thedigest = md.digest(_bytesOfMessage);
         }
         catch ( java.security.NoSuchAlgorithmException e)
         {
@@ -84,23 +79,10 @@ public class HashAndReduct {
             j = j + _pwLength;
 
             result[i] = (byte)( Math.abs(hashIndex) % charset.length());
-            //result[i] = (byte)( Math.abs(hashIndex) % 128);
+
         }
 
-    //    System.out.println(result.length);
 
         return result;
     }
-
-
-
-
-
-
 }
-
-
-
-
-
-

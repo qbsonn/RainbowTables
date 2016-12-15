@@ -1,7 +1,17 @@
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 import java.io.FileOutputStream;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+
 
 /**
  * Created by Kuba on 2016-12-03.
@@ -35,7 +45,7 @@ public class Generator {
     /**
      * Struktura danych przechowujaca lancuchy
      */
-    private  HashMap<String,byte[]> chains;
+    private  List<Chain> chains;
     /**
      * Tablica przechowujaca punkty startowe lancuchow
      */
@@ -48,19 +58,22 @@ public class Generator {
 
 
 
+
+
+
     /**
      * Konstruktor klasy Generator
      * @param _input
      */
 
-    public Generator(Input _input)
+    public Generator(InputData _input)
     {
         tableName=_input.getTableName();
         chainLen=_input.getChainLen();
         chainCount=_input.getChainCount();
         hashType=_input.getHashType();
         charset=_input.getCharset();
-        chains=new HashMap<>();
+        chains=new LinkedList<>();
         pwLength=_input.getPwLegth();
         startPoints=new String[chainCount];
 
@@ -68,11 +81,11 @@ public class Generator {
 
     hr=new HashAndReduct( hashType,charset);
 
+        System.out.println("Nazwa tablicy: "+tableName+"algorytm: "+hashType+"dlugosc lan: "+chainLen+"ilosc: "+chainCount);
+
+
+
     }
-
-
-
-
 
 
     public void calculateStartPoints()
@@ -91,10 +104,9 @@ public class Generator {
            }
                 startPoints[i]=sb.toString();
 
-
         }
 
-
+        System.out.println("Utworzono poczatkowe punkty");
     }
 
 
@@ -109,16 +121,14 @@ public class Generator {
 
         int number=(int)_byte;
         int x=-1;
+
 //System.out.println(number+"num");
         for (int i=0;i<charset.length();i++)
         {
             if (number ==i)
             {  x=i;
                     break;
-
-
             }
-
         }
     //   System.out.println("pozy: "+x);
 
@@ -150,51 +160,71 @@ public class Generator {
      */
     public void initTable()
     {
-        String word;
+
+        long start=System.currentTimeMillis();
+      byte[] word;
         for (int i=0;i<chainCount;i++)
-        {       word=startPoints[i];
+        {       word=startPoints[i].getBytes(StandardCharsets.UTF_8);
                 byte[] hash=null;
 
 
             for (int j=0;j<chainLen;j++)
             {
                 hash=hr.calculateHash(word);
-               // convertHash(hash);
-               word=fromByteToString(hr.reduce(hash,j,pwLength,i));
+               //convertHash(hash);
+               word=hr.reduce(hash,j,pwLength,i);
 
 
             }
 
-            chains.put(startPoints[i],hash);
+            chains.add(new Chain(startPoints[i], fromByteToString(word)));
 
         }
 
-        for (String key: chains.keySet()){
-
-
-            System.out.println(key);
-           convertHash( chains.get(key));
-
-
-
-        }
-
+        System.out.println("Utworzono tablice");
+        Collections.sort(chains);
+        System.out.println("posortowano");
         saveToFile();
+//saveString();
+        long stop=System.currentTimeMillis();
+
+/*
+        for (Chain key: chains){
+
+
+            System.out.println(key.getStartPoint());
+            System.out.println(key.getEndPoint());
+
+          //  printHash( chains.get(key));
+
+
+
+        }
+        */
+
+        System.out.println("Czas wykonania:"+(stop-start)/1000 +" sekund");
+
+
+
+
+
+
     }
+
 
     /**
      * Metoda konwertujaca hash z typu byte na string i wyswietlajaca hash w konsoli
      * @param _hash
      */
 
-    public void convertHash(byte[] _hash)
+    public void printHash(byte[] _hash)
     {
 
         StringBuilder sb = new StringBuilder();
         for (byte b : _hash ) {
             sb.append(String.format("%02X ", b));
         }
-        System.out.println(sb.toString());
+    //    System.out.println(sb.toString());
 
 
     }
@@ -219,26 +249,39 @@ public class Generator {
         return sb.toString();
     }
 
+
+
+    public void convertHash(byte[] _hash)
+    {
+
+        StringBuilder sb = new StringBuilder();
+        for (byte b : _hash ) {
+            sb.append(String.format("%02X ", b));
+        }
+        System.out.println(sb.toString());
+
+
+    }
+
+
     /**
      * Metoda zapisujaca tablice do pliku
      */
-
     public void saveToFile()
     {
         try {
-            FileOutputStream fos = new FileOutputStream(tableName+hashType+".txt");
+            FileOutputStream fos = new FileOutputStream(tableName+hashType+".dat");
+int i=1;
 
-            for (String key: chains.keySet()){
-
-                fos.write(key.getBytes());
+            for (Chain key: chains){
+                fos.write(String.valueOf(i).getBytes());
                 fos.write(" ".getBytes());
-                fos.write(chains.get(key));
+                fos.write(key.getStartPoint().getBytes());
+                fos.write(" ".getBytes());
+                fos.write(key.getEndPoint().getBytes());
                 fos.write(System.getProperty("line.separator").getBytes());
                 fos.flush();
-
-
-
-
+                i++;
             }
             fos.close();
         }
@@ -248,9 +291,34 @@ public class Generator {
 
         }
 
+    }
 
+
+    public void saveString()
+    {
+        try {
+            PrintWriter fos = new PrintWriter(tableName+hashType+"s"+".txt");
+            int i=1;
+
+            for (Chain key: chains){
+                fos.println(i+ " "+key.getStartPoint()+" "+key.getEndPoint());
+
+             i++;
+            }
+            fos.close();
+        }
+        catch (java.io.IOException e)
+        {
+            e.printStackTrace();
+
+        }
 
     }
 
 
+
+
+
+
 }
+
