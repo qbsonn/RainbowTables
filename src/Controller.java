@@ -1,29 +1,48 @@
 import javafx.fxml.FXML;
 
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.event.ActionEvent;
 import javafx.collections.*;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.scene.control.Button;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import java.io.File;
+import javafx.stage.FileChooser;
+import java.awt.Desktop;
+import java.io.IOException;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 
 /**
  * Created by Kuba on 2016-12-10.
  */
-public class Controller  implements  Initializable {
+public class Controller  implements  Initializable,EndGenerateInterface {
 
     private InputData input;
+    private ArrayList<String>charsets;
+    Desktop desktop = Desktop.getDesktop();
+
     Generator generator;
+    String directory=System.getProperty("user.dir");
+
+    Stage stage;
+
+    String startPointsFile;
+
+
 
 
     @FXML
-    Button okButton;
+    Button tablePathButton;
+
+    @FXML
+    Button okButton,selectFileButton,calculateTimeButton;
 
     @FXML
     TextField passLen, tableName, chainNum, chainLen;
@@ -31,16 +50,55 @@ public class Controller  implements  Initializable {
     @FXML
     Pane pane;
 
+    @FXML
+    private Label showPathLabel;
 
     @FXML
-    private ComboBox hash;
+    private Label showTimeLabel;
+
+    @FXML
+    private Label  showPathFile;
+    @FXML
+    private ComboBox hash,startPointComboBox,charsetComboBox;
+
 
 
     @FXML
     public void handleButtonAction(ActionEvent event) {
         input=new InputData();
+
+        if (tableName.getText().trim().isEmpty())
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setHeaderText(null);
+            alert.setContentText("Podaj nazwę tablicy");
+
+            alert.showAndWait();
+            return;
+
+
+
+        }
+
         input.setTableName(tableName.getText());
 
+
+    input.setDirectory(directory+"/");
+
+
+        if (charsetComboBox.getSelectionModel().isEmpty()==true)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setHeaderText(null);
+            alert.setContentText("Wybierz zakres znaków");
+            alert.showAndWait();
+            return;
+
+
+        }
+        input.setCharset(charsetComboBox.getValue().toString());
 
 
 
@@ -53,11 +111,8 @@ public class Controller  implements  Initializable {
 
         alert.showAndWait();
         return;
-
-
     }
 
-System.out.println(hash.getValue().toString());
         input.setHashType(hash.getValue().toString());
 
 
@@ -81,27 +136,241 @@ System.out.println(hash.getValue().toString());
 
 
         }
+        if (startPointsFile!=null) {
+            input.loadStartPoints(startPointsFile);
+        }
 
+        okButton.setVisible(false);
 
         generator=new Generator(input);
-        generator.initTable();
+        Thread generateTable=new Thread(generator);
+
+        generateTable.start();
+        generator.addListener(this);
+        // generator.initTable();
+
+
+
 
     }
+
+
+    public void handleCalculateTime(ActionEvent event)
+    {input=new InputData();
+
+        if (hash.getSelectionModel().isEmpty()==true)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setHeaderText(null);
+            alert.setContentText("Wybierz funkcję hashująca");
+
+            alert.showAndWait();
+            return;
+
+
+        }
+        System.out.println(hash.getValue().toString());
+        input.setHashType(hash.getValue().toString());
+
+
+        if (charsetComboBox.getSelectionModel().isEmpty()==true)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setHeaderText(null);
+            alert.setContentText("Wybierz zakres znaków");
+            alert.showAndWait();
+            return;
+
+
+        }
+        input.setCharset(charsetComboBox.getValue().toString());
+
+        try {
+            input.setChainCount(Integer.parseInt(chainNum.getText()));
+            input.setChainLen(Integer.parseInt(chainLen.getText()));
+            input.setPwLegth(Integer.parseInt(passLen.getText()));
+
+        }
+        catch (NumberFormatException e) {
+            //  e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setHeaderText(null);
+            alert.setContentText("Dlugosc hasła, ilośc łańcuchow i ilosc haseł w łańcuchach muszą być liczbami");
+
+            alert.showAndWait();
+            return;
+        }
+
+        int calculateNumberOfPasswords=input.getChainLen()*input.getChainCount();
+
+
+        showTimeLabel.setVisible(true);
+
+        showTimeLabel.setText("Szacunkowy czas generacji: "+String.valueOf(calculateTime(input))+" sekund. \n"+ "Liczba haseł w tablicy: "+calculateNumberOfPasswords);
+
+
+
+    }
+
+
+    public void handlePathChoose(ActionEvent event) {
+
+        stage=(Stage) tablePathButton.getScene().getWindow();
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Scieżka zapisu tablicy");
+        File defaultDirectory = new File("C:/");
+        chooser.setInitialDirectory(defaultDirectory);
+        File selectedDirectory = chooser.showDialog(stage);
+
+       directory=selectedDirectory.getAbsolutePath();
+        showPathLabel.setText(directory);
+
+    }
+
+    public void handleStartPointFileChooser(ActionEvent event)
+    {
+        stage=(Stage) selectFileButton.getScene().getWindow();
+        FileChooser chooser = new FileChooser();
+
+        FileChooser.ExtensionFilter extFilter =
+                new FileChooser.ExtensionFilter("TEXT files (*.txt)", "*.txt");
+       chooser.getExtensionFilters().add(extFilter);
+
+
+
+        chooser.setTitle("Open File");
+        File file=chooser.showOpenDialog(stage);
+        startPointsFile=file.getAbsolutePath();
+        showPathFile.setVisible(true);
+        showPathFile.setText(startPointsFile);
+
+
+
+
+    }
+
+    public void handlestartComboBoxChange (ActionEvent event)
+    {
+        if (startPointComboBox.getValue().toString()=="Z pliku..")
+        {
+
+            selectFileButton.setVisible(true);
+        }
+        else
+            selectFileButton.setVisible(false);
+        startPointsFile=null;
+        showPathFile.setVisible(false);
+
+    }
+
+
+    public long calculateTime(InputData _input)
+    {
+        Generator gen=new Generator(_input);
+        long totalTime;
+        totalTime=gen.calculateExample()*_input.getChainCount()*_input.getChainLen()/1000000000;
+
+
+        return totalTime;
+
+
+    }
+
+
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        charsets=new ArrayList<>();
+
+        ObservableList<String> charsetOptions = FXCollections.observableArrayList();
+
+
+        BufferedReader br=null;
+        try {
+            br = new BufferedReader(new FileReader("charset.txt"));
+
+        }
+        catch (java.io.FileNotFoundException e)
+        {
+            e.printStackTrace();
+
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setHeaderText(null);
+            alert.setContentText("Nie można znaleść pliku charset.txt!!!");
+
+            alert.showAndWait();
+            charsetOptions.add("Brak opcji, sprawdź plik charset.txt");
+        }
+        try{
+            String line;
+            while ((line = br.readLine()) != null) {
+                // process the line.
+                charsets.add(line);
+                charsetOptions.add(line);
 
 
 
+            }
+        }
+        catch (java.io.IOException e)
+        {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setHeaderText(null);
+            alert.setContentText("Błąd odczytu pliku charset.txt!!!");
 
-        ObservableList<String> options =
+            alert.showAndWait();
+            charsetOptions.add("Brak opcji, sprawdź plik charset.txt");
+        }
+
+      charsetComboBox.setItems(charsetOptions);
+
+
+        ObservableList<String> hashOptions =
                 FXCollections.observableArrayList(
                         "MD5",
                         "SHA1"
                 );
-       hash.setItems(options);
+       hash.setItems(hashOptions);
+
+
+        ObservableList<String> startPointsOptions =
+                FXCollections.observableArrayList(
+                        "Wygenerowane",
+                        "Z pliku.."
+                );
+        startPointComboBox.setItems(startPointsOptions);
+        startPointComboBox.getSelectionModel().selectFirst();
+
+
+        selectFileButton.setVisible(false);
+        showPathLabel.setText(directory);
+       showPathFile.setText("");
+       showPathFile.setVisible(false);
+        showTimeLabel.setVisible(false);
+
 
     }
-   }
+
+    @Override
+    public void endGenerate() {
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Zakończono");
+        alert.setHeaderText(null);
+        alert.setContentText("Zakończono tworzenie tablicy: "+input.getTableName()+input.getHashType()+" w katalogu: "+directory);
+
+        alert.showAndWait();
+
+        okButton.setVisible(true);
+
+    }
+}
 

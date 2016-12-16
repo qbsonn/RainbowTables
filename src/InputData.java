@@ -2,6 +2,11 @@
  * Created by Kuba on 2016-12-03.
  */
 
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+
 /**
  *
  * Klasa odpowiadajaca za pobranie danych wejsciowych podanych przez uzytkownika
@@ -36,14 +41,21 @@ public class InputData {
      */
     private int pwLegth;
 
+
+    /**
+     * Sciezka w ktorej zostanie zapisana tablica
+     */
+    private String directory;
+
+    private ArrayList<String> loadedStartPoints;
+
     /**
      * Konstruktor obiektu klasy input
      */
         public InputData()
         {
-
-            charset="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
+            //charset="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            loadedStartPoints=new ArrayList<>();
         }
 
 
@@ -76,6 +88,17 @@ public class InputData {
         }
         else
             System.out.println("chainlen error");
+    }
+
+    /**
+     * Metoda ustawiajaca charset
+     *
+     */
+
+    public void setCharset(String _charset)
+    {
+        charset=_charset;
+
     }
 
     /**
@@ -139,5 +162,66 @@ public class InputData {
      */
     public int getPwLegth(){return pwLegth;}
 
+    /**
+     *
+     * Ustawia ścieżkę zapisu tablicy
+     * @param _directory
+     */
+
+    public void setDirectory(String _directory)
+    {
+
+
+        directory=_directory;
+
+    }
+
+    /**
+     * Zwraca sciezke w ktorej zostanie zapsiana tablica
+     * @return
+     */
+    public String getDirectory(){return directory;}
+
+    public void loadStartPoints(String path)
+    {
+
+        BufferedReader br=null;
+        try {
+            br = new BufferedReader(new FileReader(path));
+
+        }
+        catch (java.io.FileNotFoundException e)
+        {
+            e.printStackTrace();
+
+        }
+        try{
+            String line;
+            while ((line = br.readLine()) != null) {
+                // process the line.
+                loadedStartPoints.add(line);
+
+            }
+        }
+        catch (java.io.IOException e)
+        {
+            e.printStackTrace();
+
+        }
+
+
+        for (String b :loadedStartPoints)
+        {
+            System.out.println(b);
+
+        }
+
+    }
+
+    public ArrayList<String>  getStartPoints()
+    {
+        return loadedStartPoints;
+
+    }
 
 }

@@ -1,22 +1,15 @@
+import javafx.scene.control.Alert;
+
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 import java.io.FileOutputStream;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 
 
 /**
  * Created by Kuba on 2016-12-03.
  */
-public class Generator {
+public class Generator implements Runnable{
 
     /**
      * Nazwa tablicy
@@ -49,11 +42,18 @@ public class Generator {
     /**
      * Tablica przechowujaca punkty startowe lancuchow
      */
-    private String[] startPoints;
+    private ArrayList<String> startPoints;
     /**
      * Dlugosc generowanych hasel
      */
     private int pwLength;
+
+    /**
+     * Sciezka zapisu
+     */
+    private String directory;
+
+    private List<EndGenerateInterface> listeners = new ArrayList<EndGenerateInterface>(); // Słuchacze zdarzeń
 
 
 
@@ -75,7 +75,15 @@ public class Generator {
         charset=_input.getCharset();
         chains=new LinkedList<>();
         pwLength=_input.getPwLegth();
-        startPoints=new String[chainCount];
+        startPoints=new ArrayList<>();
+        if (_input.getStartPoints().size()!=0)
+        {
+            startPoints=_input.getStartPoints();
+
+        }
+
+
+        directory=_input.getDirectory();
 
         calculateStartPoints();
 
@@ -92,7 +100,10 @@ public class Generator {
     {
         Random rand=new Random();
         int code;
-        for (int i=0;i<chainCount;i++)
+
+        int alreadyDone=startPoints.size();
+
+        for (int i=0;i<chainCount-alreadyDone;i++)
         {
 
             StringBuilder sb = new StringBuilder();
@@ -102,7 +113,8 @@ public class Generator {
                sb.append( foundCharInCharset(code));
 
            }
-                startPoints[i]=sb.toString();
+                startPoints.add(sb.toString());
+
 
         }
 
@@ -164,7 +176,7 @@ public class Generator {
         long start=System.currentTimeMillis();
       byte[] word;
         for (int i=0;i<chainCount;i++)
-        {       word=startPoints[i].getBytes(StandardCharsets.UTF_8);
+        {       word=startPoints.get(i).getBytes(StandardCharsets.UTF_8);
                 byte[] hash=null;
 
 
@@ -177,7 +189,7 @@ public class Generator {
 
             }
 
-            chains.add(new Chain(startPoints[i], fromByteToString(word)));
+            chains.add(new Chain(startPoints.get(i), fromByteToString(word)));
 
         }
 
@@ -270,7 +282,7 @@ public class Generator {
     public void saveToFile()
     {
         try {
-            FileOutputStream fos = new FileOutputStream(tableName+hashType+".dat");
+            FileOutputStream fos = new FileOutputStream(directory+tableName+hashType+".dat");
 int i=1;
 
             for (Chain key: chains){
@@ -316,9 +328,58 @@ int i=1;
     }
 
 
+    public long calculateExample()
+    {
+
+        Random rand=new Random();
+        int code;
+    String startPoint;
+
+        StringBuilder sb = new StringBuilder();
+        for (int j=0; j<pwLength; j++)
+        {
+            code= rand.nextInt(charset.length());
+            sb.append( foundCharInCharset(code));
+
+        }
+        startPoint=sb.toString();
+        byte[] word;
+
+        word=startPoint.getBytes(StandardCharsets.UTF_8);
+        byte[] hash=null;
+
+
+        long start=System.nanoTime();
+        hash=hr.calculateHash(word);
+        //convertHash(hash);
+        word=hr.reduce(hash,2,pwLength,2);
+        long stop=System.nanoTime();
+        long time=stop-start;
+        System.out.println("Czas: "+time);
+
+        return time;
+    }
+
+    public void endGenerate() {
+        for (EndGenerateInterface listener : listeners)
+            listener.endGenerate();
+
+
+    }
+
+
+    public void addListener(EndGenerateInterface toAdd) {
+        listeners.add(toAdd);
+    }
+
+    @Override
+    public void run() {
+
+        initTable();
+        endGenerate();
 
 
 
-
+    }
 }
 
