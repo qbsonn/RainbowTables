@@ -1,3 +1,5 @@
+import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.scene.control.Alert;
 
 import java.io.PrintWriter;
@@ -9,7 +11,7 @@ import java.io.FileOutputStream;
 /**
  * Created by Kuba on 2016-12-03.
  */
-public class Generator implements Runnable{
+public class Generator extends Task implements Runnable {
 
     /**
      * Nazwa tablicy
@@ -52,13 +54,6 @@ public class Generator implements Runnable{
      * Sciezka zapisu
      */
     private String directory;
-
-    private List<EndGenerateInterface> listeners = new ArrayList<EndGenerateInterface>(); // Słuchacze zdarzeń
-
-
-
-
-
 
 
     /**
@@ -171,7 +166,11 @@ public class Generator implements Runnable{
      * Metoda tworząca tablice
      */
     public void initTable()
+
     {
+        updateMessage("Trwa generacja tablicy... To może chwilę potrwać...");
+        int total=chainCount*chainLen;
+        int actual=0;
 
         long start=System.currentTimeMillis();
       byte[] word;
@@ -185,6 +184,8 @@ public class Generator implements Runnable{
                 hash=hr.calculateHash(word);
                //convertHash(hash);
                word=hr.reduce(hash,j,pwLength,i);
+                actual++;
+                updateProgress(actual,total+1);
 
 
             }
@@ -194,9 +195,14 @@ public class Generator implements Runnable{
         }
 
         System.out.println("Utworzono tablice");
+        updateMessage("Generacja zakończona. Trwa sortowanie");
         Collections.sort(chains);
+
         System.out.println("posortowano");
+        updateMessage("Trwa zapis tablicy do pliku");
         saveToFile();
+        updateProgress(actual+1,total+1);
+        updateMessage("Zapis zakończony. Tablica jest gotowa do uzycia!");
 //saveString();
         long stop=System.currentTimeMillis();
 
@@ -360,26 +366,14 @@ int i=1;
         return time;
     }
 
-    public void endGenerate() {
-        for (EndGenerateInterface listener : listeners)
-            listener.endGenerate();
 
 
-    }
-
-
-    public void addListener(EndGenerateInterface toAdd) {
-        listeners.add(toAdd);
-    }
 
     @Override
-    public void run() {
-
+    protected Object call() throws Exception {
         initTable();
-        endGenerate();
 
-
-
+        return null;
     }
 }
 
