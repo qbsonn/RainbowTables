@@ -194,11 +194,11 @@ public class Generator extends Task implements Runnable {
 
         }
 
-        System.out.println("Utworzono tablice");
+       // System.out.println("Utworzono tablice");
         updateMessage("Generacja zakończona. Trwa sortowanie");
         Collections.sort(chains);
 
-        System.out.println("posortowano");
+        //System.out.println("posortowano");
         updateMessage("Trwa zapis tablicy do pliku");
         saveToFile();
         updateProgress(actual+1,total+1);

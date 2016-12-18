@@ -81,8 +81,6 @@ public class HashAndReduct {
             result[i] = (byte)( Math.abs(hashIndex) % charset.length());
 
         }
-
-
         return result;
     }
 }

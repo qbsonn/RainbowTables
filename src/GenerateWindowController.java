@@ -50,12 +50,12 @@ public class GenerateWindowController  {
         endButton.setVisible(false);
         //timeLabel.setText("00:00:00");
         long startTime=System.currentTimeMillis();
-        System.out.println("Poczatkowy:"+startTime);
+       // System.out.println("Poczatkowy:"+startTime);
         DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss") ;
         final Timeline timeline = new Timeline( new KeyFrame( Duration.millis( 500 ), event -> {
           if (stopClock==false)  {
                 long diff = (System.currentTimeMillis() - startTime);
-              System.out.println("nowy"+diff);
+             // System.out.println("nowy"+diff);
                 if (diff < 0) {
 
                     //timeLabel.setText( timeFormat.format( 0 ) );
