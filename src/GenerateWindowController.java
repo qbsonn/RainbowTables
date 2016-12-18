@@ -42,18 +42,27 @@ public class GenerateWindowController  {
 
     Timeline timeLine;
 
+    boolean stopClock;
+
     public void initialize() {
+        stopClock=false;
+        timeLabel.setText("");
         endButton.setVisible(false);
         //timeLabel.setText("00:00:00");
         long startTime=System.currentTimeMillis();
-        DateFormat timeFormat = new SimpleDateFormat( "hh:mm:ss" );
+        System.out.println("Poczatkowy:"+startTime);
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss") ;
         final Timeline timeline = new Timeline( new KeyFrame( Duration.millis( 500 ), event -> {
-            final long diff = (System.currentTimeMillis()-startTime);
-            if ( diff < 0 ) {
+          if (stopClock==false)  {
+                long diff = (System.currentTimeMillis() - startTime);
+              System.out.println("nowy"+diff);
+                if (diff < 0) {
 
-                //timeLabel.setText( timeFormat.format( 0 ) );
-            } else {
-                timeLabel.setText( timeFormat.format( diff ) );
+                    //timeLabel.setText( timeFormat.format( 0 ) );
+                } else {
+
+                    timeLabel.setText(timeFormat.format(diff));
+                }
             }
         }));
         timeline.setCycleCount( Animation.INDEFINITE );

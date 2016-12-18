@@ -133,11 +133,24 @@ public class Controller  implements  Initializable {
 
 
         }
-        if (startPointsFile != null) {
-            input.loadStartPoints(startPointsFile);
+
+
+        if (startPointComboBox.getValue().toString()=="Z pliku..") {
+            if (startPointsFile != null) {
+                input.loadStartPoints(startPointsFile);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Błąd");
+                alert.setHeaderText(null);
+                alert.setContentText("Wybrano opcje pobrania punktów startowych z pliku, ale nie podano ścieżki do pliku!");
+
+                alert.showAndWait();
+                return;
+
+            }
         }
 
-        okButton.setVisible(false);
+
 
         generator = new Generator(input);
 
@@ -149,13 +162,14 @@ public class Controller  implements  Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("GenerateWindow.fxml"));
             Stage stage = new Stage();
-            stage.setTitle("My New Stage Title");
+            stage.setTitle("Generacja Tablicy");
             stage.setScene(new Scene((Pane) loader.load()));
+            stage.setResizable(false);
             stage.show();
 
             GenerateWindowController controller = loader.getController();
 
-            controller.initialize();
+          //  controller.initialize();
 
             controller.pogressBar.progressProperty().bind(generator.progressProperty());
 
@@ -170,7 +184,7 @@ public class Controller  implements  Initializable {
                 @Override
                 public void handle(WorkerStateEvent event) {
                     controller.endButton.setVisible(true);
-                   controller.timeLine.stop();
+                   controller.stopClock=true;
 
                 }
             });
@@ -260,9 +274,15 @@ public class Controller  implements  Initializable {
         File defaultDirectory = new File("C:/");
         chooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = chooser.showDialog(stage);
+try {
+    directory = selectedDirectory.getAbsolutePath();
+    showPathLabel.setText(directory);
+}
+catch (java.lang.NullPointerException e)
+{
+    showPathLabel.setText(directory);
 
-        directory = selectedDirectory.getAbsolutePath();
-        showPathLabel.setText(directory);
+}
 
     }
 
@@ -277,9 +297,17 @@ public class Controller  implements  Initializable {
 
         chooser.setTitle("Open File");
         File file = chooser.showOpenDialog(stage);
-        startPointsFile = file.getAbsolutePath();
-        showPathFile.setVisible(true);
-        showPathFile.setText(startPointsFile);
+        try {
+            startPointsFile = file.getAbsolutePath();
+            showPathFile.setVisible(true);
+            showPathFile.setText(startPointsFile);
+        }
+        catch (java.lang.NullPointerException e)
+        {
+            e.printStackTrace();
+
+
+        }
 
 
     }
