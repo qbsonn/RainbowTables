@@ -357,8 +357,7 @@ int i=1;
 
         long start=System.nanoTime();
         hash=hr.calculateHash(word);
-        //convertHash(hash);
-        word=hr.reduce(hash,2,pwLength,2);
+        word=hr.reduce(hash,1,pwLength,1);
         long stop=System.nanoTime();
         long time=stop-start;
         System.out.println("Czas: "+time);

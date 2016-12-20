@@ -1,22 +1,15 @@
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
-
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.Calendar;
 import javafx.scene.control.*;
 import javafx.util.Duration;
 
@@ -54,14 +47,23 @@ public class GenerateWindowController  {
         DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss") ;
         final Timeline timeline = new Timeline( new KeyFrame( Duration.millis( 500 ), event -> {
           if (stopClock==false)  {
-                long diff = (System.currentTimeMillis() - startTime);
+              Calendar calendar = Calendar.getInstance();
+
+
+              long diff = (System.currentTimeMillis() - startTime);
+
+              calendar.set(Calendar.HOUR_OF_DAY, 0);
+              calendar.set(Calendar.MINUTE, 0);
+              calendar.set(Calendar.MILLISECOND, (int)diff);
+              calendar.set(Calendar.SECOND, 0);
              // System.out.println("nowy"+diff);
                 if (diff < 0) {
 
                     //timeLabel.setText( timeFormat.format( 0 ) );
                 } else {
 
-                    timeLabel.setText(timeFormat.format(diff));
+                   // timeLabel.setText(timeFormat.format(diff));
+                    timeLabel.setText(timeFormat.format(calendar.getTime()));
                 }
             }
         }));

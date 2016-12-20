@@ -42,8 +42,6 @@ public class HashAndReduct {
      * @return obliczony hash
      */
     public byte[] calculateHash(byte[] _bytesOfMessage) {
-      //  byte[] bytesOfMessage = _text.getBytes(StandardCharsets.UTF_8);
-
         byte[] thedigest=null;
         try {
             MessageDigest md = MessageDigest.getInstance(hashType);

@@ -7,10 +7,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.event.ActionEvent;
 import javafx.collections.*;
-
+import java.util.Calendar;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.io.File;
@@ -126,13 +128,30 @@ public class Controller  implements  Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Błąd");
             alert.setHeaderText(null);
-            alert.setContentText("Dlugosc hasła, ilośc łańcuchow i ilosc haseł w łańcuchach muszą być liczbami");
+            alert.setContentText("Dlugosc hasła, ilośc łańcuchow i ilosc haseł w łańcuchach muszą być liczbami całkowitymi");
 
             alert.showAndWait();
             return;
 
 
         }
+
+        if (input.getChainCount()<1||input.getChainLen()<1||input.getPwLegth()<1)
+        {
+
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setHeaderText(null);
+            alert.setContentText("Dlugosc hasła, ilośc łańcuchow i ilosc haseł w łańcuchach muszą być liczbą dodatnią");
+
+            alert.showAndWait();
+            return;
+        }
+
+
+
+
 
 
         if (startPointComboBox.getValue().toString()=="Z pliku..") {
@@ -249,7 +268,20 @@ public class Controller  implements  Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Błąd");
             alert.setHeaderText(null);
-            alert.setContentText("Dlugosc hasła, ilośc łańcuchow i ilosc haseł w łańcuchach muszą być liczbami");
+            alert.setContentText("Dlugosc hasła, ilośc łańcuchow i ilosc haseł w łańcuchach muszą być liczbami całkowitymi");
+
+            alert.showAndWait();
+            return;
+        }
+
+        if (input.getChainCount()<1||input.getChainLen()<1||input.getPwLegth()<1)
+        {
+
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setHeaderText(null);
+            alert.setContentText("Dlugosc hasła, ilośc łańcuchow i ilosc haseł w łańcuchach muszą być liczbą dodatnią");
 
             alert.showAndWait();
             return;
@@ -260,8 +292,17 @@ public class Controller  implements  Initializable {
 
         showTimeLabel.setVisible(true);
 
-        showTimeLabel.setText("Szacunkowy czas generacji: " + String.valueOf(calculateTime(input)) + " sekund. \n" + "Liczba haseł w tablicy: " + calculateNumberOfPasswords);
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss") ;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.MILLISECOND, (int)calculateTime(input));
+        calendar.set(Calendar.SECOND, 0);
 
+
+
+        //showTimeLabel.setText("Szacunkowy czas generacji: " + String.valueOf(calculateTime(input)) + " minut. \n" + "Liczba haseł w tablicy: " + calculateNumberOfPasswords);
+        showTimeLabel.setText("Szacunkowy czas generacji: " + timeFormat.format(calendar.getTime()) + ". \n" + "Liczba haseł w tablicy: " + calculateNumberOfPasswords);
 
     }
 
@@ -324,10 +365,12 @@ catch (java.lang.NullPointerException e)
     }
 
 
-    public long calculateTime(InputData _input) {
+    public float calculateTime(InputData _input) {
         Generator gen = new Generator(_input);
-        long totalTime;
-        totalTime = gen.calculateExample() * _input.getChainCount() * _input.getChainLen() / 1000000000;
+        float totalTime;
+        float temp=(float)gen.calculateExample();
+
+        totalTime = temp * _input.getChainCount() * _input.getChainLen() / 1000000;
 
 
         return totalTime;
