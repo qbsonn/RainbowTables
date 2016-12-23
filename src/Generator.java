@@ -80,7 +80,7 @@ public class Generator extends Task implements Runnable {
 
         directory=_input.getDirectory();
 
-        calculateStartPoints();
+        //calculateStartPoints();
 
     hr=new HashAndReduct( hashType,charset);
 
@@ -91,8 +91,33 @@ public class Generator extends Task implements Runnable {
     }
 
 
+  public  Generator(InputData _input, String _type)
+    {
+
+
+        chainLen=_input.getChainLen();
+        chainCount=_input.getChainCount();
+        hashType=_input.getHashType();
+        charset=_input.getCharset();
+        chains=new LinkedList<>();
+        pwLength=_input.getPwLegth();
+        startPoints=new ArrayList<>();
+
+
+
+
+        hr=new HashAndReduct( hashType,charset);
+
+        System.out.println("Prognoza->> Nazwa tablicy: "+tableName+"algorytm: "+hashType+"dlugosc lan: "+chainLen+"ilosc: "+chainCount);
+
+    }
+
+
+
     public void calculateStartPoints()
     {
+
+        updateMessage("Generowanie punktów początkowych...");
         Random rand=new Random();
         int code;
 
@@ -109,9 +134,11 @@ public class Generator extends Task implements Runnable {
 
            }
                 startPoints.add(sb.toString());
+           // updateProgress(i,chainLen*chainCount+chainCount+chainLen);
 
 
         }
+
 
         System.out.println("Utworzono poczatkowe punkty");
     }
@@ -169,6 +196,7 @@ public class Generator extends Task implements Runnable {
 
     {
         updateMessage("Trwa generacja tablicy... To może chwilę potrwać...");
+        System.out.println("Tworzenie");
         int total=chainCount*chainLen;
         int actual=0;
 
@@ -185,7 +213,7 @@ public class Generator extends Task implements Runnable {
                //convertHash(hash);
                word=hr.reduce(hash,j,pwLength,i);
                 actual++;
-                updateProgress(actual,total+1);
+                updateProgress(actual,total+chainLen+chainCount);
 
 
             }
@@ -197,11 +225,11 @@ public class Generator extends Task implements Runnable {
        // System.out.println("Utworzono tablice");
         updateMessage("Generacja zakończona. Trwa sortowanie");
         Collections.sort(chains);
-
+        updateProgress(actual+chainLen,total+chainLen+chainCount);
         //System.out.println("posortowano");
         updateMessage("Trwa zapis tablicy do pliku");
         saveToFile();
-        updateProgress(actual+1,total+1);
+        updateProgress(100,100);
         updateMessage("Zapis zakończony. Tablica jest gotowa do uzycia!");
 //saveString();
         long stop=System.currentTimeMillis();
@@ -370,6 +398,8 @@ int i=1;
 
     @Override
     protected Object call() throws Exception {
+
+        calculateStartPoints();
         initTable();
 
         return null;

@@ -287,7 +287,7 @@ public class Controller  implements  Initializable {
             return;
         }
 
-        int calculateNumberOfPasswords = input.getChainLen() * input.getChainCount();
+        long calculateNumberOfPasswords = (long)input.getChainLen() * (long)input.getChainCount();
 
 
         showTimeLabel.setVisible(true);
@@ -299,10 +299,20 @@ public class Controller  implements  Initializable {
         calendar.set(Calendar.MILLISECOND, (int)calculateTime(input));
         calendar.set(Calendar.SECOND, 0);
 
+        long possiblePasswords=(long)Math.pow(input.getCharset().length(),input.getPwLegth());
+        double successRate=(double)calculateNumberOfPasswords/possiblePasswords*100;
+        if (successRate>=100)
+        {
+
+            successRate=99;
+        }
+
+        String stringSucessRate = String.format("%.2f", successRate);
+
 
 
         //showTimeLabel.setText("Szacunkowy czas generacji: " + String.valueOf(calculateTime(input)) + " minut. \n" + "Liczba haseł w tablicy: " + calculateNumberOfPasswords);
-        showTimeLabel.setText("Szacunkowy czas generacji: " + timeFormat.format(calendar.getTime()) + ". \n" + "Liczba haseł w tablicy: " + calculateNumberOfPasswords);
+        showTimeLabel.setText("Szacunkowy czas generacji: " + timeFormat.format(calendar.getTime()) + ". \n" + "Liczba haseł w tablicy: " + calculateNumberOfPasswords +"\n Liczba możliwych haseł dla charsetu: "+possiblePasswords+". \n Prawdopodobieństwo sukcesu: "+stringSucessRate+"%");
 
     }
 
@@ -366,7 +376,7 @@ catch (java.lang.NullPointerException e)
 
 
     public float calculateTime(InputData _input) {
-        Generator gen = new Generator(_input);
+        Generator gen = new Generator(_input,"Example");
         float totalTime;
         float temp=(float)gen.calculateExample();
 
