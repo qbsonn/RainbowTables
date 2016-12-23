@@ -40,7 +40,7 @@ public class Generator extends Task implements Runnable {
     /**
      * Struktura danych przechowujaca lancuchy
      */
-    private  List<Chain> chains;
+    private  List<Chain> uniqueChains;
     /**
      * Tablica przechowujaca punkty startowe lancuchow
      */
@@ -61,6 +61,9 @@ public class Generator extends Task implements Runnable {
      * @param _input
      */
 
+    private Set<Chain> chains;
+
+
     public Generator(InputData _input)
     {
         tableName=_input.getTableName();
@@ -68,9 +71,10 @@ public class Generator extends Task implements Runnable {
         chainCount=_input.getChainCount();
         hashType=_input.getHashType();
         charset=_input.getCharset();
-        chains=new LinkedList<>();
+        chains=new HashSet<>();
         pwLength=_input.getPwLegth();
         startPoints=new ArrayList<>();
+        uniqueChains=new ArrayList<>();
         if (_input.getStartPoints().size()!=0)
         {
             startPoints=_input.getStartPoints();
@@ -99,7 +103,7 @@ public class Generator extends Task implements Runnable {
         chainCount=_input.getChainCount();
         hashType=_input.getHashType();
         charset=_input.getCharset();
-        chains=new LinkedList<>();
+        chains=new HashSet<>();
         pwLength=_input.getPwLegth();
         startPoints=new ArrayList<>();
 
@@ -224,7 +228,13 @@ public class Generator extends Task implements Runnable {
 
        // System.out.println("Utworzono tablice");
         updateMessage("Generacja zakończona. Trwa sortowanie");
-        Collections.sort(chains);
+
+        uniqueChains.addAll(chains);
+
+
+        chains.clear();
+        Collections.sort(uniqueChains);
+
         updateProgress(actual+chainLen,total+chainLen+chainCount);
         //System.out.println("posortowano");
         updateMessage("Trwa zapis tablicy do pliku");
@@ -319,7 +329,7 @@ public class Generator extends Task implements Runnable {
             FileOutputStream fos = new FileOutputStream(directory+tableName+hashType+".dat");
 int i=1;
 
-            for (Chain key: chains){
+            for (Chain key: uniqueChains){
                 fos.write(String.valueOf(i).getBytes());
                 fos.write(" ".getBytes());
                 fos.write(key.getStartPoint().getBytes());
@@ -404,5 +414,7 @@ int i=1;
 
         return null;
     }
-}
+
+
+    }
 

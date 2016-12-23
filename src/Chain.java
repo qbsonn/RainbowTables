@@ -31,4 +31,22 @@ public Chain (String _start, String _end )
 
      return this.getEndPoint().compareTo(o.getEndPoint());
     }
+
+
+    @Override
+    public int hashCode() {
+        return this.getEndPoint().hashCode();
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+
+        return this.getEndPoint().equals(((Chain)obj).getEndPoint());
+    }
+
 }
+
+
+
+
