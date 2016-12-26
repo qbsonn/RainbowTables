@@ -7,10 +7,9 @@ public class Main {
     public static void main(String[] args) {
 
        // Test test=new Test();
-        new Bruteforce() {
-            public void element(char[] result, int offset, int length) {
-                System.out.println(new String(result, offset, length));
-            }
-        }.generate("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        Bruteforce bruteforce = new Bruteforce();
+
+        for (int length = bruteforce.min; length <= bruteforce.max; length++) // Change bruteforce.min and bruteforce.max for number of characters to bruteforce.
+        {   bruteforce.generate("", 0, length);} //prepend_string, pos, length
     }
 }
