@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Finder/Finder.iml" filepath="$PROJECT_DIR$/Finder/Finder.iml" />
       <module fileurl="file://$PROJECT_DIR$/RainbowTables.iml" filepath="$PROJECT_DIR$/RainbowTables.iml" />
       <module fileurl="file://$PROJECT_DIR$/Tester/Tester.iml" filepath="$PROJECT_DIR$/Tester/Tester.iml" />
     </modules>
