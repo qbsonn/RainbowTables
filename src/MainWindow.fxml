@@ -107,6 +107,6 @@
       <Label layoutX="1037.0" layoutY="273.0" prefHeight="21.0" prefWidth="150.0" text="Węzły początkowe" />
       <Label fx:id="showPathFile" layoutX="1053.0" layoutY="400.0" prefHeight="21.0" prefWidth="134.0" text="Label" />
       <Button fx:id="calculateTimeButton" layoutX="440.0" layoutY="395.0" mnemonicParsing="false" onAction="#handleCalculateTime" prefHeight="31.0" prefWidth="382.0" text="Oblicz szacunkowy czas generacji" />
-      <Label fx:id="showTimeLabel" layoutX="440.0" layoutY="448.0" prefHeight="98.0" prefWidth="382.0" text="Label" />
+      <Label fx:id="showTimeLabel" layoutX="440.0" layoutY="448.0" prefHeight="127.0" prefWidth="382.0" text="Label" />
    </children>
 </Pane>

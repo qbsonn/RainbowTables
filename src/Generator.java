@@ -327,17 +327,21 @@ public class Generator extends Task implements Runnable {
     {
         try {
             FileOutputStream fos = new FileOutputStream(directory+tableName+hashType+".dat");
-int i=1;
+
+
+            fos.write("Lancuchy: ".getBytes());
+            fos.write(String.valueOf(uniqueChains.size()).getBytes());
+            System.out.println(uniqueChains.size());
+            fos.write(System.getProperty("line.separator").getBytes());
+            fos.flush();
 
             for (Chain key: uniqueChains){
-                fos.write(String.valueOf(i).getBytes());
-                fos.write(" ".getBytes());
                 fos.write(key.getStartPoint().getBytes());
                 fos.write(" ".getBytes());
                 fos.write(key.getEndPoint().getBytes());
                 fos.write(System.getProperty("line.separator").getBytes());
                 fos.flush();
-                i++;
+
             }
             fos.close();
         }
