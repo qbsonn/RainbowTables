@@ -331,7 +331,10 @@ public class Generator extends Task implements Runnable {
 
             fos.write("Lancuchy: ".getBytes());
             fos.write(String.valueOf(uniqueChains.size()).getBytes());
-            System.out.println(uniqueChains.size());
+
+
+            fos.write(" Dlugosc: ".getBytes());
+            fos.write(String.valueOf(chainLen).getBytes());
             fos.write(System.getProperty("line.separator").getBytes());
             fos.flush();
 
