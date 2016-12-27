@@ -7,7 +7,7 @@ package Tester;
 public class Test {
 
     private InputData inputData;
-    private Generator generator;
+    public Generator generator;
     private int repeated;
     public Test(){
 
@@ -21,7 +21,7 @@ public class Test {
         inputData.setPwLegth(15);
 
         generator=new Generator(inputData);
-        generator.initTable();
+      /**  generator.initTable();
         for(int i=0;i<inputData.getChainCount();i++) {
             for(int j=i+1;j<inputData.getChainCount();j++){
                 if(i!=j){
@@ -35,7 +35,7 @@ public class Test {
                 }
             }
         }
-        System.out.println("Liczba powtarzających się haseł: "+repeated);
+        System.out.println("Liczba powtarzających się haseł: "+repeated);**/
 
 
     }
