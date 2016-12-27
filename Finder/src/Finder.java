@@ -18,9 +18,6 @@ public class Finder {
     {
         this.rainbowTablePath = rainbowTablePath;
         lastValuesRainbowTable = loadTable();
-        //System.out.println("AKKAD " + getFirstValue(exists("AKKAD")));
-       // System.out.println("HMDYB " + getFirstValue(exists("HMDYB")));
-       // System.out.println("a " + exists("a"));
     }
 
     public String[] loadTable()
