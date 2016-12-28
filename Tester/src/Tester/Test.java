@@ -27,29 +27,30 @@ public class Test {
         inputData.setPwLegth(10);
         generator=new Generator(inputData);
 
-        for(int j=0;j<bruteforce.combinations.size();j++)
+     /**   for(int j=0;j<bruteforce.combinations.size();j++)
         { bytesList.add(generator.getHashReduct().calculateHash(bruteforce.combinations.get(j).getBytes())) ;
 
 
         }
         bruteforce.saveToFile("pliczek2");
-
+**/
 
         generator.initTable(bruteforce.combinations);
 
         for(int i=0;i<inputData.getChainCount();i++) {
-            int j=i+1;
-            if(i!=j){
+            for(int j=i+1;j<inputData.getChainCount();j++){
+                if(i!=j){
 
-                if (generator.getChains().get(i).getEndPoint().equals(generator.getChains().get(j).getEndPoint()))
-                {
-                    repeated++;
-                    System.out.println(generator.getChains().get(i).getEndPoint());
+                    if (generator.chains.get(i).getEndPoint().equals(generator.chains.get(j).getEndPoint()))
+                    {
+                        repeated++;
+
+                        System.out.println(generator.chains.get(i).getEndPoint());
+                    }
+                    else{ break;}
                 }
-                else{ break;}
             }
         }
-
         System.out.println("Liczba powtarzających się haseł: "+repeated);
 
 

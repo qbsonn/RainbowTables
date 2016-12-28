@@ -1,5 +1,4 @@
 package Tester;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
@@ -25,6 +24,51 @@ public class HashAndReduct {
 
     String charset;
 
+    byte[] byteCharset;
+
+    /**
+     *
+     * Konwersja charsetu na tablice byte
+     *
+     * @return
+     */
+    public byte[] toAsciiByte()
+    {
+        byte[] array=new byte[charset.length()];
+
+        for (int i=0;i<charset.length();i++)
+        {
+            char ch= charset.charAt(i);
+            array[i] = (byte)ch;
+
+
+        }
+        String str=null;
+        try {
+            str = new String(array, "UTF-8");
+        }
+        catch(java.io.UnsupportedEncodingException e)
+        {
+
+
+        }
+        //System.out.println(str);
+        return array;
+    }
+
+    /**
+     *
+     *Przypisanie wartosci byte dla danego znaku
+     * @param index
+     * @return
+     */
+    public byte findInCharset(int index)
+    {
+        byte value=byteCharset[index];
+
+        return value;
+    }
+
     /**
      * Konstruktor
      * @param _hashType typ hasha
@@ -35,6 +79,7 @@ public class HashAndReduct {
     {
         hashType=_hashType;
         charset=_charset;
+        byteCharset=toAsciiByte();
     }
 
     /**
@@ -77,7 +122,8 @@ public class HashAndReduct {
             hashIndex = hashIndex + _hash[j%hashLength]^_functionNr;
             j = j + _pwLength;
 
-            result[i] = (byte)( Math.abs(hashIndex) % charset.length());
+
+            result[i] = findInCharset( Math.abs(hashIndex) % charset.length());
 
         }
         return result;
