@@ -64,18 +64,17 @@ public class HashAndReduct {
      * @param _hash hash z który redukujemy
      * @param _functionNr   numer funkcji redukcji
      * @param _pwLength dlugosc slowa
-     * @param _chainNumber numer łańcucha
      * @return obliczone słowo
      */
 
-    public byte[] reduce (byte[] _hash, int _functionNr, int _pwLength, int _chainNumber)
+    public byte[] reduce (byte[] _hash, int _functionNr, int _pwLength)
     {
         byte[] result = new byte[_pwLength];
         int j=0;
         int hashLength=_hash.length;
         int hashIndex = 0;
         for (int i = 0; i < _pwLength; i++) {
-            hashIndex = hashIndex + _hash[(_chainNumber+j)%hashLength]^_functionNr;
+            hashIndex = hashIndex + _hash[j%hashLength]^_functionNr;
             j = j + _pwLength;
 
             result[i] = (byte)( Math.abs(hashIndex) % charset.length());

@@ -91,7 +91,12 @@ public class Generator  {
 
     }
 
-
+   public HashAndReduct getHashReduct(){
+       return hr;
+   }
+    public  List<Chain> getChains(){
+        return chains;
+    }
     public void calculateStartPoints()
     {
         Random rand=new Random();
@@ -166,7 +171,7 @@ public class Generator  {
     /**
      * Metoda tworząca tablice
      */
-    public void initTable()
+    public void initTable(ArrayList<String> startPoints)
 
     {
         int total=chainCount*chainLen;
@@ -184,7 +189,7 @@ public class Generator  {
             {
                 hash=hr.calculateHash(word);
                 //convertHash(hash);
-                word=hr.reduce(hash,j,pwLength,i);
+                word=hr.reduce(hash,j,pwLength);
                 actual++;
                 //   updateProgress(actual,total+1);
 
@@ -358,7 +363,7 @@ public class Generator  {
 
         long start=System.nanoTime();
         hash=hr.calculateHash(word);
-        word=hr.reduce(hash,1,pwLength,1);
+        word=hr.reduce(hash,1,pwLength);
         long stop=System.nanoTime();
         long time=stop-start;
         System.out.println("Czas: "+time);
