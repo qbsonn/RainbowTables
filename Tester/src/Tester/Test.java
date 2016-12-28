@@ -21,10 +21,10 @@ public class Test {
         inputData=new InputData();
         inputData.setTableName("nowa2");
         inputData.setHashType("SHA-1");
-        inputData.setChainLen(3);
+        inputData.setChainLen(1);
         inputData.setChainCount(bruteforce.combinations.size());
         inputData.setCharset("ABCDEFGHIJKLMNOPRSTUVWXYZ");
-        inputData.setPwLegth(15);
+        inputData.setPwLegth(10);
         generator=new Generator(inputData);
 
         for(int j=0;j<bruteforce.combinations.size();j++)
