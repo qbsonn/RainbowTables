@@ -216,7 +216,12 @@ public class Generator extends Task implements Runnable {
             {
                 hash=hr.calculateHash(word);
                //convertHash(hash);
-               word=hr.reduce(hash,j,pwLength);
+                word=hr.reduce(hash,1,pwLength);
+               // word=hr.reduce(hash,j,pwLength);
+                try {
+                    System.out.println(new String(word, "UTF-8"));
+                }
+                catch(Exception e){}
                 /*
                 String str=null;
                 try {

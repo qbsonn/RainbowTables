@@ -20,19 +20,58 @@ public class HashAndReduct {
     /**
      * Tablica znaków z ktorych moga powstac slowa
      */
-
+    byte[] byteCharset;
     String charset;
-
-    /**
-     * Konstruktor
-     * @param _hashType typ hasha
-     * @param _charset zakres znaków
-     */
 
     public HashAndReduct(String _hashType, String _charset)
     {
         hashType=_hashType;
         charset=_charset;
+        byteCharset=toAsciiByte();
+    }
+
+
+    /**
+     *
+     * Konwersja charsetu na tablice byte
+     *
+     * @return
+     */
+    public byte[] toAsciiByte()
+    {
+        byte[] array=new byte[charset.length()];
+
+        for (int i=0;i<charset.length();i++)
+        {
+            char ch= charset.charAt(i);
+            array[i] = (byte)ch;
+
+
+        }
+        String str=null;
+        try {
+            str = new String(array, "UTF-8");
+        }
+        catch(java.io.UnsupportedEncodingException e)
+        {
+
+
+        }
+        //System.out.println(str);
+        return array;
+    }
+
+    /**
+     *
+     *Przypisanie wartosci byte dla danego znaku
+     * @param index
+     * @return
+     */
+    public byte findInCharset(int index)
+    {
+        byte value=byteCharset[index];
+
+        return value;
     }
 
     /**
@@ -75,60 +114,11 @@ public class HashAndReduct {
             hashIndex = hashIndex + _hash[j%hashLength]^_functionNr;
             j = j + _pwLength;
 
-            result[i] = (byte)( Math.abs(hashIndex) % charset.length());
+
+            result[i] = findInCharset( Math.abs(hashIndex) % charset.length());
 
         }
         return result;
     }
 
-    public String fromByteToString(byte[] _text) {
-
-        StringBuilder sb = new StringBuilder();
-        for (byte b : _text) {
-
-
-            sb.append(foundCharInCharset(b));
-        }
-        //System.out.println(sb.toString());
-        return sb.toString();
-    }
-
-    public byte[] fromStringToByte(String text)
-    {
-       byte[] bytes = new byte[text.length()];
-        int j=0;
-       for (char a : text.toCharArray())
-       {
-           int x = -1;
-           for (int i=0;i<charset.length();i++)
-           {
-               if (a == charset.charAt(i)) {
-                   x = i;
-                   break;
-               }
-           }
-           bytes[j] = (byte)x;
-           j++;
-       }
-       return bytes;
-    }
-
-    public char foundCharInCharset(byte _byte)
-    {
-
-        int number=(int)_byte;
-        int x=-1;
-//System.out.println(charset);
-//System.out.println(number+"num");
-        for (int i=0;i<charset.length();i++)
-        {
-            if (number ==i)
-            {  x=i;
-                break;
-            }
-        }
-        //   System.out.println("pozy: "+x);
-
-        return charset.charAt(x);
-    }
 }

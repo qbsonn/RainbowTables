@@ -1,4 +1,8 @@
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+
 import javax.xml.bind.DatatypeConverter;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -7,28 +11,27 @@ import java.nio.charset.StandardCharsets;
 public class Controller {
 
     private Finder finder;
+    @FXML TextField textField;
 
     public void buttonOKClicked()
     {
-       finder = new Finder("C:\\Users\\Piotrek\\Desktop\\eMD5.dat");
-        //byte[] hash = "7e7e1fb52ad818f9c158ce36de22fdf6".getBytes();
-        byte[] hash = DatatypeConverter.parseHexBinary("96f36e955a9951f12c2898ab1b68ba4f");
-       // System.out.println("nowy:" + dd + " " + "dlugosc "+ dd.length);
-        //System.out.println("hash: "+ hash);
-        byte[] hash2 = finder.hashAndReduct.calculateHash(finder.hashAndReduct.fromStringToByte("CFE"));
-        for (int i=0; i<hash.length; i++)
-        {
-            System.out.println("hash: "+ hash[i] + "   "+ hash2[i]);
-        }
+        finder = new Finder("C:\\Users\\Piotrek\\Desktop\\dzialaMD5.dat");
+        //byte[] hash = DatatypeConverter.parseHexBinary("eb8fc9f5bfe7a2b69bee0c035ec5e5d0");
+        byte[] hash = DatatypeConverter.parseHexBinary(textField.getText());
+
+
         byte[] currentHash = hash;
-        //String currentValue = "JPK";
-        String currentValue = finder.hashAndReduct.fromByteToString(finder.hashAndReduct.reduce(currentHash,1,finder.valueLength));
+        String currentValue = null;
+        try {
+            currentValue = new String(finder.hashAndReduct.reduce(currentHash,1,finder.valueLength), "UTF-8");
+        }
+        catch (UnsupportedEncodingException e){System.out.println("Exception");}
 
         for (int i =0; i< finder.chainLength; i++)
         {
             // sprawdź czy currentValue jest w tablicy
-            System.out.println("Sprawdza czy "+ currentValue + " jest // u: ");
-           int index = finder.exists(currentValue);
+            System.out.println("Sprawdza czy "+ currentValue + " jest");
+            int index = finder.exists(currentValue);
             if (index >= 0)
             {
                 // Znalazł
@@ -37,20 +40,48 @@ public class Controller {
                 if (value != null)
                 {
                     System.out.println("Znalezione haslo: "+ value);
+                    String correctValue = findValue(hash,value);
+                    System.out.println("Poszukiwane haslo to: "+ correctValue);
                     return;
                 }
             }
             // wykonaj funkcję hashującą na currentValue
-            currentHash = finder.hashAndReduct.calculateHash(finder.hashAndReduct.fromStringToByte(currentValue));
+            currentHash = finder.hashAndReduct.calculateHash(currentValue.getBytes());
             // currentValue = redukcja z hasha
-            currentValue = finder.hashAndReduct.fromByteToString(finder.hashAndReduct.reduce(currentHash,1,finder.valueLength));
+            try {
+                currentValue = new String(finder.hashAndReduct.reduce(currentHash,1,finder.valueLength), "UTF-8");
+            }
+            catch (UnsupportedEncodingException e){System.out.println("Exception");}
         }
         System.out.println("Nie znalazl");
 
-   /*   String value = "TES";
-        byte[] ll = finder.hashAndReduct.fromStringToByte(value);
-        for (byte l : ll)
-            System.out.println(l);
-        System.out.println("wyszlo "+finder.hashAndReduct.fromByteToString(ll)); */
+    }
+
+    private String findValue(byte[] hash, String firstValue)
+    {
+        String currentValue = firstValue;
+        byte[] currentHash;
+
+        for (int i=0; i<= finder.chainLength; i++)
+        {
+            currentHash = finder.hashAndReduct.calculateHash(currentValue.getBytes());
+            boolean isTheSame = true;
+            for (int j=0;j<hash.length;j++)
+            {
+                if (hash[j] != currentHash[j])
+                {
+                    isTheSame = false;
+                    break;
+                }
+            }
+            if (isTheSame)
+                return currentValue;
+
+            try {
+                currentValue = new String(finder.hashAndReduct.reduce(currentHash,1,finder.valueLength), "UTF-8");
+            }
+            catch (UnsupportedEncodingException e){System.out.println("Exception");}
+        }
+        return null;
     }
 }
