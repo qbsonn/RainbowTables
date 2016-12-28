@@ -1,6 +1,7 @@
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.scene.control.Alert;
+import javax.xml.bind.DatatypeConverter;
 
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -216,13 +217,34 @@ public class Generator extends Task implements Runnable {
                 hash=hr.calculateHash(word);
                //convertHash(hash);
                word=hr.reduce(hash,j,pwLength);
+                /*
+                String str=null;
+                try {
+                    str = new String(word, "UTF-8");
+                }
+                catch(java.io.UnsupportedEncodingException e)
+                {
+                    e.printStackTrace();
+
+                }
+
+                System.out.println(str);
+                */
                 actual++;
                 updateProgress(actual,total+chainLen+chainCount);
 
 
             }
+            String end=null;
+            try {
+                end = new String(word, "UTF-8");
+            }
+            catch(java.io.UnsupportedEncodingException e)
+            {
+                e.printStackTrace();
 
-            chains.add(new Chain(startPoints.get(i), fromByteToString(word)));
+            }
+            chains.add(new Chain(startPoints.get(i),end));
 
         }
 
