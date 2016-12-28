@@ -338,6 +338,22 @@ public class Generator extends Task implements Runnable {
             fos.write(System.getProperty("line.separator").getBytes());
             fos.flush();
 
+
+            fos.write("Dlugosc_hasla: ".getBytes());
+            fos.write(String.valueOf(pwLength).getBytes());
+
+
+            fos.write(" Hash: ".getBytes());
+            fos.write(hashType.getBytes());
+            fos.write(System.getProperty("line.separator").getBytes());
+            fos.flush();
+
+            fos.write("Charset: ".getBytes());
+            fos.write(charset.getBytes());
+            fos.write(System.getProperty("line.separator").getBytes());
+            fos.flush();
+
+
             for (Chain key: uniqueChains){
                 fos.write(key.getStartPoint().getBytes());
                 fos.write(" ".getBytes());
