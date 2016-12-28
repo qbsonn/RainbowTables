@@ -215,7 +215,7 @@ public class Generator extends Task implements Runnable {
             {
                 hash=hr.calculateHash(word);
                //convertHash(hash);
-               word=hr.reduce(hash,j,pwLength,i);
+               word=hr.reduce(hash,j,pwLength);
                 actual++;
                 updateProgress(actual,total+chainLen+chainCount);
 
@@ -418,7 +418,7 @@ public class Generator extends Task implements Runnable {
 
         long start=System.nanoTime();
         hash=hr.calculateHash(word);
-        word=hr.reduce(hash,1,pwLength,1);
+        word=hr.reduce(hash,1,pwLength);
         long stop=System.nanoTime();
         long time=stop-start;
         System.out.println("Czas: "+time);
