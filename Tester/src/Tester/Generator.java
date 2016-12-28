@@ -190,15 +190,36 @@ public class Generator  {
                 hash=hr.calculateHash(word);
                 //convertHash(hash);
                 word=hr.reduce(hash,j,pwLength);
+                /*
+                String str=null;
+                try {
+                    str = new String(word, "UTF-8");
+                }
+                catch(java.io.UnsupportedEncodingException e)
+                {
+                    e.printStackTrace();
+
+                }
+
+                System.out.println(str);
+                */
                 actual++;
-                //   updateProgress(actual,total+1);
+
 
 
             }
+            String end=null;
+            try {
+                end = new String(word, "UTF-8");
+            }
+            catch(java.io.UnsupportedEncodingException e)
+            {
+                e.printStackTrace();
 
-            chains.add(new Chain(startPoints.get(i), fromByteToString(word)));
-
+            }
+            chains.add(new Chain(startPoints.get(i),end));
         }
+
 
         // System.out.println("Utworzono tablice");
         //   updateMessage("Generacja zakończona. Trwa sortowanie");
