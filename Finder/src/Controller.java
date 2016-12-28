@@ -30,7 +30,7 @@ public class Controller {
         for (int i =0; i< finder.chainLength; i++)
         {
             // sprawdź czy currentValue jest w tablicy
-            System.out.println("Sprawdza czy "+ currentValue + " jest");
+            //System.out.println("Sprawdza czy "+ currentValue + " jest");
             int index = finder.exists(currentValue);
             if (index >= 0)
             {
