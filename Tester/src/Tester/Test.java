@@ -38,20 +38,20 @@ public class Test {
         generator.initTable(bruteforce.combinations);
 
         for(int i=0;i<inputData.getChainCount();i++) {
-            for(int j=i+1;j<inputData.getChainCount();j++){
-                if(i!=j){
+            int j=i+1;
+            if(j<inputData.getChainCount()){
 
-                    if (generator.chains.get(i).getEndPoint().equals(generator.chains.get(j).getEndPoint()))
-                    {
-                        repeated++;
-
-                        System.out.println(generator.chains.get(i).getEndPoint());
-                    }
-                    else{ break;}
+                if (generator.chains.get(i).getEndPoint().equals(generator.chains.get(j).getEndPoint()))
+                {
+                    repeated++;
+                    System.out.println(generator.chains.get(i).getEndPoint());
                 }
             }
+
         }
         System.out.println("Liczba powtarzających się haseł: "+repeated);
+
+
 
 
     }
