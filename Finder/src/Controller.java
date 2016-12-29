@@ -1,23 +1,47 @@
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 
 import javax.xml.bind.DatatypeConverter;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ResourceBundle;
 
 /**
  * Created by Piotrek on 2016-12-27.
  */
-public class Controller {
+public class Controller implements Initializable{
 
     private Finder finder;
-    @FXML TextField textField;
+    @FXML TextField finderHashTextField;
+    @FXML ComboBox comboBox;
+    @FXML TextField generatorTextField;
+    @FXML TextField generatorHashTextField;
+    @FXML TextField finderValueTextField;
+    @FXML Label rainbowTableLabel;
 
-    public void buttonOKClicked()
+
+    public void initialize(URL location, ResourceBundle resources)
     {
-        finder = new Finder("C:\\Users\\Piotrek\\Desktop\\test4literyMD5.dat");
+        comboBox.getItems().add("MD5");
+    }
+
+    public void buttonSzukajClicked()
+    {
+        if (finder == null)
+        {
+            System.out.println("Nie ma teczowej tablicy");
+            return;
+        }
+        finderValueTextField.setText("");
+        //finder = new Finder("C:\\Users\\Piotrek\\Desktop\\test4literyMD5.dat");
         //byte[] hash = DatatypeConverter.parseHexBinary("eb8fc9f5bfe7a2b69bee0c035ec5e5d0");
-        byte[] hash = DatatypeConverter.parseHexBinary(textField.getText());
+        byte[] hash = DatatypeConverter.parseHexBinary(finderHashTextField.getText());
 
         String correctValue;
         for (int i=finder.chainLength; i>=0; i--)
@@ -25,9 +49,13 @@ public class Controller {
             if ((correctValue = findValueInAllChains2(hash,i)) != null)
             {
                 System.out.println(i+" Poszukiwane haslo to: "+ correctValue);
+                finderValueTextField.setText(correctValue);
                // break;
             }
         }
+        if (finderValueTextField.getText().matches(""))
+            finderValueTextField.setText("Nie znaleziono hasła");
+
         System.out.println("Koniec");
     }
 
@@ -123,5 +151,31 @@ public class Controller {
             catch (UnsupportedEncodingException e){System.out.println("Exception");}
         }
         return null;
+    }
+
+    /** Wywoływane po naciśnięciu przycisku ">>" */
+    public void displayHashOnFinderHashTextField()
+    {
+        finderHashTextField.setText(generatorHashTextField.getText());
+    }
+
+    /** Wywoływane po nasićnięciu przycisku "OK" w Generatorze skrotów*/
+    public void generateHash()
+    {
+        String value = generatorTextField.getText();
+        generatorHashTextField.setText(HashAndReduct.calculateHash(value.getBytes(),(String)comboBox.getSelectionModel().getSelectedItem()));
+    }
+
+    public void getRainbowTable()
+    {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null)
+        {
+            finder = new Finder(selectedFile.getAbsolutePath());
+            rainbowTableLabel.setText(selectedFile.getAbsolutePath());
+        }
     }
 }

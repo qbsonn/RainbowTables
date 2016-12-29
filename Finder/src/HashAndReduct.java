@@ -94,6 +94,22 @@ public class HashAndReduct {
 
 
     }
+    public static String calculateHash(byte[] _bytesOfMessage, String hashType) {
+        byte[] thedigest=null;
+        try {
+            MessageDigest md = MessageDigest.getInstance(hashType);
+            thedigest = md.digest(_bytesOfMessage);
+        }
+        catch ( java.security.NoSuchAlgorithmException e)
+        {
+            e.printStackTrace();
+        }
+        StringBuilder sb = new StringBuilder();
+        for (byte b : thedigest) {
+            sb.append(String.format("%02X", b));
+        }
+        return sb.toString();
+    }
 
     /**
      * Funkcja redukcji zwracajaca slowo z hasha

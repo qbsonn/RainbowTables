@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -8,9 +10,66 @@
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#buttonOKClicked" text="OK" />
-            <TextField fx:id="textField" />
+            <Region prefHeight="318.0" prefWidth="56.0" />
+            <VBox prefHeight="318.0" prefWidth="230.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="25.0" prefWidth="323.0" text="Znajdź słowo">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Region prefHeight="28.0" prefWidth="150.0" />
+                  <TextField fx:id="finderHashTextField" alignment="CENTER" promptText="Tu wpisz hash" />
+                  <Button mnemonicParsing="false" onAction="#buttonSzukajClicked" prefHeight="25.0" prefWidth="333.0" text="Szukaj" />
+                  <Region prefHeight="40.0" prefWidth="150.0" />
+                  <Label prefHeight="17.0" prefWidth="269.0" text="Poszukiwane słowo:" />
+                  <TextField fx:id="finderValueTextField" prefHeight="40.0" prefWidth="295.0" />
+               </children>
+            </VBox>
          </children>
       </HBox>
    </center>
+   <left>
+      <VBox blendMode="DARKEN" prefHeight="333.0" prefWidth="124.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" prefHeight="25.0" prefWidth="137.0" text="Generuj skrót" textAlignment="CENTER">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="comboBox" prefWidth="150.0" />
+            <TextField fx:id="generatorTextField" alignment="CENTER" prefHeight="73.0" prefWidth="124.0" promptText="Tu wpisz słowo" />
+            <Button mnemonicParsing="false" onAction="#generateHash" prefHeight="25.0" prefWidth="132.0" text="OK" />
+            <Region prefHeight="99.0" prefWidth="124.0" />
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="146.0" text="Otrzymany skrót:" />
+            <TextField fx:id="generatorHashTextField" prefHeight="45.0" prefWidth="124.0" />
+            <Button mnemonicParsing="false" onAction="#displayHashOnFinderHashTextField" prefHeight="25.0" prefWidth="137.0" text="&gt;&gt;" />
+         </children>
+      </VBox>
+   </left>
+   <top>
+      <Label alignment="CENTER" prefHeight="82.0" prefWidth="617.0" text="Tutaj jakieś fajne hasło!" textFill="#e80a0a" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="35.0" />
+         </font>
+         <effect>
+            <Shadow blurType="ONE_PASS_BOX" height="5.0" radius="2.0" width="5.0" />
+         </effect>
+      </Label>
+   </top>
+   <right>
+      <VBox prefHeight="318.0" prefWidth="149.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" prefHeight="39.0" prefWidth="161.0" text="Załaduj tęczową tablicę" wrapText="true" />
+            <Button mnemonicParsing="false" onAction="#getRainbowTable" prefHeight="25.0" prefWidth="168.0" text="Wybierz ścieżkę" />
+            <Region prefHeight="78.0" prefWidth="149.0" />
+            <Label prefHeight="17.0" prefWidth="181.0" text="Tablica:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="rainbowTableLabel" prefHeight="100.0" prefWidth="149.0" text="Żadna tablica nie została jeszcze załadowana" wrapText="true" />
+         </children>
+      </VBox>
+   </right>
 </BorderPane>
