@@ -189,7 +189,7 @@ public class Generator  {
             {
                 hash=hr.calculateHash(word);
                 //convertHash(hash);
-                word=hr.reduce(hash,j,pwLength);
+                word=hr.reduceFunction(hash,j,pwLength) ;
                 /*
                 String str=null;
                 try {
