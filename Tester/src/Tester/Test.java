@@ -20,7 +20,7 @@ public class Test {
         
         inputData=new InputData();
         inputData.setTableName("nowa2");
-        inputData.setHashType("MD5");
+        inputData.setHashType("SHA-1");
         inputData.setChainLen(1);
         inputData.setChainCount(bruteforce.combinations.size());
         inputData.setCharset("ABCDEFGHIJKLMNOPRSTUVWXYZ");
@@ -37,7 +37,7 @@ public class Test {
 
         generator.initTable(bruteforce.combinations);
 
-        for(int i=0;i<inputData.getChainCount();i++) {
+       /** for(int i=0;i<inputData.getChainCount();i++) {
             int j=i+1;
             if(j<inputData.getChainCount()){
 
@@ -49,7 +49,7 @@ public class Test {
             }
 
         }
-        System.out.println("Liczba powtarzających się haseł: "+repeated);
+        System.out.println("Liczba powtarzających się haseł: "+repeated);**/
 
 
 

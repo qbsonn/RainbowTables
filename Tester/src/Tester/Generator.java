@@ -41,7 +41,7 @@ public class Generator  {
     /**
      * Struktura danych przechowujaca lancuchy
      */
-    public  List<Chain> chains;
+    private  List<Chain> uniqueChains;
     /**
      * Tablica przechowujaca punkty startowe lancuchow
      */
@@ -56,7 +56,7 @@ public class Generator  {
      */
     private String directory;
 
-
+    private Set<Chain> chains;
     /**
      * Konstruktor klasy Generator
      * @param _input
@@ -69,9 +69,10 @@ public class Generator  {
         chainCount=_input.getChainCount();
         hashType=_input.getHashType();
         charset=_input.getCharset();
-        chains=new LinkedList<>();
+        chains=new HashSet<>();
         pwLength=_input.getPwLegth();
         startPoints=new ArrayList<>();
+        uniqueChains=new ArrayList<>();
         if (_input.getStartPoints().size()!=0)
         {
             startPoints=_input.getStartPoints();
@@ -81,7 +82,7 @@ public class Generator  {
 
         directory=_input.getDirectory();
 
-        calculateStartPoints();
+        //calculateStartPoints();
 
         hr=new HashAndReduct( hashType,charset);
 
@@ -91,37 +92,9 @@ public class Generator  {
 
     }
 
-   public HashAndReduct getHashReduct(){
+    public HashAndReduct getHashReduct(){
        return hr;
    }
-    public  List<Chain> getChains(){
-        return chains;
-    }
-    public void calculateStartPoints()
-    {
-        Random rand=new Random();
-        int code;
-
-        int alreadyDone=startPoints.size();
-
-        for (int i=0;i<chainCount-alreadyDone;i++)
-        {
-
-            StringBuilder sb = new StringBuilder();
-            for (int j=0; j<pwLength; j++)
-            {
-                code= rand.nextInt(charset.length());
-                sb.append( foundCharInCharset(code));
-
-            }
-            startPoints.add(sb.toString());
-
-
-        }
-
-        System.out.println("Utworzono poczatkowe punkty");
-    }
-
 
     /**
      * Metoda zwracajaca znak z charsetu na podstawie argumentu typu byte
@@ -174,11 +147,11 @@ public class Generator  {
     public void initTable(ArrayList<String> startPoints)
 
     {
+        System.out.println("Tworzenie");
         int total=chainCount*chainLen;
         int actual=0;
 
         long start=System.currentTimeMillis();
-        System.out.println(start);
         byte[] word;
         for (int i=0;i<chainCount;i++)
         {       word=startPoints.get(i).getBytes(StandardCharsets.UTF_8);
@@ -188,24 +161,12 @@ public class Generator  {
             for (int j=0;j<chainLen;j++)
             {
                 hash=hr.calculateHash(word);
-                //convertHash(hash);
-                word=hr.reduceFunction(hash,j,pwLength) ;
-                /*
-                String str=null;
-                try {
-                    str = new String(word, "UTF-8");
+                word=hr.reduceFunction(hash,j,pwLength);
+              /*  try {
+                    System.out.println(new String(word, "UTF-8"));
                 }
-                catch(java.io.UnsupportedEncodingException e)
-                {
-                    e.printStackTrace();
-
-                }
-
-                System.out.println(str);
-                */
-                actual++;
-
-
+                catch(Exception e){}
+                actual++;*/
 
             }
             String end=null;
@@ -218,43 +179,27 @@ public class Generator  {
 
             }
             chains.add(new Chain(startPoints.get(i),end));
+
         }
+        System.out.println("Generacja zakończona. Trwa sortowanie");
 
+        uniqueChains.addAll(chains);
 
-        // System.out.println("Utworzono tablice");
-        //   updateMessage("Generacja zakończona. Trwa sortowanie");
-        Collections.sort(chains);
+        chains.clear();
+        Collections.sort(uniqueChains);
 
-        //System.out.println("posortowano");
-        //   updateMessage("Trwa zapis tablicy do pliku");
+        System.out.println("Trwa zapis tablicy do pliku");
         saveToFile();
-        //   updateProgress(actual+1,total+1);
-        //   updateMessage("Zapis zakończony. Tablica jest gotowa do uzycia!");
+        System.out.println("Zapis zakończony. Tablica jest gotowa do uzycia!");
 //saveString();
         long stop=System.currentTimeMillis();
 
-/*
-        for (Chain key: chains){
-
-
-            System.out.println(key.getStartPoint());
-            System.out.println(key.getEndPoint());
-
-          //  printHash( chains.get(key));
-
-
-
-        }
-        */
-
         System.out.println("Czas wykonania:"+(stop-start)/1000 +" sekund");
-
-
-
-
-
-
+        int dupliacates;
+        dupliacates=startPoints.size()-uniqueChains.size();
+        System.out.println("Liczba dupikatów: "+dupliacates+", procentowa ilość duplikatów: "+(dupliacates/startPoints.size()*100)+"%");
     }
+
 
 
     /**
@@ -315,18 +260,41 @@ public class Generator  {
     public void saveToFile()
     {
         try {
-            FileOutputStream fos = new FileOutputStream(tableName+hashType+".dat");
-            int i=1;
+            FileOutputStream fos = new FileOutputStream(directory+tableName+hashType+".dat");
 
-            for (Chain key: chains){
-                fos.write(String.valueOf(i).getBytes());
-                fos.write(" ".getBytes());
+
+            fos.write("Lancuchy: ".getBytes());
+            fos.write(String.valueOf(uniqueChains.size()).getBytes());
+
+
+            fos.write(" Dlugosc: ".getBytes());
+            fos.write(String.valueOf(chainLen).getBytes());
+            fos.write(System.getProperty("line.separator").getBytes());
+            fos.flush();
+
+
+            fos.write("Dlugosc_hasla: ".getBytes());
+            fos.write(String.valueOf(pwLength).getBytes());
+
+
+            fos.write(" Hash: ".getBytes());
+            fos.write(hashType.getBytes());
+            fos.write(System.getProperty("line.separator").getBytes());
+            fos.flush();
+
+            fos.write("Charset: ".getBytes());
+            fos.write(charset.getBytes());
+            fos.write(System.getProperty("line.separator").getBytes());
+            fos.flush();
+
+
+            for (Chain key: uniqueChains){
                 fos.write(key.getStartPoint().getBytes());
                 fos.write(" ".getBytes());
                 fos.write(key.getEndPoint().getBytes());
                 fos.write(System.getProperty("line.separator").getBytes());
                 fos.flush();
-                i++;
+
             }
             fos.close();
         }
@@ -337,7 +305,6 @@ public class Generator  {
         }
 
     }
-
 
     public void saveString()
     {
