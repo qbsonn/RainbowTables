@@ -23,8 +23,8 @@ public class Test {
         inputData.setHashType("SHA-1");
         inputData.setChainLen(1);
         inputData.setChainCount(bruteforce.combinations.size());
-        inputData.setCharset("ABCDEFGHIJKLMNOPRSTUVWXYZ");
-        inputData.setPwLegth(10);
+        inputData.setCharset("ABCDFGHJKLMNPQRSTVWXYZ");
+        inputData.setPwLegth(4);
         generator=new Generator(inputData);
 
      /**   for(int j=0;j<bruteforce.combinations.size();j++)
@@ -36,7 +36,9 @@ public class Test {
 **/
 
         generator.initTable(bruteforce.combinations);
-
+        int dupliacates;
+        dupliacates=bruteforce.combinations.size() -generator.getUnique().size();
+        System.out.println("Liczba dupikatów: "+dupliacates+", procentowa ilość duplikatów: "+(((float)dupliacates/bruteforce.combinations.size())*100)+"%");
        /** for(int i=0;i<inputData.getChainCount();i++) {
             int j=i+1;
             if(j<inputData.getChainCount()){

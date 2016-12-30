@@ -1,5 +1,4 @@
 package Tester;
-
 /**
  * Created by Kuba on 2016-12-05.
  */
@@ -33,4 +32,22 @@ public class Chain implements Comparable<Chain>{
 
         return this.getEndPoint().compareTo(o.getEndPoint());
     }
+
+
+    @Override
+    public int hashCode() {
+        return this.getEndPoint().hashCode();
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+
+        return this.getEndPoint().equals(((Chain)obj).getEndPoint());
+    }
+
 }
+
+
+
+

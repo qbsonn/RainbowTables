@@ -17,8 +17,8 @@ public class Bruteforce {
     public Bruteforce() {
         combinations=new ArrayList<>();
         charset = "ABCDFGHJKLMNPQRSTVWXYZ".toCharArray();
-        min = 3; //char min start
-        max = 3; //char max end
+        min = 4; //char min start
+        max = 4; //char max end
     }
 
     public void generate(String str, int pos, int length) {

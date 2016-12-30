@@ -91,6 +91,9 @@ public class Generator  {
 
 
     }
+    public List<Chain> getUnique(){
+        return uniqueChains;
+    }
 
     public HashAndReduct getHashReduct(){
        return hr;
@@ -179,15 +182,13 @@ public class Generator  {
 
             }
             chains.add(new Chain(startPoints.get(i),end));
-
         }
-        System.out.println("Generacja zakończona. Trwa sortowanie");
+
 
         uniqueChains.addAll(chains);
 
         chains.clear();
         Collections.sort(uniqueChains);
-
         System.out.println("Trwa zapis tablicy do pliku");
         saveToFile();
         System.out.println("Zapis zakończony. Tablica jest gotowa do uzycia!");
@@ -195,9 +196,7 @@ public class Generator  {
         long stop=System.currentTimeMillis();
 
         System.out.println("Czas wykonania:"+(stop-start)/1000 +" sekund");
-        int dupliacates;
-        dupliacates=startPoints.size()-uniqueChains.size();
-        System.out.println("Liczba dupikatów: "+dupliacates+", procentowa ilość duplikatów: "+(dupliacates/startPoints.size()*100)+"%");
+
     }
 
 
