@@ -165,7 +165,7 @@ public class InputData {
     /**
      *
      * Ustawia ścieżkę zapisu tablicy
-     * @param _directory
+     * @param _directory ścieżka
      */
 
     public void setDirectory(String _directory)
@@ -182,6 +182,11 @@ public class InputData {
      */
     public String getDirectory(){return directory;}
 
+    /**
+     *
+     * Metoda wczytująca punkty początkowe z pliku
+     * @param path ścieżka do pliku
+     */
     public void loadStartPoints(String path)
     {
 
@@ -218,6 +223,10 @@ public class InputData {
 
     }
 
+    /**
+     * Metoda zwracająca tablice punktów początkowych
+     * @return
+     */
     public ArrayList<String>  getStartPoints()
     {
         return loadedStartPoints;

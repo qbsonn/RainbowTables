@@ -10,6 +10,8 @@ import javafx.scene.control.ProgressIndicator;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Optional;
+
 import javafx.scene.control.*;
 import javafx.util.Duration;
 
@@ -28,7 +30,7 @@ public class GenerateWindowController  {
     ProgressIndicator progressIndicator;
 
     @FXML
-    Button endButton;
+    Button endButton, interruptButton;
 
     @FXML
     Label infoLabel,timeLabel;
@@ -36,6 +38,8 @@ public class GenerateWindowController  {
     Timeline timeLine;
 
     boolean stopClock;
+
+    Thread generate;
 
     public void initialize() {
         stopClock=false;
@@ -73,6 +77,10 @@ public class GenerateWindowController  {
 
     }
 
+    /**
+     * Metoda wywoływana przy naciśnieciu klawisza Zakończ
+     * @param event
+     */
     public void handleEndButtonAction (ActionEvent event)
     {
        Stage stage= (Stage)endButton.getScene().getWindow();
@@ -80,6 +88,38 @@ public class GenerateWindowController  {
 
 
     }
+
+    /**
+     * Metoda wywołana przy naciśnieciu przycisku Przerwij generacje tablicy
+     * @param event
+     */
+
+    public void handleInterruptButtonAction (ActionEvent event)
+    {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Błąd");
+        alert.setHeaderText(null);
+        alert.setContentText("Czy napewno chcesz przerwać generacje tablicy?");
+
+        ButtonType buttonTypeYes = new ButtonType("Tak");
+        ButtonType buttonTypeNo = new ButtonType("Nie");
+
+        alert.getButtonTypes().setAll(buttonTypeYes,buttonTypeNo);
+
+
+
+        Optional<ButtonType> result =alert.showAndWait();
+
+        if (result.get() == buttonTypeYes) {
+
+            Stage stage= (Stage)endButton.getScene().getWindow();
+            stage.close();
+           System.exit(1);
+        }
+
+        }
+
+
 
 
 

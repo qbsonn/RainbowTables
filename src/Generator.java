@@ -150,6 +150,8 @@ public class Generator extends Task implements Runnable {
     }
 */
 
+    /** Metoda obliczająca punkty początkowe łańcuchów*/
+
     public void calculateStartPoints()
     {
 
@@ -215,6 +217,11 @@ public class Generator extends Task implements Runnable {
         return charset.charAt(x);
     }
 
+    /**
+     * Metoda zwracająca znak na podstawie jego kodu
+     * @param _code kod znaku
+     * @return znak
+     */
     public char foundCharInCharset(int _code)
     {
         int x=-1;
@@ -378,7 +385,10 @@ public class Generator extends Task implements Runnable {
         return sb.toString();
     }
 
-
+    /**
+     * Metoda konwertująca hash w postaci bitowej na postać szesnastkową
+     * @param _hash hash
+     */
 
     public void convertHash(byte[] _hash)
     {
@@ -467,7 +477,10 @@ public class Generator extends Task implements Runnable {
 
     }
 
-
+    /**
+     * Metoda zwracająca czas przetworzenia jednego elementu łańcucha
+     * @return czas przetwarzania
+     */
     public long calculateExample()
     {
 
@@ -498,7 +511,6 @@ public class Generator extends Task implements Runnable {
 
         return time;
     }
-
 
 
 

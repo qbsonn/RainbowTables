@@ -14,6 +14,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.io.File;
 import javafx.stage.FileChooser;
@@ -69,7 +70,10 @@ public class Controller  implements  Initializable {
     @FXML
     private ComboBox hash, startPointComboBox, charsetComboBox;
 
-
+    /**
+     * Metoda wywoływana po naciśnieciu przycisku OK
+     * @param event
+     */
     @FXML
     public void handleButtonAction(ActionEvent event) {
         input = new InputData();
@@ -186,9 +190,36 @@ public class Controller  implements  Initializable {
             stage.setResizable(false);
             stage.show();
 
+            stage.setOnCloseRequest(event1 -> {
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Błąd");
+                alert.setHeaderText(null);
+                alert.setContentText("Czy napewno chcesz przerwać generacje tablicy?");
+
+                ButtonType buttonTypeYes = new ButtonType("Tak");
+                ButtonType buttonTypeNo = new ButtonType("Nie");
+
+                alert.getButtonTypes().setAll(buttonTypeYes,buttonTypeNo);
+
+
+
+                Optional<ButtonType> result =alert.showAndWait();
+
+                if (result.get() == buttonTypeYes) {
+
+
+                    stage.close();
+                    System.exit(1);
+                }
+
+            });
+
             GenerateWindowController controller = loader.getController();
 
           //  controller.initialize();
+            controller.generate=generateTable;
+            controller.interruptButton.setVisible(true);
 
             controller.pogressBar.progressProperty().bind(generator.progressProperty());
 
@@ -202,7 +233,9 @@ public class Controller  implements  Initializable {
             generator.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
                 @Override
                 public void handle(WorkerStateEvent event) {
+                    controller.interruptButton.setVisible(false);
                     controller.endButton.setVisible(true);
+
                    controller.stopClock=true;
 
                 }
@@ -227,7 +260,10 @@ public class Controller  implements  Initializable {
     }
 
 
-
+    /**
+     * Metoda wywoływana po naciśnieciu przycisku Oblicz czas generacji
+     * @param event
+     */
     public void handleCalculateTime(ActionEvent event) {
         input = new InputData();
 
@@ -317,7 +353,10 @@ public class Controller  implements  Initializable {
 
     }
 
-
+    /**
+     * Metoda wywoływana przy naciśnieciu przycisku wyboru ścieżki zapisu tablicy
+     * @param event
+     */
     public void handlePathChoose(ActionEvent event) {
 
         stage = (Stage) tablePathButton.getScene().getWindow();
@@ -338,6 +377,10 @@ catch (java.lang.NullPointerException e)
 
     }
 
+    /**
+     * Metoda wywoływana przy naciśnieciu przycisku wyboru pliku z początkowymi punktami łańcuchów
+     * @param event
+     */
     public void handleStartPointFileChooser(ActionEvent event) {
         stage = (Stage) selectFileButton.getScene().getWindow();
         FileChooser chooser = new FileChooser();
@@ -364,6 +407,10 @@ catch (java.lang.NullPointerException e)
 
     }
 
+    /**
+     * Metoda wywoływana przy zmianie wyboru opcji generacji łańcuchów początkowych
+     * @param event
+     */
     public void handlestartComboBoxChange(ActionEvent event) {
         if (startPointComboBox.getValue().toString() == "Z pliku..") {
 
@@ -375,6 +422,11 @@ catch (java.lang.NullPointerException e)
 
     }
 
+    /**
+     * Metoda obliczjaąca  czas generacji tablicy na podstawie ilości i długości łańcuchów
+     * @param _input obiekt zawierająca dane wpisane do pól
+     * @return
+     */
 
     public float calculateTime(InputData _input) {
         Generator gen = new Generator(_input,"Example");
@@ -389,7 +441,11 @@ catch (java.lang.NullPointerException e)
 
     }
 
-
+    /**
+     * Inicjalizacja
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         charsets = new ArrayList<>();
