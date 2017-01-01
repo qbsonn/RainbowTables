@@ -50,7 +50,7 @@ public class Controller implements Initializable{
             {
                 System.out.println(i+" Poszukiwane haslo to: "+ correctValue);
                 finderValueTextField.setText(correctValue);
-               // break;
+               break;
             }
         }
         if (finderValueTextField.getText().matches(""))

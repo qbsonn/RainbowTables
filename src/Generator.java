@@ -45,7 +45,7 @@ public class Generator extends Task implements Runnable {
     /**
      * Tablica przechowujaca punkty startowe lancuchow
      */
-    private ArrayList<String> startPoints;
+    private Set<String> startPoints;
     /**
      * Dlugosc generowanych hasel
      */
@@ -74,11 +74,11 @@ public class Generator extends Task implements Runnable {
         charset=_input.getCharset();
         chains=new HashSet<>();
         pwLength=_input.getPwLegth();
-        startPoints=new ArrayList<>();
+        startPoints=new HashSet<>();
         uniqueChains=new ArrayList<>();
         if (_input.getStartPoints().size()!=0)
         {
-            startPoints=_input.getStartPoints();
+            startPoints.addAll(_input.getStartPoints());
 
         }
 
@@ -86,6 +86,7 @@ public class Generator extends Task implements Runnable {
         directory=_input.getDirectory();
 
         //calculateStartPoints();
+
 
     hr=new HashAndReduct( hashType,charset);
 
@@ -106,7 +107,7 @@ public class Generator extends Task implements Runnable {
         charset=_input.getCharset();
         chains=new HashSet<>();
         pwLength=_input.getPwLegth();
-        startPoints=new ArrayList<>();
+        startPoints=new HashSet<>();
 
 
 
@@ -118,7 +119,7 @@ public class Generator extends Task implements Runnable {
     }
 
 
-
+/*
     public void calculateStartPoints()
     {
 
@@ -147,6 +148,46 @@ public class Generator extends Task implements Runnable {
 
         System.out.println("Utworzono poczatkowe punkty");
     }
+*/
+
+    public void calculateStartPoints()
+    {
+
+        updateMessage("Generowanie punktów początkowych...");
+        Random rand=new Random();
+
+        double possiblePasswords=Math.pow(charset.length(),pwLength);
+        int code;
+        double max=0;
+        int alreadyDone=startPoints.size();
+
+        if (possiblePasswords<chainCount)
+        {
+            max=possiblePasswords;
+        }
+        else
+        max=chainCount;
+
+        while (startPoints.size()<max)
+        {
+
+            StringBuilder sb = new StringBuilder();
+            for (int j=0; j<pwLength; j++)
+            {
+                code= rand.nextInt(charset.length());
+                sb.append( foundCharInCharset(code));
+
+            }
+            startPoints.add(sb.toString());
+            // updateProgress(i,chainLen*chainCount+chainCount+chainLen);
+
+
+        }
+
+
+        System.out.println("Utworzono poczatkowe punkty");
+    }
+
 
 
     /**
@@ -207,8 +248,11 @@ public class Generator extends Task implements Runnable {
 
         long start=System.currentTimeMillis();
       byte[] word;
-        for (int i=0;i<chainCount;i++)
-        {       word=startPoints.get(i).getBytes(StandardCharsets.UTF_8);
+
+
+        for (String startPoint : startPoints)
+
+        {       word=startPoint.getBytes(StandardCharsets.UTF_8);
                 byte[] hash=null;
 
 
@@ -218,10 +262,12 @@ public class Generator extends Task implements Runnable {
                //convertHash(hash);
                // word=hr.reduce(hash,1,pwLength);
                 word=hr.reduce(hash,j,pwLength);
+                /*
                 try {
                     System.out.println(new String(word, "UTF-8"));
                 }
                 catch(Exception e){}
+                */
                 /*
                 String str=null;
                 try {
@@ -249,7 +295,7 @@ public class Generator extends Task implements Runnable {
                 e.printStackTrace();
 
             }
-            chains.add(new Chain(startPoints.get(i),end));
+            chains.add(new Chain(startPoint,end));
 
         }
 
@@ -460,6 +506,7 @@ public class Generator extends Task implements Runnable {
     protected Object call() throws Exception {
 
         calculateStartPoints();
+        System.out.println("Liczba poczatku: "+startPoints.size());
         initTable();
 
         return null;
