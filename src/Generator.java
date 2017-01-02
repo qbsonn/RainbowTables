@@ -162,6 +162,7 @@ public class Generator extends Task implements Runnable {
         int code;
         double max=0;
         int alreadyDone=startPoints.size();
+        updateProgress(0,100);
 
         if (possiblePasswords<chainCount)
         {
@@ -181,11 +182,11 @@ public class Generator extends Task implements Runnable {
 
             }
             startPoints.add(sb.toString());
-            // updateProgress(i,chainLen*chainCount+chainCount+chainLen);
+
 
 
         }
-
+        updateProgress(1,100);
 
         System.out.println("Utworzono poczatkowe punkty");
     }
@@ -250,8 +251,9 @@ public class Generator extends Task implements Runnable {
     {
         updateMessage("Trwa generacja tablicy... To może chwilę potrwać...");
         System.out.println("Tworzenie");
+        updateProgress(2,100);
         int total=chainCount*chainLen;
-        int actual=0;
+        int actual=total/100;
 
         long start=System.currentTimeMillis();
       byte[] word;
@@ -289,7 +291,7 @@ public class Generator extends Task implements Runnable {
                 System.out.println(str);
                 */
                 actual++;
-                updateProgress(actual,total+chainLen+chainCount);
+                updateProgress(actual,total*1.03);
 
 
             }
@@ -307,15 +309,17 @@ public class Generator extends Task implements Runnable {
         }
 
        // System.out.println("Utworzono tablice");
+         updateProgress(98,100);
         updateMessage("Generacja zakończona. Trwa sortowanie");
 
         uniqueChains.addAll(chains);
 
 
         chains.clear();
+        updateProgress(99,100);
         Collections.sort(uniqueChains);
 
-        updateProgress(actual+chainLen,total+chainLen+chainCount);
+      //  updateProgress(actual+chainLen,total+chainLen+chainCount);
         //System.out.println("posortowano");
         updateMessage("Trwa zapis tablicy do pliku");
         saveToFile();

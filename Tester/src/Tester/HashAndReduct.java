@@ -138,12 +138,7 @@ public class HashAndReduct {
         }
         return  m_nPlainSpaceUpToX;
        }
-    public long  generateRandomIndex(int _pwLength){
-        Random rd= new Random();
-        long m_nIndex=rd.nextLong();
-        m_nIndex = m_nIndex % getPlainSpace(_pwLength)[_pwLength];
-        return  m_nIndex;
-    }
+
     public long toLong(byte[] b) {
         ByteBuffer bb = ByteBuffer.allocate(b.length);
         bb.put(b);
@@ -153,20 +148,21 @@ public class HashAndReduct {
     public long HashToIndex(byte[] hash, int nPos, int _pwLength){
       long   nRainbowTableIndex = 1;
        long  m_nReduceOffset = 65536 * nRainbowTableIndex;
-       long  m_nIndex = (toLong(hash) + m_nReduceOffset + nPos) % getPlainSpace(_pwLength)[_pwLength];
+       long  m_nIndex = (toLong(hash) + m_nReduceOffset + nPos) / getPlainSpace(_pwLength)[_pwLength];
+       // System.out.println(getPlainSpace(_pwLength)[_pwLength]);
         return m_nIndex;
     }
   public byte[] rainbowCrackReduce(int _pwLength,int nPos, byte[] hash) {
       byte[] plain=new byte[_pwLength];
-      long nIndexOfX= generateRandomIndex(_pwLength) - getPlainSpace(_pwLength)[_pwLength];
-      //=HashToIndex(hash, nPos,_pwLength) - getPlainSpace(_pwLength)[_pwLength];
-
-      for (int i = _pwLength - 1; i >= 0; i--) {
-          if(nIndexOfX==0)
-          { nIndexOfX = generateRandomIndex(_pwLength) - getPlainSpace(_pwLength)[_pwLength];}
+      long nIndexOfX= HashToIndex(hash, nPos,_pwLength);
+     int  nIndexOfXX=Math.abs((int)nIndexOfX);
+      for (int i = _pwLength - 1; i >= 0; i--)
+      {
+          //if(nIndexOfX==0)
+          // nIndexOfX = generateRandomIndex(_pwLength) - getPlainSpace(_pwLength)[_pwLength];}
              // nIndexOfX=HashToIndex(hash, nPos,_pwLength) - getPlainSpace(_pwLength)[_pwLength];
-          plain[i] = findInCharset(Math.abs((int)nIndexOfX) % charset.length());
-          nIndexOfX /= charset.length();
+          plain[i] = findInCharset(nIndexOfXX % charset.length());
+          nIndexOfXX /= charset.length();
       }
       return plain;
   }
