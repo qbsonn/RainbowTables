@@ -160,11 +160,12 @@ public class Generator  {
         {       word=startPoints.get(i).getBytes(StandardCharsets.UTF_8);
             byte[] hash=null;
 
-
+        //  hr.generateRandomIndex(pwLength) ;
             for (int j=0;j<chainLen;j++)
             {
                 hash=hr.calculateHash(word);
-                word=hr.reduceFunction(hash,j,pwLength);
+               // word=hr.reduceFunction(hash,j,pwLength);
+                word=hr.rainbowCrackReduce(pwLength, j, hash);
               /*  try {
                     System.out.println(new String(word, "UTF-8"));
                 }

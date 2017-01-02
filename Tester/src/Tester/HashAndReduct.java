@@ -1,7 +1,9 @@
 package Tester;
 import java.lang.Number;
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Kuba on 2016-12-03.
@@ -127,73 +129,48 @@ public class HashAndReduct {
 
         }
         return result;}
-   /** public void rainbowCrackReduce(){
-            int i;
-            for (i = m_nPlainLenMax - 1; i >= m_nPlainLenMin - 1; i--)
-            {
-                if (m_nIndex >= m_nPlainSpaceUpToX[i])
-                {
-                    m_nPlainLen = i + 1;
-                    break;
-                }
-            }
+    public long[] getPlainSpace(int _pwLength){
+        long[] m_nPlainSpaceUpToX= new long[_pwLength+1];
+        m_nPlainSpaceUpToX[0] = 0;
+        for (int i = 1; i <= _pwLength; i++)
+        {
+                m_nPlainSpaceUpToX[i] = m_nPlainSpaceUpToX[i - 1] + charset.length();
+        }
+        return  m_nPlainSpaceUpToX;
+       }
+    public long  generateRandomIndex(int _pwLength){
+        Random rd= new Random();
+        long m_nIndex=rd.nextLong();
+        m_nIndex = m_nIndex % getPlainSpace(_pwLength)[_pwLength];
+        return  m_nIndex;
+    }
+    public long toLong(byte[] b) {
+        ByteBuffer bb = ByteBuffer.allocate(b.length);
+        bb.put(b);
+        bb.flip();
+        return bb.getLong();
+    }
+    public long HashToIndex(byte[] hash, int nPos, int _pwLength){
+      long   nRainbowTableIndex = 1;
+       long  m_nReduceOffset = 65536 * nRainbowTableIndex;
+       long  m_nIndex = (toLong(hash) + m_nReduceOffset + nPos) % getPlainSpace(_pwLength)[_pwLength];
+        return m_nIndex;
+    }
+  public byte[] rainbowCrackReduce(int _pwLength,int nPos, byte[] hash) {
+      byte[] plain=new byte[_pwLength];
+      long nIndexOfX= generateRandomIndex(_pwLength) - getPlainSpace(_pwLength)[_pwLength];
+      //=HashToIndex(hash, nPos,_pwLength) - getPlainSpace(_pwLength)[_pwLength];
 
-            uint64 nIndexOfX = m_nIndex - m_nPlainSpaceUpToX[m_nPlainLen - 1];
+      for (int i = _pwLength - 1; i >= 0; i--) {
+          if(nIndexOfX==0)
+          { nIndexOfX = generateRandomIndex(_pwLength) - getPlainSpace(_pwLength)[_pwLength];}
+             // nIndexOfX=HashToIndex(hash, nPos,_pwLength) - getPlainSpace(_pwLength)[_pwLength];
+          plain[i] = findInCharset(Math.abs((int)nIndexOfX) % charset.length());
+          nIndexOfX /= charset.length();
+      }
+      return plain;
+  }
 
-	/*
-	// Slow version
-	for (i = m_nPlainLen - 1; i >= 0; i--)
-	{
-		m_Plain[i] = m_PlainCharset[nIndexOfX % m_nPlainCharsetLen];
-		nIndexOfX /= m_nPlainCharsetLen;
-	}
-
-
-            // Fast version
-            for (i = m_nPlainLen - 1; i >= 0; i--)
-            {
-                #ifdef _WIN32
-                if (nIndexOfX < 0x100000000I64)
-                break;
-                #else
-                if (nIndexOfX < 0x100000000llu)
-                break;
-                #endif
-
-                m_Plain[i] = m_PlainCharset[nIndexOfX % m_nPlainCharsetLen];
-                nIndexOfX /= m_nPlainCharsetLen;
-            }
-            unsigned int nIndexOfX32 = (unsigned int)nIndexOfX;
-            for (; i >= 0; i--)
-            {
-                //m_Plain[i] = m_PlainCharset[nIndexOfX32 % m_nPlainCharsetLen];
-                //nIndexOfX32 /= m_nPlainCharsetLen;
-
-                unsigned int nPlainCharsetLen = m_nPlainCharsetLen;
-                unsigned int nTemp;
-                #ifdef _WIN32
-                __asm
-                {
-                    mov eax, nIndexOfX32
-                    xor edx, edx
-                    div nPlainCharsetLen
-                    mov nIndexOfX32, eax
-                    mov nTemp, edx
-                }
-                #else
-                __asm__ __volatile__ (	"mov %2, %%eax;"
-                "xor %%edx, %%edx;"
-                "divl %3;"
-                "mov %%eax, %0;"
-                "mov %%edx, %1;"
-                : "=m"(nIndexOfX32), "=m"(nTemp)
-                : "m"(nIndexOfX32), "m"(nPlainCharsetLen)
-                : "%eax", "%edx"
-                );
-                #endif
-                m_Plain[i] = m_PlainCharset[nTemp];
-            }
-    }**/
   public byte[] reduceFunction (byte[] hash, int _functionNr, int _pwLength) {
       byte[] result = new byte[_pwLength];
        long a, b, c, d;

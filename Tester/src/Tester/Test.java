@@ -24,7 +24,7 @@ public class Test {
         inputData.setChainLen(1);
         inputData.setChainCount(bruteforce.combinations.size());
         inputData.setCharset("ABCDFGHJKLMNPQRSTVWXYZ");
-        inputData.setPwLegth(4);
+        inputData.setPwLegth(5);
         generator=new Generator(inputData);
 
      /**   for(int j=0;j<bruteforce.combinations.size();j++)

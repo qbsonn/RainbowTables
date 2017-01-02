@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="414.0" prefWidth="579.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GenerateWindowController">
    <children>
       <ProgressBar fx:id="pogressBar" layoutX="42.0" layoutY="177.0" prefHeight="23.0" prefWidth="501.0" progress="0.0" />
@@ -21,5 +20,6 @@
       <Button fx:id="endButton" layoutX="210.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleEndButtonAction" prefHeight="35.0" prefWidth="160.0" text="Zakończ" />
       <Label layoutX="31.0" layoutY="222.0" prefHeight="21.0" prefWidth="116.0" text="Upłyneło:" />
       <Label fx:id="timeLabel" layoutX="31.0" layoutY="248.0" prefHeight="23.0" prefWidth="116.0" text="Label" />
+      <Button fx:id="interruptButton" layoutX="210.0" layoutY="293.0" mnemonicParsing="false" onAction="#handleInterruptButtonAction" prefHeight="35.0" prefWidth="160.0" text="Przerwij generacje" />
    </children>
 </Pane>
