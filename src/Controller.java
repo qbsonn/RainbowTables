@@ -141,7 +141,7 @@ public class Controller  implements  Initializable {
 
         }
 
-        if (input.getChainCount()<1||input.getChainLen()<1||input.getMinPwLength()<1)
+        if (input.getChainCount()<1||input.getChainLen()<1||input.getMinPwLength()<1||input.getMaxPwLength()<1)
         {
 
 
@@ -156,7 +156,7 @@ public class Controller  implements  Initializable {
 
 
 
-        if (input.getMinPwLength()>input.getMaxPwLegth())
+        if (input.getMinPwLength()>input.getMaxPwLength())
         {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -326,7 +326,7 @@ public class Controller  implements  Initializable {
             return;
         }
 
-        if (input.getChainCount()<1||input.getChainLen()<1||input.getMinPwLength()<1)
+        if (input.getChainCount()<1||input.getChainLen()<1||input.getMinPwLength()<1||input.getMaxPwLength()<1)
         {
 
 
@@ -341,7 +341,7 @@ public class Controller  implements  Initializable {
 
 
 
-        if (input.getMinPwLength()>input.getMaxPwLegth())
+        if (input.getMinPwLength()>input.getMaxPwLength())
         {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -367,7 +367,11 @@ public class Controller  implements  Initializable {
         calendar.set(Calendar.MILLISECOND, (int)calculateTime(input));
         calendar.set(Calendar.SECOND, 0);
 
-        long possiblePasswords=(long)Math.pow(input.getCharset().length(),input.getMinPwLength());
+        long possiblePasswords=0;
+
+                for (int i=input.getMinPwLength();i<=input.getMaxPwLength();i++) {
+                  possiblePasswords+= (long) Math.pow(input.getCharset().length(), i);
+                }
         double successRate=(double)calculateNumberOfPasswords/possiblePasswords*100;
         if (successRate>=100)
         {
@@ -377,7 +381,7 @@ public class Controller  implements  Initializable {
 
         String stringSucessRate = String.format("%.2f", successRate);
 
-        double fileSize=((2*input.getMinPwLength()+2)*input.getChainCount()+50)/1000000;
+        double fileSize=((input.getMaxPwLength()+input.getMinPwLength()+2)*input.getChainCount()+50)/1000000;
         System.out.println("Suma:" +fileSize);
 
         //showTimeLabel.setText("Szacunkowy czas generacji: " + String.valueOf(calculateTime(input)) + " minut. \n" + "Liczba haseł w tablicy: " + calculateNumberOfPasswords);
@@ -463,7 +467,13 @@ catch (java.lang.NullPointerException e)
     public float calculateTime(InputData _input) {
         Generator gen = new Generator(_input,"Example");
         float totalTime;
-        float temp=(float)gen.calculateExample();
+        float temp=0;
+        for (int i=0;i<5;i++)
+        {
+
+            temp=(float)gen.calculateExample();
+        }
+        temp=temp/5;
 
         totalTime = temp * _input.getChainCount() * _input.getChainLen() / 1000000;
 

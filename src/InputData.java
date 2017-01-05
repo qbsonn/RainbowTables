@@ -178,7 +178,7 @@ public class InputData {
      * Zwraca maksymalna długośc hasła
      * @return
      */
-    public int getMaxPwLegth(){return maxPwLength;}
+    public int getMaxPwLength(){return maxPwLength;}
 
     /**
      *

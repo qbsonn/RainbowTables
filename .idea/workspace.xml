@@ -2,19 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e371a42-dbad-449b-9fb4-72b3a0574e8d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RainbowTables/Controller$1.class" afterPath="$PROJECT_DIR$/out/production/RainbowTables/Controller$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RainbowTables/Controller.class" afterPath="$PROJECT_DIR$/out/production/RainbowTables/Controller.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RainbowTables/Generator.class" afterPath="$PROJECT_DIR$/out/production/RainbowTables/Generator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RainbowTables/HashAndReduct.class" afterPath="$PROJECT_DIR$/out/production/RainbowTables/HashAndReduct.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RainbowTables/InputData.class" afterPath="$PROJECT_DIR$/out/production/RainbowTables/InputData.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Tester/Tester/Generator.class" afterPath="$PROJECT_DIR$/out/production/Tester/Tester/Generator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Tester/Tester/Test.class" afterPath="$PROJECT_DIR$/out/production/Tester/Tester/Test.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Finder/Controller.class" afterPath="$PROJECT_DIR$/out/production/Finder/Controller.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Finder/Finder.class" afterPath="$PROJECT_DIR$/out/production/Finder/Finder.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Finder/HashAndReduct.class" afterPath="$PROJECT_DIR$/out/production/Finder/HashAndReduct.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Finder/src/Controller.java" afterPath="$PROJECT_DIR$/Finder/src/Controller.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Finder/src/Finder.java" afterPath="$PROJECT_DIR$/Finder/src/Finder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Finder/src/HashAndReduct.java" afterPath="$PROJECT_DIR$/Finder/src/HashAndReduct.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/RainbowTables/MainWindow.fxml" afterPath="$PROJECT_DIR$/out/production/RainbowTables/MainWindow.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Controller.java" afterPath="$PROJECT_DIR$/src/Controller.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Generator.java" afterPath="$PROJECT_DIR$/src/Generator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/InputData.java" afterPath="$PROJECT_DIR$/src/InputData.java" />
     </list>
     <ignored path="RainbowTables.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,34 +33,14 @@
       <file leaf-file-name="HashAndReduct.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/HashAndReduct.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="124" column="9" selection-start-line="121" selection-start-column="4" selection-end-line="166" selection-end-column="5" />
+            <state relative-caret-position="468">
+              <caret line="147" column="13" selection-start-line="147" selection-start-column="13" selection-end-line="147" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Chain.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Chain.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="792">
-              <caret line="38" column="24" selection-start-line="38" selection-start-column="24" selection-end-line="38" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="1MD5.dat" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/1MD5.dat">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
-              <caret line="1" column="25" selection-start-line="1" selection-start-column="25" selection-end-line="1" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Finder.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Finder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Finder/src/Finder.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="506">
@@ -76,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Generator.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Generator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Generator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="437" column="27" selection-start-line="437" selection-start-column="27" selection-end-line="437" selection-end-column="27" />
+            <state relative-caret-position="1137">
+              <caret line="314" column="13" selection-start-line="314" selection-start-column="13" selection-end-line="314" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -96,21 +70,54 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Finder/src/Main.java">
+      <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+            <state relative-caret-position="430">
+              <caret line="476" column="0" selection-start-line="476" selection-start-column="0" selection-end-line="476" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller.java">
+      <file leaf-file-name="sssMD5.dat" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sssMD5.dat">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1413">
-              <caret line="315" column="70" selection-start-line="315" selection-start-column="70" selection-end-line="315" selection-end-column="70" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GenerateWindowController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/GenerateWindowController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-212">
+              <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InputData.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/InputData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="558">
+              <caret line="181" column="0" selection-start-line="181" selection-start-column="0" selection-end-line="181" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GenerateWindow.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/GenerateWindow.fxml">
+          <provider editor-type-id="JavaFX-Scene-Builder">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="550">
+              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -187,15 +194,15 @@
         <option value="$PROJECT_DIR$/Tester/src/Tester/Bruteforce.java" />
         <option value="$PROJECT_DIR$/Tester/src/Tester/Test.java" />
         <option value="$PROJECT_DIR$/Tester/src/Tester/Generator.java" />
-        <option value="$PROJECT_DIR$/src/InputData.java" />
-        <option value="$PROJECT_DIR$/src/Controller.java" />
         <option value="$PROJECT_DIR$/src/HashAndReduct.java" />
         <option value="$PROJECT_DIR$/Tester/src/Tester/HashAndReduct.java" />
-        <option value="$PROJECT_DIR$/src/Generator.java" />
         <option value="$PROJECT_DIR$/1MD5.dat" />
         <option value="$PROJECT_DIR$/Finder/src/HashAndReduct.java" />
         <option value="$PROJECT_DIR$/Finder/src/Controller.java" />
         <option value="$PROJECT_DIR$/Finder/src/Finder.java" />
+        <option value="$PROJECT_DIR$/src/InputData.java" />
+        <option value="$PROJECT_DIR$/src/Controller.java" />
+        <option value="$PROJECT_DIR$/src/Generator.java" />
       </list>
     </option>
   </component>
@@ -318,7 +325,7 @@
       <recent name="C:\Users\Kuba\Documents\GitHub\RainbowTables\src\GUI" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Finder">
+  <component name="RunManager" selected="Application.Generator">
     <configuration default="false" name="Generator" type="Application" factoryName="Application" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -621,8 +628,8 @@
     </list>
     <recent_temporary>
       <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Application.Finder" />
-        <item index="1" class="java.lang.String" itemvalue="Application.Generator" />
+        <item index="0" class="java.lang.String" itemvalue="Application.Generator" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Finder" />
         <item index="2" class="java.lang.String" itemvalue="Application.Tester" />
       </list>
     </recent_temporary>
@@ -795,7 +802,14 @@
       <option name="project" value="LOCAL" />
       <updated>1483651604749</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Finer przystosowany dla tablic o różnej długości haseł">
+      <created>1483652487730</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1483652487730</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TodoView">
@@ -912,7 +926,8 @@
     <MESSAGE value="Poprawiony Finder. Uwzględia functionNr" />
     <MESSAGE value="Poprawione przechowywanie punktów początkowych w generatorze (unikane wartośći w Secie)" />
     <MESSAGE value="Dodano generowanie tablic o roznej dlugosci hasel" />
-    <option name="LAST_COMMIT_MESSAGE" value="Dodano generowanie tablic o roznej dlugosci hasel" />
+    <MESSAGE value="Finer przystosowany dla tablic o różnej długości haseł" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finer przystosowany dla tablic o różnej długości haseł" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -937,7 +952,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/qweMD5.dat" />
     <entry file="file://$PROJECT_DIR$/qwe122MD5.dat" />
     <entry file="file://$PROJECT_DIR$/Finder/Finder.iml">
       <provider selected="true" editor-type-id="text-editor">
@@ -1164,14 +1178,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/GenerateWindowController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="51" column="96" selection-start-line="51" selection-start-column="96" selection-end-line="51" selection-end-column="96" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Tester/src/Tester/HashAndReduct.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-142">
@@ -1184,33 +1190,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/InputData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="76" column="24" selection-start-line="76" selection-start-column="24" selection-end-line="76" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GenerateWindow.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1413">
-          <caret line="315" column="70" selection-start-line="315" selection-start-column="70" selection-end-line="315" selection-end-column="70" />
           <folding />
         </state>
       </provider>
@@ -1231,14 +1210,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Generator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="437" column="27" selection-start-line="437" selection-start-column="27" selection-end-line="437" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ciekaMD5.dat">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1251,14 +1222,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22">
           <caret line="1" column="25" selection-start-line="1" selection-start-column="25" selection-end-line="1" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/HashAndReduct.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="124" column="9" selection-start-line="121" selection-start-column="4" selection-end-line="166" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -1283,6 +1246,65 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="506">
           <caret line="85" column="10" selection-start-line="85" selection-start-column="10" selection-end-line="85" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/InputData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="181" column="0" selection-start-line="181" selection-start-column="0" selection-end-line="181" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GenerateWindowController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-212">
+          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/HashAndReduct.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="147" column="13" selection-start-line="147" selection-start-column="13" selection-end-line="147" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GenerateWindow.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sssMD5.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="430">
+          <caret line="476" column="0" selection-start-line="476" selection-start-column="0" selection-end-line="476" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Generator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1137">
+          <caret line="314" column="13" selection-start-line="314" selection-start-column="13" selection-end-line="314" selection-end-column="13" />
           <folding />
         </state>
       </provider>

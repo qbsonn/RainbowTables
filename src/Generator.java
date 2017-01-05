@@ -81,7 +81,7 @@ public class Generator extends Task implements Runnable {
         charset=_input.getCharset();
         chains=new HashSet<>();
         minPwLength=_input.getMinPwLength();
-        maxPwLength=_input.getMaxPwLegth();
+        maxPwLength=_input.getMaxPwLength();
         startPoints=new HashSet<>();
         uniqueChains=new ArrayList<>();
         if (_input.getStartPoints().size()!=0)
@@ -115,7 +115,7 @@ public class Generator extends Task implements Runnable {
         charset=_input.getCharset();
         chains=new HashSet<>();
         minPwLength=_input.getMinPwLength();
-        maxPwLength=_input.getMaxPwLegth();
+        maxPwLength=_input.getMaxPwLength();
         startPoints=new HashSet<>();
 
 
@@ -262,7 +262,7 @@ public class Generator extends Task implements Runnable {
         System.out.println("Tworzenie");
         updateProgress(2,100);
         int total=chainCount*chainLen;
-        int actual=total/100;
+        int actual=2*total/100;
 
         long start=System.currentTimeMillis();
       byte[] word;
@@ -300,7 +300,7 @@ public class Generator extends Task implements Runnable {
                 System.out.println(str);
                 */
                 actual++;
-                updateProgress(actual,total*1.03);
+                updateProgress(actual,total*1.04);
 
 
             }
