@@ -54,7 +54,7 @@ public class Controller  implements  Initializable {
     Button okButton, selectFileButton, calculateTimeButton;
 
     @FXML
-    TextField passLen, tableName, chainNum, chainLen;
+    TextField minPassLen, tableName, chainNum, chainLen, maxPassLen;
 
     @FXML
     Pane pane;
@@ -125,7 +125,8 @@ public class Controller  implements  Initializable {
         try {
             input.setChainCount(Integer.parseInt(chainNum.getText()));
             input.setChainLen(Integer.parseInt(chainLen.getText()));
-            input.setPwLegth(Integer.parseInt(passLen.getText()));
+            input.setMinPwLength(Integer.parseInt(minPassLen.getText()));
+            input.setMaxPwLength(Integer.parseInt(maxPassLen.getText()));
 
         } catch (NumberFormatException e) {
             //  e.printStackTrace();
@@ -140,7 +141,7 @@ public class Controller  implements  Initializable {
 
         }
 
-        if (input.getChainCount()<1||input.getChainLen()<1||input.getPwLegth()<1)
+        if (input.getChainCount()<1||input.getChainLen()<1||input.getMinPwLength()<1)
         {
 
 
@@ -153,6 +154,20 @@ public class Controller  implements  Initializable {
             return;
         }
 
+
+
+        if (input.getMinPwLength()>input.getMaxPwLegth())
+        {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setHeaderText(null);
+            alert.setContentText("Minimalna długość hasła musi być większa liczbą niż maksymalna długość hasła!");
+
+            alert.showAndWait();
+            return;
+
+        }
 
 
 
@@ -297,7 +312,8 @@ public class Controller  implements  Initializable {
         try {
             input.setChainCount(Integer.parseInt(chainNum.getText()));
             input.setChainLen(Integer.parseInt(chainLen.getText()));
-            input.setPwLegth(Integer.parseInt(passLen.getText()));
+            input.setMinPwLength(Integer.parseInt(minPassLen.getText()));
+            input.setMaxPwLength(Integer.parseInt(maxPassLen.getText()));
 
         } catch (NumberFormatException e) {
             //  e.printStackTrace();
@@ -310,7 +326,7 @@ public class Controller  implements  Initializable {
             return;
         }
 
-        if (input.getChainCount()<1||input.getChainLen()<1||input.getPwLegth()<1)
+        if (input.getChainCount()<1||input.getChainLen()<1||input.getMinPwLength()<1)
         {
 
 
@@ -322,6 +338,22 @@ public class Controller  implements  Initializable {
             alert.showAndWait();
             return;
         }
+
+
+
+        if (input.getMinPwLength()>input.getMaxPwLegth())
+        {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setHeaderText(null);
+            alert.setContentText("Minimalna długość hasła musi być większa liczbą niż maksymalna długość hasła!");
+
+            alert.showAndWait();
+            return;
+
+        }
+
 
         long calculateNumberOfPasswords = (long)input.getChainLen() * (long)input.getChainCount();
 
@@ -335,7 +367,7 @@ public class Controller  implements  Initializable {
         calendar.set(Calendar.MILLISECOND, (int)calculateTime(input));
         calendar.set(Calendar.SECOND, 0);
 
-        long possiblePasswords=(long)Math.pow(input.getCharset().length(),input.getPwLegth());
+        long possiblePasswords=(long)Math.pow(input.getCharset().length(),input.getMinPwLength());
         double successRate=(double)calculateNumberOfPasswords/possiblePasswords*100;
         if (successRate>=100)
         {
@@ -345,7 +377,7 @@ public class Controller  implements  Initializable {
 
         String stringSucessRate = String.format("%.2f", successRate);
 
-        double fileSize=((2*input.getPwLegth()+2)*input.getChainCount()+50)/1000000;
+        double fileSize=((2*input.getMinPwLength()+2)*input.getChainCount()+50)/1000000;
         System.out.println("Suma:" +fileSize);
 
         //showTimeLabel.setText("Szacunkowy czas generacji: " + String.valueOf(calculateTime(input)) + " minut. \n" + "Liczba haseł w tablicy: " + calculateNumberOfPasswords);

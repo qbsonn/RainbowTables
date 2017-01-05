@@ -37,9 +37,14 @@ public class InputData {
      */
     private String []startPoints;
     /**
-     * Dlugosc hasel generowanych w tablicy
+     * Minimalna dlugosc hasel generowanych w tablicy
      */
-    private int pwLegth;
+    private int minPwLength;
+
+    /**
+     * Maksymalna długość generowanych haseł
+     */
+    private int maxPwLength;
 
 
     /**
@@ -63,11 +68,18 @@ public class InputData {
      * Ustawianie dlugosci hasel
      * @param _length
      */
-    public void setPwLegth(int _length)
+    public void setMinPwLength(int _length)
     {
-        pwLegth=_length;
+        minPwLength=_length;
 
     }
+
+    public void setMaxPwLength(int _length)
+    {
+        maxPwLength=_length;
+
+    }
+
     /**Ustawienie nazwy tablicy
      * @param _name
      */
@@ -157,10 +169,16 @@ public class InputData {
     public String getCharset() { return charset;}
 
     /**
-     * Zwraca dlugosc hasla
+     * Zwraca minimalna dlugosc hasla
      * @return
      */
-    public int getPwLegth(){return pwLegth;}
+    public int getMinPwLength(){return minPwLength;}
+
+    /**
+     * Zwraca maksymalna długośc hasła
+     * @return
+     */
+    public int getMaxPwLegth(){return maxPwLength;}
 
     /**
      *

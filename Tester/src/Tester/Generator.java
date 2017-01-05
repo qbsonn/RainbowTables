@@ -198,7 +198,7 @@ public class Generator  {
         chains.clear();
         Collections.sort(uniqueChains);
         System.out.println("Trwa zapis tablicy do pliku");
-        saveToFile();
+//        saveToFile();
         System.out.println("Zapis zakończony. Tablica jest gotowa do uzycia!");
 //saveString();
         long stop=System.currentTimeMillis();
@@ -232,8 +232,8 @@ public class Generator  {
             for (int j=0;j<chainLen;j++)
             {
                 hash=hr.calculateHash(word);
-                word=hr.reduce(hash,j,pwLength);
-               // word=hr.rainbowCrackReduce(pwLength, j, hash);
+                //word=hr.reduce(hash,j,pwLength);
+                word=hr.rainbowCrackReduce(pwLength, j, hash);
                 String wordInChain=null;
                 try {
                      wordInChain=new String(word, "UTF-8");

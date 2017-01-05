@@ -23,6 +23,12 @@ public class HashAndReduct {
 
     String charset;
 
+    /**
+     * Długośc łańcuchów w redukowanej tablicy
+     */
+
+    int chainLen;
+
     byte[] byteCharset;
 
     /**
@@ -74,11 +80,12 @@ public class HashAndReduct {
      * @param _charset zakres znaków
      */
 
-    public HashAndReduct(String _hashType, String _charset)
+    public HashAndReduct(String _hashType, String _charset, int _chainLen)
     {
         hashType=_hashType;
         charset=_charset;
         byteCharset=toAsciiByte();
+        chainLen=_chainLen;
     }
 
     /**
@@ -107,19 +114,50 @@ public class HashAndReduct {
      *
      * @param _hash hash z który redukujemy
      * @param _functionNr   numer funkcji redukcji
-     * @param _pwLength dlugosc slowa
+     * @param _minPwLength minimalna dlugosc slowa
+     * @param _maxPwLength maksymalna długość słowa
      * @return obliczone słowo
      */
 
-    public byte[] reduce (byte[] _hash, int _functionNr, int _pwLength)
+    public byte[] reduce (byte[] _hash, int _functionNr, int _minPwLength,int _maxPwLength)
     {
-        byte[] result = new byte[_pwLength];
+
+       int currentLenght=_maxPwLength; //długość generowanego hasła
+        int pom=0;
+
+        if (_minPwLength==_maxPwLength)
+        {
+            currentLenght=_minPwLength;
+        }
+
+        else {
+            int space = _maxPwLength - _minPwLength + 1; //Możliwe długości haseł
+
+            float div = (float) chainLen / (float) space; //sprawdzanie czy dzielenie zmiennej chainLen i space jest liczba calkowita
+
+            if (div % 1 == 0) {
+                pom = 1;
+            }
+
+
+            for (int i = 1; i <= space; i++) {
+                if (_functionNr <= (chainLen / space * i) - pom) {
+                    currentLenght = _maxPwLength - (i - 1);
+                    break;
+                }
+            }
+
+        }
+
+
+
+        byte[] result = new byte[currentLenght];
         int j=0;
         int hashLength=_hash.length;
         int hashIndex = 0;
-        for (int i = 0; i < _pwLength; i++) {
+        for (int i = 0; i < currentLenght; i++) {
             hashIndex = hashIndex + _hash[j%hashLength]^_functionNr;
-            j = j + _pwLength;
+            j = j + _minPwLength;
 
 
             result[i] = findInCharset( Math.abs(hashIndex) % charset.length());
@@ -127,4 +165,6 @@ public class HashAndReduct {
         }
         return result;
     }
+   
+
 }

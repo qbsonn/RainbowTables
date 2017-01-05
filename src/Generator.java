@@ -47,9 +47,16 @@ public class Generator extends Task implements Runnable {
      */
     private Set<String> startPoints;
     /**
-     * Dlugosc generowanych hasel
+     * Minimalna dlugosc generowanych hasel
      */
-    private int pwLength;
+    private int minPwLength;
+
+    /**
+     * Maksymalna długośc generowanych haseł
+     */
+
+
+    private int maxPwLength;
 
     /**
      * Sciezka zapisu
@@ -73,7 +80,8 @@ public class Generator extends Task implements Runnable {
         hashType=_input.getHashType();
         charset=_input.getCharset();
         chains=new HashSet<>();
-        pwLength=_input.getPwLegth();
+        minPwLength=_input.getMinPwLength();
+        maxPwLength=_input.getMaxPwLegth();
         startPoints=new HashSet<>();
         uniqueChains=new ArrayList<>();
         if (_input.getStartPoints().size()!=0)
@@ -88,7 +96,7 @@ public class Generator extends Task implements Runnable {
         //calculateStartPoints();
 
 
-    hr=new HashAndReduct( hashType,charset);
+    hr=new HashAndReduct( hashType,charset,chainLen);
 
         System.out.println("Nazwa tablicy: "+tableName+"algorytm: "+hashType+"dlugosc lan: "+chainLen+"ilosc: "+chainCount);
 
@@ -106,13 +114,14 @@ public class Generator extends Task implements Runnable {
         hashType=_input.getHashType();
         charset=_input.getCharset();
         chains=new HashSet<>();
-        pwLength=_input.getPwLegth();
+        minPwLength=_input.getMinPwLength();
+        maxPwLength=_input.getMaxPwLegth();
         startPoints=new HashSet<>();
 
 
 
 
-        hr=new HashAndReduct( hashType,charset);
+        hr=new HashAndReduct( hashType,charset, chainLen);
 
         System.out.println("Prognoza->> Nazwa tablicy: "+tableName+"algorytm: "+hashType+"dlugosc lan: "+chainLen+"ilosc: "+chainCount);
 
@@ -158,7 +167,7 @@ public class Generator extends Task implements Runnable {
         updateMessage("Generowanie punktów początkowych...");
         Random rand=new Random();
 
-        double possiblePasswords=Math.pow(charset.length(),pwLength);
+        double possiblePasswords=Math.pow(charset.length(),maxPwLength);
         int code;
         double max=0;
         int alreadyDone=startPoints.size();
@@ -175,14 +184,14 @@ public class Generator extends Task implements Runnable {
         {
 
             StringBuilder sb = new StringBuilder();
-            for (int j=0; j<pwLength; j++)
+            for (int j=0; j<maxPwLength; j++)
             {
                 code= rand.nextInt(charset.length());
                 sb.append( foundCharInCharset(code));
 
             }
             startPoints.add(sb.toString());
-
+   //         System.out.println(sb.toString());
 
 
         }
@@ -270,13 +279,13 @@ public class Generator extends Task implements Runnable {
                 hash=hr.calculateHash(word);
                //convertHash(hash);
                // word=hr.reduce(hash,1,pwLength);
-                word=hr.reduce(hash,j,pwLength);
-                /*
+                word=hr.reduce(hash,j,minPwLength,maxPwLength);
+            /*
                 try {
                     System.out.println(new String(word, "UTF-8"));
                 }
                 catch(Exception e){}
-                */
+*/
                 /*
                 String str=null;
                 try {
@@ -426,8 +435,11 @@ public class Generator extends Task implements Runnable {
             fos.flush();
 
 
-            fos.write("Dlugosc_hasla: ".getBytes());
-            fos.write(String.valueOf(pwLength).getBytes());
+            fos.write("Min Dlugosc_hasla: ".getBytes());
+            fos.write(String.valueOf(minPwLength).getBytes());
+
+            fos.write(" Max Dlugosc_hasla: ".getBytes());
+            fos.write(String.valueOf(maxPwLength).getBytes());
 
 
             fos.write(" Hash: ".getBytes());
@@ -493,7 +505,7 @@ public class Generator extends Task implements Runnable {
     String startPoint;
 
         StringBuilder sb = new StringBuilder();
-        for (int j=0; j<pwLength; j++)
+        for (int j=0; j<minPwLength; j++)
         {
             code= rand.nextInt(charset.length());
             sb.append( foundCharInCharset(code));
@@ -508,7 +520,7 @@ public class Generator extends Task implements Runnable {
 
         long start=System.nanoTime();
         hash=hr.calculateHash(word);
-        word=hr.reduce(hash,1,pwLength);
+        word=hr.reduce(hash,1,minPwLength,maxPwLength);
         long stop=System.nanoTime();
         long time=stop-start;
         System.out.println("Czas: "+time);

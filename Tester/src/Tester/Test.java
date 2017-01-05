@@ -32,10 +32,10 @@ public class Test {
         inputData2=new InputData();
         inputData2.setTableName("nowa22");
         inputData2.setHashType("MD5");
-        inputData2.setChainLen(1000);
+        inputData2.setChainLen(100000);
         inputData2.setChainCount(1);
         inputData2.setCharset("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-        inputData2.setPwLegth(3);
+        inputData2.setPwLegth(5);
         generator2=new Generator(inputData2);
 
      /**   for(int j=0;j<bruteforce.combinations.size();j++)
