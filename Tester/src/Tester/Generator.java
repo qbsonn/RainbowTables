@@ -42,6 +42,7 @@ public class Generator  {
      * Struktura danych przechowujaca lancuchy
      */
     private  List<Chain> uniqueChains;
+    private  List<String> uniqueWordsInChain;
     /**
      * Tablica przechowujaca punkty startowe lancuchow
      */
@@ -57,6 +58,7 @@ public class Generator  {
     private String directory;
 
     private Set<Chain> chains;
+    private Set<String> chain;
     /**
      * Konstruktor klasy Generator
      * @param _input
@@ -70,9 +72,11 @@ public class Generator  {
         hashType=_input.getHashType();
         charset=_input.getCharset();
         chains=new HashSet<>();
+        chain=new HashSet<>();
         pwLength=_input.getPwLegth();
         startPoints=new ArrayList<>();
         uniqueChains=new ArrayList<>();
+        uniqueWordsInChain=new ArrayList<>();
         if (_input.getStartPoints().size()!=0)
         {
             startPoints=_input.getStartPoints();
@@ -93,6 +97,9 @@ public class Generator  {
     }
     public List<Chain> getUnique(){
         return uniqueChains;
+    }
+    public List<String> getUniqueWordsInChain(){
+        return uniqueWordsInChain;
     }
 
     public HashAndReduct getHashReduct(){
@@ -186,7 +193,7 @@ public class Generator  {
         }
 
 
-        uniqueChains.addAll(chains);
+        uniqueChains .addAll(chains);
 
         chains.clear();
         Collections.sort(uniqueChains);
@@ -200,7 +207,57 @@ public class Generator  {
 
     }
 
+    public void initTable2()
 
+    {
+        System.out.println("Tworzenie");
+        int total=chainCount*chainLen;
+        Random rand=new Random();
+        int code;
+        long start=System.currentTimeMillis();
+        StringBuilder sb = new StringBuilder();
+        for (int j=0; j<pwLength; j++)
+        {
+            code= rand.nextInt(charset.length());
+            sb.append( foundCharInCharset(code));
+
+        }
+        startPoints.add(sb.toString());
+        byte[] word;
+
+              word=startPoints.get(0).getBytes(StandardCharsets.UTF_8);
+            byte[] hash=null;
+
+            //  hr.generateRandomIndex(pwLength) ;
+            for (int j=0;j<chainLen;j++)
+            {
+                hash=hr.calculateHash(word);
+                word=hr.reduce(hash,j,pwLength);
+               // word=hr.rainbowCrackReduce(pwLength, j, hash);
+                String wordInChain=null;
+                try {
+                     wordInChain=new String(word, "UTF-8");
+                }
+                catch(java.io.UnsupportedEncodingException e)
+                {
+                    e.printStackTrace();
+
+                }
+                chain.add(wordInChain);
+
+        }
+
+System.out.println(chain.size());
+        uniqueWordsInChain .addAll(chain);
+
+        chain.clear();
+        Collections.sort(uniqueWordsInChain);
+
+        long stop=System.currentTimeMillis();
+
+        System.out.println("Czas wykonania:"+(stop-start)/1000 +" sekund");
+
+    }
 
     /**
      * Metoda konwertujaca hash z typu byte na string i wyswietlajaca hash w konsoli
