@@ -435,10 +435,10 @@ public class Generator extends Task implements Runnable {
             fos.flush();
 
 
-            fos.write("Min Dlugosc_hasla: ".getBytes());
+            fos.write("Min_Dlugosc_hasla: ".getBytes());
             fos.write(String.valueOf(minPwLength).getBytes());
 
-            fos.write(" Max Dlugosc_hasla: ".getBytes());
+            fos.write(" Max_Dlugosc_hasla: ".getBytes());
             fos.write(String.valueOf(maxPwLength).getBytes());
 
 

@@ -14,7 +14,7 @@ public class Finder {
     private String rainbowTablePath;
     public int chainLength;
     private String charset;
-    public int valueLength;
+    public int minValueLength, maxValueLength;
     private String hashType;
     public HashAndReduct hashAndReduct;
 
@@ -24,7 +24,7 @@ public class Finder {
         this.rainbowTablePath = rainbowTablePath;
         loadTable();
        // System.out.println("zcgewp " + getFirstValue(exists("zcgewp")).getBytes());
-        hashAndReduct = new HashAndReduct(hashType,charset);
+        hashAndReduct = new HashAndReduct(hashType,charset,chainLength);
     }
 
     public void loadTable()
@@ -39,8 +39,9 @@ public class Finder {
             rainbowTable = new String[Integer.parseInt(line[1])];
             chainLength = Integer.parseInt(line[3]);
             line = lnr.readLine().split(" ");
-            valueLength = Integer.parseInt(line[1]);
-            hashType = line[3];
+            minValueLength = Integer.parseInt(line[1]);
+            maxValueLength = Integer.parseInt(line[3]);
+            hashType = line[5];
             line = lnr.readLine().split(" ");
             charset = line[1];
 
@@ -56,6 +57,7 @@ public class Finder {
         catch(IOException e)
         {}
         lastValuesRainbowTable = rainbowTable;
+
     }
 
     /** Sprawdza czy istnieje łancuch o ostatnim słowie word

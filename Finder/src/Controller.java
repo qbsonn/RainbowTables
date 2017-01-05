@@ -64,7 +64,7 @@ public class Controller implements Initializable{
         byte[] currentHash = hash;
         String currentValue = null;
         try {
-            currentValue = new String(finder.hashAndReduct.reduce(currentHash,startReductionFunction,finder.valueLength), "UTF-8");
+            currentValue = new String(finder.hashAndReduct.reduce(currentHash,startReductionFunction,finder.minValueLength,finder.maxValueLength), "UTF-8");
         }
         catch (UnsupportedEncodingException e){System.out.println("Exception");}
 
@@ -90,7 +90,7 @@ public class Controller implements Initializable{
             currentHash = finder.hashAndReduct.calculateHash(currentValue.getBytes());
             // currentValue = redukcja z hasha
             try {
-                currentValue = new String(finder.hashAndReduct.reduce(currentHash,i,finder.valueLength), "UTF-8");
+                currentValue = new String(finder.hashAndReduct.reduce(currentHash,i,finder.minValueLength,finder.maxValueLength), "UTF-8");
             }
             catch (UnsupportedEncodingException e){System.out.println("Exception");}
         }
@@ -100,13 +100,13 @@ public class Controller implements Initializable{
     private String findValueInAllChains2(byte[] hash, int startReductionFunction)
     {
         byte[] currentHash = hash;
-        byte[] currentValue = finder.hashAndReduct.reduce(currentHash,startReductionFunction,finder.valueLength);
+        byte[] currentValue = finder.hashAndReduct.reduce(currentHash,startReductionFunction,finder.minValueLength,finder.maxValueLength);
 
         for (int i = startReductionFunction+1; i< finder.chainLength ; i++)
         {
            // System.out.println("Sprawdza czy "+ currentValue + " jest");
             currentHash = finder.hashAndReduct.calculateHash(currentValue);
-            currentValue = finder.hashAndReduct.reduce(currentHash,i,finder.valueLength);
+            currentValue = finder.hashAndReduct.reduce(currentHash,i,finder.minValueLength,finder.maxValueLength);
         }
         try {
             int index = finder.exists(new String(currentValue, "UTF-8"));
@@ -146,7 +146,7 @@ public class Controller implements Initializable{
                 return currentValue;
 
             try {
-                currentValue = new String(finder.hashAndReduct.reduce(currentHash,i,finder.valueLength), "UTF-8");
+                currentValue = new String(finder.hashAndReduct.reduce(currentHash,i,finder.minValueLength,finder.maxValueLength), "UTF-8");
             }
             catch (UnsupportedEncodingException e){System.out.println("Exception");}
         }
