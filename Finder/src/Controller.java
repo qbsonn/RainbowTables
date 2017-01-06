@@ -50,7 +50,7 @@ public class Controller implements Initializable{
             {
                 System.out.println(i+" Poszukiwane haslo to: "+ correctValue);
                 finderValueTextField.setText(correctValue);
-               break;
+                // break;
             }
         }
         if (finderValueTextField.getText().matches(""))
@@ -59,72 +59,74 @@ public class Controller implements Initializable{
         System.out.println("Koniec");
     }
 
-    private String findValueInAllChains(byte[] hash, int startReductionFunction)
-    {
-        byte[] currentHash = hash;
-        String currentValue = null;
-        try {
-            currentValue = new String(finder.hashAndReduct.reduce(currentHash,startReductionFunction,finder.minValueLength,finder.maxValueLength), "UTF-8");
-        }
-        catch (UnsupportedEncodingException e){System.out.println("Exception");}
 
-        for (int i = startReductionFunction+1; i<= finder.chainLength ; i++)
-        {
-            // sprawdź czy currentValue jest w tablicy
-            System.out.println("Sprawdza czy "+ currentValue + " jest");
-             int index = finder.exists(currentValue);
-            if(index >= 0)
-            {
-                // Znalazł
-                //System.out.println(startReductionFunction+" Znalazł");
-                String value = finder.getFirstValue(index);
-                if (value != null)
-                {
-                   // System.out.println("Pierwsze: "+ value);
-                    String correctValue = findValueInChain(hash,value);
-                    if (correctValue != null)
-                        return correctValue;
-                }
-            }
-            // wykonaj funkcję hashującą na currentValue
-            currentHash = finder.hashAndReduct.calculateHash(currentValue.getBytes());
-            // currentValue = redukcja z hasha
-            try {
-                currentValue = new String(finder.hashAndReduct.reduce(currentHash,i,finder.minValueLength,finder.maxValueLength), "UTF-8");
-            }
-            catch (UnsupportedEncodingException e){System.out.println("Exception");}
-        }
-        //System.out.println("Nie znalazl "+ startReductionFunction);
-        return null;
-    }
     private String findValueInAllChains2(byte[] hash, int startReductionFunction)
     {
         byte[] currentHash = hash;
-        byte[] currentValue = finder.hashAndReduct.reduce(currentHash,startReductionFunction,finder.minValueLength,finder.maxValueLength);
+        byte[] currentValue = finder.hashAndReduct.reduce(currentHash,startReductionFunction,finder.valueLength);
 
         for (int i = startReductionFunction+1; i< finder.chainLength ; i++)
         {
-           // System.out.println("Sprawdza czy "+ currentValue + " jest");
+            // System.out.println("Sprawdza czy "+ currentValue + " jest");
             currentHash = finder.hashAndReduct.calculateHash(currentValue);
-            currentValue = finder.hashAndReduct.reduce(currentHash,i,finder.minValueLength,finder.maxValueLength);
+            currentValue = finder.hashAndReduct.reduce(currentHash,i,finder.valueLength);
         }
         try {
             int index = finder.exists(new String(currentValue, "UTF-8"));
             if (index >= 0)
             {
                 System.out.println(startReductionFunction+" Znalazł");
-                String value = finder.getFirstValue(index);
+               /* String value = finder.getFirstValue(index);
                 if (value != null)
                 {
                     String correctValue = findValueInChain(hash, value);
                     if (correctValue != null)
                         return correctValue;
+                }*/
+                String correctValue = tryToFindCorrectValue(hash,index);
+                if(correctValue != null)
+                    return correctValue;
+
+                boolean exists = true;
+                int j = 1;
+                while (exists)
+                {
+                    exists = false;
+                    if (finder.exists(new String(currentValue, "UTF-8"),index-j))
+                    {
+                        System.out.println("Znalazł kolejne haslo (powtorzenie)");
+                        exists = true;
+                        correctValue = tryToFindCorrectValue(hash,index-j);
+                        if (correctValue != null)
+                            return correctValue;
+                    }
+                    if (finder.exists(new String(currentValue, "UTF-8"),index+j))
+                    {
+                        System.out.println("Znalazł kolejne haslo (powtorzenie)");
+                        exists = true;
+                        correctValue = tryToFindCorrectValue(hash,index+j);
+                        if (correctValue != null)
+                            return correctValue;
+                    }
+                    j++;
                 }
             }
         }
         catch (UnsupportedEncodingException e){System.out.println("Exception");}
         return null;
     }
+
+    private String tryToFindCorrectValue(byte[] hash,int index)
+    {
+        String value = finder.getFirstValue(index);
+        if (value != null)
+        {
+            String correctValue = findValueInChain(hash, value);
+            return correctValue;
+        }
+        return null;
+    }
+
     private String findValueInChain(byte[] hash, String firstValue)
     {
         String currentValue = firstValue;
@@ -146,7 +148,7 @@ public class Controller implements Initializable{
                 return currentValue;
 
             try {
-                currentValue = new String(finder.hashAndReduct.reduce(currentHash,i,finder.minValueLength,finder.maxValueLength), "UTF-8");
+                currentValue = new String(finder.hashAndReduct.reduce(currentHash,i,finder.valueLength), "UTF-8");
             }
             catch (UnsupportedEncodingException e){System.out.println("Exception");}
         }
