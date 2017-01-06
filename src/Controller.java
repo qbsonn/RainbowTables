@@ -70,6 +70,9 @@ public class Controller  implements  Initializable {
     @FXML
     private ComboBox hash, startPointComboBox, charsetComboBox;
 
+    @FXML
+    private CheckBox checkIsPerfectBox;
+
     /**
      * Metoda wywoływana po naciśnieciu przycisku OK
      * @param event
@@ -189,9 +192,10 @@ public class Controller  implements  Initializable {
         }
 
 
-
-        generator = new Generator(input);
-
+        if (checkIsPerfectBox.isSelected()==false)
+        generator = new Generator(input,false);
+        else
+        generator=new Generator(input,true);
 
         Thread generateTable = new Thread(generator);
         //generateTable.start();

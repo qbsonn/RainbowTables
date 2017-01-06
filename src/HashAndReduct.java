@@ -125,6 +125,9 @@ public class HashAndReduct {
        int currentLenght=_maxPwLength; //długość generowanego hasła
         int pom=0;
 
+
+
+
         if (_minPwLength==_maxPwLength)
         {
             currentLenght=_minPwLength;
@@ -132,6 +135,22 @@ public class HashAndReduct {
 
         else {
             int space = _maxPwLength - _minPwLength + 1; //Możliwe długości haseł
+
+
+            long [] possiblepasswords=new long [space];
+            int startLenth=_maxPwLength;
+            long passwordspace=0;
+            for (int i=0; i<space;i++)
+            {
+                possiblepasswords[i]=(long)Math.pow(charset.length(),startLenth);
+                System.out.println(possiblepasswords[i]);
+                passwordspace+=possiblepasswords[i];
+                startLenth--;
+            }
+
+
+
+
 
             float div = (float) chainLen / (float) space; //sprawdzanie czy dzielenie zmiennej chainLen i space jest liczba calkowita
 
@@ -145,6 +164,16 @@ public class HashAndReduct {
                     currentLenght = _maxPwLength - (i - 1);
                     break;
                 }
+
+/*
+            for (int i = 1; i <= space; i++) {
+                if (_functionNr <= (chainLen / space * i) - pom) {
+                    currentLenght = _maxPwLength - (i - 1);
+                    break;
+                }
+                */
+
+
             }
 
         }

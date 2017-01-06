@@ -41,7 +41,7 @@ public class Generator extends Task implements Runnable {
     /**
      * Struktura danych przechowujaca lancuchy
      */
-    private  List<Chain> uniqueChains;
+    private  List<Chain> chains;
     /**
      * Tablica przechowujaca punkty startowe lancuchow
      */
@@ -69,21 +69,25 @@ public class Generator extends Task implements Runnable {
      * @param _input
      */
 
-    private Set<Chain> chains;
+    private Set<Chain> perfectChains;
 
 
-    public Generator(InputData _input)
+    boolean perfectTable;
+
+
+    public Generator(InputData _input, boolean _perfect)
     {
         tableName=_input.getTableName();
         chainLen=_input.getChainLen();
         chainCount=_input.getChainCount();
         hashType=_input.getHashType();
         charset=_input.getCharset();
-        chains=new HashSet<>();
+        perfectChains=new HashSet<>();
         minPwLength=_input.getMinPwLength();
         maxPwLength=_input.getMaxPwLength();
         startPoints=new HashSet<>();
-        uniqueChains=new ArrayList<>();
+        chains=new ArrayList<>();
+        perfectTable=_perfect;
         if (_input.getStartPoints().size()!=0)
         {
             startPoints.addAll(_input.getStartPoints());
@@ -113,7 +117,7 @@ public class Generator extends Task implements Runnable {
         chainCount=_input.getChainCount();
         hashType=_input.getHashType();
         charset=_input.getCharset();
-        chains=new HashSet<>();
+        perfectChains=new HashSet<>();
         minPwLength=_input.getMinPwLength();
         maxPwLength=_input.getMaxPwLength();
         startPoints=new HashSet<>();
@@ -317,16 +321,16 @@ public class Generator extends Task implements Runnable {
 
         }
 
-       // System.out.println("Utworzono tablice");
+       System.out.println("Utworzono tablice" +chains.size());
          updateProgress(98,100);
         updateMessage("Generacja zakończona. Trwa sortowanie");
 
-        uniqueChains.addAll(chains);
+       // uniqueChains.addAll(chains);
 
 
-        chains.clear();
+        //chains.clear();
         updateProgress(99,100);
-        Collections.sort(uniqueChains);
+        Collections.sort(chains);
 
       //  updateProgress(actual+chainLen,total+chainLen+chainCount);
         //System.out.println("posortowano");
@@ -359,6 +363,113 @@ public class Generator extends Task implements Runnable {
 
 
     }
+
+
+    public void initPerfectTable()
+
+    {
+        updateMessage("Trwa generacja tablicy... To może chwilę potrwać...");
+        System.out.println("Tworzenie");
+        updateProgress(2,100);
+        int total=chainCount*chainLen;
+        int actual=2*total/100;
+
+        long start=System.currentTimeMillis();
+        byte[] word;
+
+
+        for (String startPoint : startPoints)
+
+        {       word=startPoint.getBytes(StandardCharsets.UTF_8);
+            byte[] hash=null;
+
+
+            for (int j=0;j<chainLen;j++)
+            {
+                hash=hr.calculateHash(word);
+                //convertHash(hash);
+                // word=hr.reduce(hash,1,pwLength);
+                word=hr.reduce(hash,j,minPwLength,maxPwLength);
+            /*
+                try {
+                    System.out.println(new String(word, "UTF-8"));
+                }
+                catch(Exception e){}
+*/
+                /*
+                String str=null;
+                try {
+                    str = new String(word, "UTF-8");
+                }
+                catch(java.io.UnsupportedEncodingException e)
+                {
+                    e.printStackTrace();
+
+                }
+
+                System.out.println(str);
+                */
+                actual++;
+                updateProgress(actual,total*1.04);
+
+
+            }
+            String end=null;
+            try {
+                end = new String(word, "UTF-8");
+            }
+            catch(java.io.UnsupportedEncodingException e)
+            {
+                e.printStackTrace();
+
+            }
+            perfectChains.add(new Chain(startPoint,end));
+
+        }
+
+        // System.out.println("Utworzono tablice");
+        updateProgress(98,100);
+        updateMessage("Generacja zakończona. Trwa sortowanie");
+
+         chains.addAll(perfectChains);
+
+
+        perfectChains.clear();
+        updateProgress(99,100);
+        Collections.sort(chains);
+
+        //  updateProgress(actual+chainLen,total+chainLen+chainCount);
+        //System.out.println("posortowano");
+        updateMessage("Trwa zapis tablicy do pliku");
+        saveToFile();
+        updateProgress(100,100);
+        updateMessage("Zapis zakończony. Tablica jest gotowa do uzycia!");
+//saveString();
+        long stop=System.currentTimeMillis();
+
+/*
+        for (Chain key: chains){
+
+
+            System.out.println(key.getStartPoint());
+            System.out.println(key.getEndPoint());
+
+          //  printHash( chains.get(key));
+
+
+
+        }
+        */
+
+        System.out.println("Czas wykonania:"+(stop-start)/1000 +" sekund");
+
+
+
+
+
+
+    }
+
 
 
     /**
@@ -426,7 +537,7 @@ public class Generator extends Task implements Runnable {
 
 
             fos.write("Lancuchy: ".getBytes());
-            fos.write(String.valueOf(uniqueChains.size()).getBytes());
+            fos.write(String.valueOf(chains.size()).getBytes());
 
 
             fos.write(" Dlugosc: ".getBytes());
@@ -453,7 +564,7 @@ public class Generator extends Task implements Runnable {
             fos.flush();
 
 
-            for (Chain key: uniqueChains){
+            for (Chain key: chains){
                 fos.write(key.getStartPoint().getBytes());
                 fos.write(" ".getBytes());
                 fos.write(key.getEndPoint().getBytes());
@@ -535,7 +646,10 @@ public class Generator extends Task implements Runnable {
 
         calculateStartPoints();
         System.out.println("Liczba poczatku: "+startPoints.size());
+        if (perfectTable==false)
         initTable();
+        else
+        initPerfectTable();
 
         return null;
     }
