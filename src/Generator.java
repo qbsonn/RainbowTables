@@ -100,7 +100,7 @@ public class Generator extends Task implements Runnable {
         //calculateStartPoints();
 
 
-    hr=new HashAndReduct( hashType,charset,chainLen);
+    hr=new HashAndReduct( hashType,charset,chainLen,minPwLength,maxPwLength);
 
         System.out.println("Nazwa tablicy: "+tableName+"algorytm: "+hashType+"dlugosc lan: "+chainLen+"ilosc: "+chainCount);
 
@@ -125,7 +125,7 @@ public class Generator extends Task implements Runnable {
 
 
 
-        hr=new HashAndReduct( hashType,charset, chainLen);
+        hr=new HashAndReduct( hashType,charset, chainLen,minPwLength,maxPwLength);
 
         System.out.println("Prognoza->> Nazwa tablicy: "+tableName+"algorytm: "+hashType+"dlugosc lan: "+chainLen+"ilosc: "+chainCount);
 
@@ -264,7 +264,7 @@ public class Generator extends Task implements Runnable {
     {
         updateMessage("Trwa generacja tablicy... To może chwilę potrwać...");
         System.out.println("Tworzenie");
-        updateProgress(2,100);
+        updateProgress(1.5,100);
         int total=chainCount*chainLen;
         int actual=2*total/100;
 
@@ -284,7 +284,7 @@ public class Generator extends Task implements Runnable {
                //convertHash(hash);
                // word=hr.reduce(hash,1,pwLength);
                 word=hr.reduce(hash,j,minPwLength,maxPwLength);
-            /*
+/*
                 try {
                     System.out.println(new String(word, "UTF-8"));
                 }

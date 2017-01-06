@@ -29,6 +29,11 @@ public class HashAndReduct {
 
     int chainLen;
 
+
+    int space;
+    long passwordSpace;
+    long [] possiblepasswords;
+
     byte[] byteCharset;
 
     /**
@@ -80,12 +85,37 @@ public class HashAndReduct {
      * @param _charset zakres znaków
      */
 
-    public HashAndReduct(String _hashType, String _charset, int _chainLen)
+    public HashAndReduct(String _hashType, String _charset, int _chainLen,int _minPwLength, int _maxPwLength)
     {
         hashType=_hashType;
         charset=_charset;
         byteCharset=toAsciiByte();
         chainLen=_chainLen;
+
+         space = _maxPwLength - _minPwLength + 1; //Możliwe długości haseł
+
+
+       possiblepasswords=new long [space];
+        int startLenth=_maxPwLength;
+        passwordSpace=0;
+        long temp=0;
+        for (int i=0; i<space;i++)
+        {
+            temp=(long)Math.pow(charset.length(),startLenth);
+
+            if (i>0)
+            {
+                possiblepasswords[i]=temp+possiblepasswords[i-1];
+            }
+            else possiblepasswords[i]=temp;
+            //  System.out.println(possiblepasswords[i]);
+            passwordSpace+=temp;
+            startLenth--;
+        }
+
+
+
+
     }
 
     /**
@@ -134,25 +164,33 @@ public class HashAndReduct {
         }
 
         else {
+            /*
             int space = _maxPwLength - _minPwLength + 1; //Możliwe długości haseł
 
 
             long [] possiblepasswords=new long [space];
             int startLenth=_maxPwLength;
-            long passwordspace=0;
+            long passwordSpace=0;
+            long temp=0;
             for (int i=0; i<space;i++)
             {
-                possiblepasswords[i]=(long)Math.pow(charset.length(),startLenth);
-                System.out.println(possiblepasswords[i]);
-                passwordspace+=possiblepasswords[i];
+               temp=(long)Math.pow(charset.length(),startLenth);
+
+                if (i>0)
+                {
+                    possiblepasswords[i]=temp+possiblepasswords[i-1];
+                }
+                else possiblepasswords[i]=temp;
+              //  System.out.println(possiblepasswords[i]);
+                passwordSpace+=temp;
                 startLenth--;
             }
 
+*/
 
 
 
-
-            float div = (float) chainLen / (float) space; //sprawdzanie czy dzielenie zmiennej chainLen i space jest liczba calkowita
+            float div = (float) chainLen / (float) passwordSpace; //sprawdzanie czy dzielenie zmiennej chainLen i space jest liczba calkowita
 
             if (div % 1 == 0) {
                 pom = 1;
@@ -160,7 +198,8 @@ public class HashAndReduct {
 
 
             for (int i = 1; i <= space; i++) {
-                if (_functionNr <= (chainLen / space * i) - pom) {
+                double max=(chainLen *(float)(  (float)possiblepasswords[i-1]/(float)passwordSpace))- pom;
+                if (_functionNr <= max) {
                     currentLenght = _maxPwLength - (i - 1);
                     break;
                 }

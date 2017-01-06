@@ -24,7 +24,7 @@ public class Finder {
         this.rainbowTablePath = rainbowTablePath;
         loadTable();
        // System.out.println("zcgewp " + getFirstValue(exists("zcgewp")).getBytes());
-        hashAndReduct = new HashAndReduct(hashType,charset,chainLength);
+        hashAndReduct = new HashAndReduct(hashType,charset,chainLength, minValueLength, maxValueLength);
     }
 
     public void loadTable()
