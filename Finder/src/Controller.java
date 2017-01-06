@@ -24,23 +24,34 @@ public class Controller implements Initializable{
     @FXML TextField generatorHashTextField;
     @FXML TextField finderValueTextField;
     @FXML Label rainbowTableLabel;
-
+    private boolean busy;
 
     public void initialize(URL location, ResourceBundle resources)
     {
         comboBox.getItems().add("MD5");
+        comboBox.getItems().add("SHA1");
+        busy = false;
     }
 
     public void buttonSzukajClicked()
     {
-        if (finder == null)
-        {
-            System.out.println("Nie ma teczowej tablicy");
-            return;
+        if (!busy) {
+            if (finder == null) {
+                System.out.println("Nie ma teczowej tablicy");
+                return;
+            }
+            finderValueTextField.setText("");
+            new Thread(){
+                public void run()
+                {
+                    lookThroughRainbowTable();
+                }
+            }.start();
         }
-        finderValueTextField.setText("");
-        //finder = new Finder("C:\\Users\\Piotrek\\Desktop\\test4literyMD5.dat");
-        //byte[] hash = DatatypeConverter.parseHexBinary("eb8fc9f5bfe7a2b69bee0c035ec5e5d0");
+    }
+
+    public void lookThroughRainbowTable()
+    {
         byte[] hash = DatatypeConverter.parseHexBinary(finderHashTextField.getText());
 
         String correctValue;
@@ -50,7 +61,7 @@ public class Controller implements Initializable{
             {
                 System.out.println(i+" Poszukiwane haslo to: "+ correctValue);
                 finderValueTextField.setText(correctValue);
-                 break;
+                break;
             }
         }
         if (finderValueTextField.getText().matches(""))
