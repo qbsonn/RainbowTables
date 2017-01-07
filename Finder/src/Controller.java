@@ -86,7 +86,7 @@ public class Controller implements Initializable{
             int index = finder.exists(new String(currentValue, "UTF-8"));
             if (index >= 0)
             {
-                System.out.println(startReductionFunction+" Znalazł");
+               // System.out.println(startReductionFunction+" Znalazł");
                /* String value = finder.getFirstValue(index);
                 if (value != null)
                 {
@@ -105,7 +105,7 @@ public class Controller implements Initializable{
                     exists = false;
                     if (finder.exists(new String(currentValue, "UTF-8"),index-j))
                     {
-                        System.out.println("Znalazł kolejne haslo (powtorzenie)");
+                 //       System.out.println("Znalazł kolejne haslo (powtorzenie)");
                         exists = true;
                         correctValue = tryToFindCorrectValue(hash,index-j);
                         if (correctValue != null)
@@ -113,7 +113,7 @@ public class Controller implements Initializable{
                     }
                     if (finder.exists(new String(currentValue, "UTF-8"),index+j))
                     {
-                        System.out.println("Znalazł kolejne haslo (powtorzenie)");
+                   //     System.out.println("Znalazł kolejne haslo (powtorzenie)");
                         exists = true;
                         correctValue = tryToFindCorrectValue(hash,index+j);
                         if (correctValue != null)

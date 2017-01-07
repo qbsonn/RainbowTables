@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e371a42-dbad-449b-9fb4-72b3a0574e8d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Finder/Controller.class" afterPath="$PROJECT_DIR$/out/production/Finder/Controller.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Finder/Finder.class" afterPath="$PROJECT_DIR$/out/production/Finder/Finder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Finder/HashAndReduct.class" afterPath="$PROJECT_DIR$/out/production/Finder/HashAndReduct.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Finder/src/Finder.java" afterPath="$PROJECT_DIR$/Finder/src/Finder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Finder/src/Controller.java" afterPath="$PROJECT_DIR$/Finder/src/Controller.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Finder/src/FinderWindow.fxml" afterPath="$PROJECT_DIR$/Finder/src/FinderWindow.fxml" />
     </list>
     <ignored path="RainbowTables.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,11 +25,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Finder/src/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="106" column="21" selection-start-line="106" selection-start-column="21" selection-end-line="106" selection-end-column="21" />
+            <state relative-caret-position="411">
+              <caret line="194" column="0" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="0" />
               <folding>
                 <element signature="e#1231#1375#0" expanded="true" />
                 <element signature="e#1374#1375#0" expanded="true" />
@@ -50,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Finder.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Finder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Finder/src/Finder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="70" column="4" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="4" />
+            <state relative-caret-position="411">
+              <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -128,8 +126,8 @@
         <option value="$PROJECT_DIR$/src/HashAndReduct.java" />
         <option value="$PROJECT_DIR$/Finder/src/HashAndReduct.java" />
         <option value="$PROJECT_DIR$/src/Generator.java" />
-        <option value="$PROJECT_DIR$/Finder/src/Controller.java" />
         <option value="$PROJECT_DIR$/Finder/src/Finder.java" />
+        <option value="$PROJECT_DIR$/Finder/src/Controller.java" />
       </list>
     </option>
   </component>
@@ -753,7 +751,14 @@
       <option name="project" value="LOCAL" />
       <updated>1483716183629</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Dodany brakujący if">
+      <created>1483786019618</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1483786019618</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TodoView">
@@ -874,7 +879,8 @@
     <MESSAGE value="Drobne poprawki do generatora" />
     <MESSAGE value="Dodoano mozliwosc wyboru generaci zwyklej lub perfecyjnej tablicy" />
     <MESSAGE value="Dodana funkcja SHA1 w finderze" />
-    <option name="LAST_COMMIT_MESSAGE" value="Dodana funkcja SHA1 w finderze" />
+    <MESSAGE value="Dodany brakujący if" />
+    <option name="LAST_COMMIT_MESSAGE" value="Dodany brakujący if" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1092,22 +1098,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Finder/src/Finder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="411">
+          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Finder/src/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="106" column="21" selection-start-line="106" selection-start-column="21" selection-end-line="106" selection-end-column="21" />
+        <state relative-caret-position="411">
+          <caret line="194" column="0" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="0" />
           <folding>
             <element signature="e#1231#1375#0" expanded="true" />
             <element signature="e#1374#1375#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Finder/src/Finder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="70" column="4" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
