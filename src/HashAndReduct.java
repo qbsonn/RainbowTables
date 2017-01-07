@@ -225,7 +225,7 @@ public class HashAndReduct {
         int hashIndex = 0;
         for (int i = 0; i < currentLenght; i++) {
             hashIndex = hashIndex + _hash[j%hashLength]^_functionNr;
-            j = j + _minPwLength;
+            j = j + 7;
 
 
             result[i] = findInCharset( Math.abs(hashIndex) % charset.length());

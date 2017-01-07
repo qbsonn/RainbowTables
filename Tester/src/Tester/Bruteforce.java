@@ -14,11 +14,11 @@ public class Bruteforce {
     public int max; //var added for max char length
     public ArrayList<String> combinations;
 
-    public Bruteforce() {
+    public Bruteforce(int pwLength) {
         combinations=new ArrayList<>();
         charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-        min = 5; //char min start
-        max = 5; //char max end
+        min = pwLength; //char min start
+        max = pwLength; //char max end
     }
 
     public void generate(String str, int pos, int length) {

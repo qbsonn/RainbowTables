@@ -123,8 +123,10 @@ public class HashAndReduct {
         int hashLength = _hash.length;
         int hashIndex = 0;
         for (int i = 0; i < _pwLength; i++) {
+
             hashIndex = hashIndex + _hash[j % hashLength] ^ _functionNr;
-            j = j + _pwLength;
+            j = j + 7;
+
 
 
             result[i] = findInCharset(Math.abs(hashIndex) % charset.length());

@@ -65,6 +65,8 @@ public class Generator  {
 
     private Set<Chain> chains;
     private Set<String> chain;
+    int possiblesize;
+   double  sum;
     /**
      * Konstruktor klasy Generator
      * @param _input
@@ -209,12 +211,12 @@ public class Generator  {
         chains.clear();
         Collections.sort(uniqueChains);
         System.out.println("Trwa zapis tablicy do pliku");
-        saveToFile();
+       // saveToFile();
         System.out.println("Zapis zakończony. Tablica jest gotowa do uzycia!");
 //saveString();
         long stop=System.currentTimeMillis();
 
-        System.out.println("Czas wykonania:"+(stop-start)/1000 +" sekund");
+        System.out.println("Czas wykonania:"+(stop-start) +" sekund");
 
     }
 
@@ -225,47 +227,55 @@ public class Generator  {
 
     {
         System.out.println("Tworzenie");
-        int total=chainCount*chainLen;
-        Random rand=new Random();
+        int total = chainCount * chainLen;
+        Random rand = new Random();
         int code;
-        long start=System.currentTimeMillis();
+        long start = System.currentTimeMillis();
         StringBuilder sb = new StringBuilder();
-        for (int j=0; j<pwLength; j++)
-        {
-            code= rand.nextInt(charset.length());
-            sb.append( foundCharInCharset(code));
+        sum=0;
 
-        }
-        startPoints.add(sb.toString());
-        byte[] word;
 
-        word=startPoints.get(0).getBytes(StandardCharsets.UTF_8);
-        byte[] hash=null;
-
-        //  hr.generateRandomIndex(pwLength) ;
-        for (int j=0;j<chainLen;j++)
-        {
-            hash=hr.calculateHash(word);
-            word=hr.reduce(hash,j,pwLength);
-            // word=hr.rainbowCrackReduce(pwLength, j, hash);
-            String wordInChain=null;
-            try {
-                wordInChain=new String(word, "UTF-8");
-            }
-            catch(java.io.UnsupportedEncodingException e)
-            {
-                e.printStackTrace();
+        for (int x = 0; x < 10; x++) {
+            for (int j = 0; j < pwLength; j++) {
+                code = rand.nextInt(charset.length());
+                sb.append(foundCharInCharset(code));
 
             }
-            chain.add(wordInChain);
+
+
+            startPoints.add(sb.toString());
+            byte[] word;
+
+            word = startPoints.get(0).getBytes(StandardCharsets.UTF_8);
+            byte[] hash = null;
+
+            //  hr.generateRandomIndex(pwLength) ;
+            for (int j = 0; j < chainLen; j++) {
+                hash = hr.calculateHash(word);
+                word = hr.reduce(hash, j, pwLength);
+                // word=hr.rainbowCrackReduce(pwLength, j, hash);
+                String wordInChain = null;
+                try {
+                    wordInChain = new String(word, "UTF-8");
+                } catch (java.io.UnsupportedEncodingException e) {
+                    e.printStackTrace();
+
+                }
+                chain.add(wordInChain);
+
+            }
+
+
+            sum=sum+chain.size();
+            chain.clear();
+
+
+
 
         }
 
-        uniqueWordsInChain .addAll(chain);
 
-        chain.clear();
-        Collections.sort(uniqueWordsInChain);
-
+        sum=sum/10;
         long stop=System.currentTimeMillis();
 
         System.out.println("Czas wykonania:"+(stop-start)/1000 +" sekund");

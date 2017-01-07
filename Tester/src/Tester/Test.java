@@ -81,8 +81,8 @@ public class Test {
                 int choice;
                 choice = sc.nextInt();
                 generator2.initTable2(choice);
-                int dupliacates2;
-                dupliacates2 = inputData2.getChainLen() - generator2.getUniqueWordsInChain().size();
+                double dupliacates2;
+                dupliacates2 = inputData2.getChainLen() - generator2.sum;
                 System.out.println("Liczba dupikatów w łańcuchu o długości " + inputData2.getChainLen() + ": " + dupliacates2 + ", procentowa ilość duplikatów: " + (((float) dupliacates2 / inputData2.getChainLen()) * 100) + "%");
             }
             else{System.out.println("Podałeś zły numer");}
