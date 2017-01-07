@@ -1,3 +1,5 @@
+
+
 package Tester;
 import java.lang.Number;
 import java.nio.ByteBuffer;
@@ -134,10 +136,10 @@ public class HashAndReduct {
         m_nPlainSpaceUpToX[0] = 0;
         for (int i = 1; i <= _pwLength; i++)
         {
-                m_nPlainSpaceUpToX[i] = m_nPlainSpaceUpToX[i - 1] + charset.length();
+            m_nPlainSpaceUpToX[i] = m_nPlainSpaceUpToX[i - 1] + charset.length();
         }
         return  m_nPlainSpaceUpToX;
-       }
+    }
 
     public long toLong(byte[] b) {
         ByteBuffer bb = ByteBuffer.allocate(b.length);
@@ -146,34 +148,34 @@ public class HashAndReduct {
         return bb.getLong();
     }
     public long HashToIndex(byte[] hash, int nPos, int _pwLength){
-      long   nRainbowTableIndex = 1;
-       long  m_nReduceOffset = 65536 * nRainbowTableIndex;
-       long  m_nIndex = (toLong(hash) + m_nReduceOffset + nPos) / getPlainSpace(_pwLength)[_pwLength];
-       // System.out.println(getPlainSpace(_pwLength)[_pwLength]);
+        long   nRainbowTableIndex = 1;
+        long  m_nReduceOffset = 65536 * nRainbowTableIndex;
+        long  m_nIndex = (toLong(hash) + m_nReduceOffset + nPos) / getPlainSpace(_pwLength)[_pwLength];
+        // System.out.println(getPlainSpace(_pwLength)[_pwLength]);
         return m_nIndex;
     }
-  public byte[] rainbowCrackReduce(int _pwLength,int nPos, byte[] hash) {
-      byte[] plain=new byte[_pwLength];
-      long nIndexOfX= HashToIndex(hash, nPos,_pwLength);
-     int  nIndexOfXX=Math.abs((int)nIndexOfX);
-      for (int i = _pwLength - 1; i >= 0; i--)
-      {
-          //if(nIndexOfX==0)
-          // nIndexOfX = generateRandomIndex(_pwLength) - getPlainSpace(_pwLength)[_pwLength];}
-             // nIndexOfX=HashToIndex(hash, nPos,_pwLength) - getPlainSpace(_pwLength)[_pwLength];
-          plain[i] = findInCharset(nIndexOfXX % charset.length());
-          nIndexOfXX /= charset.length();
-      }
-      return plain;
-  }
+    public byte[] rainbowCrackReduce(int _pwLength,int nPos, byte[] hash) {
+        byte[] plain=new byte[_pwLength];
+        long nIndexOfX= HashToIndex(hash, nPos,_pwLength);
+        int  nIndexOfXX=Math.abs((int)nIndexOfX);
+        for (int i = _pwLength - 1; i >= 0; i--)
+        {
+            //if(nIndexOfX==0)
+            // nIndexOfX = generateRandomIndex(_pwLength) - getPlainSpace(_pwLength)[_pwLength];}
+            // nIndexOfX=HashToIndex(hash, nPos,_pwLength) - getPlainSpace(_pwLength)[_pwLength];
+            plain[i] = findInCharset(nIndexOfXX % charset.length());
+            nIndexOfXX /= charset.length();
+        }
+        return plain;
+    }
 
-  public byte[] reduceFunction (byte[] hash, int _functionNr, int _pwLength) {
-      byte[] result = new byte[_pwLength];
-       long a, b, c, d;
+    public byte[] reduceFunction (byte[] hash, int _functionNr, int _pwLength) {
+        byte[] result = new byte[_pwLength];
+        long a, b, c, d;
 
-       long charset_offset = (long) _functionNr % charset.length();
-       long PasswordLength = (long)_pwLength;
-       long Device_Table_Index = 20;
+        long charset_offset = (long) _functionNr % charset.length();
+        long PasswordLength = (long)_pwLength;
+        long Device_Table_Index = 20;
 
         a = Math.abs((hash[3]*(256*256*256) + hash[2]*(256*256) + hash[1]*256 + hash[0]));
         b =  Math.abs((hash[7]*(256*256*256) + hash[6]*(256*256) + hash[5]*256 + hash[4]));
@@ -208,7 +210,7 @@ public class HashAndReduct {
         result[6] = findInCharset((int)((z % 256) + charset_offset)%charset.length());
         if (PasswordLength == 7) {return result;}
         z /= 256;
-       result[7] =findInCharset((int)((z % 256) + charset_offset)%charset.length());
+        result[7] =findInCharset((int)((z % 256) + charset_offset)%charset.length());
         if (PasswordLength == 8) {return result;}
         z /= 256;
         result[8] =findInCharset((int)((z % 256) + charset_offset)%charset.length());
@@ -224,64 +226,64 @@ public class HashAndReduct {
         result[11] =findInCharset((int)((z % 256) + charset_offset)%charset.length());
         if (PasswordLength == 12) {return result;}
 
-      return result;
-  }
-  /**  void GRTChainRunnerSHA1::reduceFunction(unsigned char *password, unsigned char *hash, uint32_t CurrentStep) {
-       long a, b, c, d;
-
-   long charset_offset = (long) _functionNr % charset.length();
-   long PasswordLength = (long)_pwLength;
-   long Device_Table_Index = 20;
-
-   a = Math.abs((hash[3]*(256*256*256) + hash[2]*(256*256) + hash[1]*256 + hash[0]));
-   b =  Math.abs((hash[7]*(256*256*256) + hash[6]*(256*256) + hash[5]*256 + hash[4]));
-   c =  Math.abs((hash[11]*(256*256*256) + hash[10]*(256*256) + hash[9]*256 + hash[8]));
-   d =  Math.abs((hash[15]*(256*256*256) + hash[14]*(256*256) + hash[13]*256 + hash[12]));
-
-
-   long z;
-   z = (a+_pwLength+Device_Table_Index) % (256*256*256);
-   result[0] =findInCharset((int)((z % 256) + charset_offset)%charset.length());
-   if (PasswordLength == 1) {return result;}
-        z /= 256;
-        password[1] = (UINT4)this->charset[(z % 256) + charset_offset];
-        if (PasswordLength == 2) {return;}
-        z /= 256;
-        password[2] = (UINT4)this->charset[(z % 256) + charset_offset];
-        if (PasswordLength == 3) {return;}
-
-        // Second 3
-        z = (UINT4)(b+CurrentStep+Device_Table_Index) % (256*256*256);
-        password[3] = (UINT4)this->charset[(z % 256) + charset_offset];
-        if (PasswordLength == 4) {return;}
-        z /= 256;
-        password[4] = (UINT4)this->charset[(z % 256) + charset_offset];
-        if (PasswordLength == 5) {return;}
-        z /= 256;
-        password[5] = (UINT4)this->charset[(z % 256) + charset_offset];
-        if (PasswordLength == 6) {return;}
-
-        z = (UINT4)(c+CurrentStep+Device_Table_Index) % (256*256*256);
-        password[6] = (UINT4)this->charset[(z % 256) + charset_offset];
-        if (PasswordLength == 7) {return;}
-        z /= 256;
-        password[7] = (UINT4)this->charset[(z % 256) + charset_offset];
-        if (PasswordLength == 8) {return;}
-        z /= 256;
-        password[8] = (UINT4)this->charset[(z % 256) + charset_offset];
-        if (PasswordLength == 9) {return;}
-
-        z = (UINT4)(d+CurrentStep+Device_Table_Index) % (256*256*256);
-        password[9] = (UINT4)this->charset[(z % 256) + charset_offset];
-        if (PasswordLength == 10) {return;}
-        z /= 256;
-        password[10] = (UINT4)this->charset[(z % 256) + charset_offset];
-        if (PasswordLength == 11) {return;}
-        z /= 256;
-        password[11] = (UINT4)this->charset[(z % 256) + charset_offset];
-        if (PasswordLength == 12) {return;}
-
+        return result;
     }
-**/
+    /**  void GRTChainRunnerSHA1::reduceFunction(unsigned char *password, unsigned char *hash, uint32_t CurrentStep) {
+     long a, b, c, d;
+
+     long charset_offset = (long) _functionNr % charset.length();
+     long PasswordLength = (long)_pwLength;
+     long Device_Table_Index = 20;
+
+     a = Math.abs((hash[3]*(256*256*256) + hash[2]*(256*256) + hash[1]*256 + hash[0]));
+     b =  Math.abs((hash[7]*(256*256*256) + hash[6]*(256*256) + hash[5]*256 + hash[4]));
+     c =  Math.abs((hash[11]*(256*256*256) + hash[10]*(256*256) + hash[9]*256 + hash[8]));
+     d =  Math.abs((hash[15]*(256*256*256) + hash[14]*(256*256) + hash[13]*256 + hash[12]));
+
+
+     long z;
+     z = (a+_pwLength+Device_Table_Index) % (256*256*256);
+     result[0] =findInCharset((int)((z % 256) + charset_offset)%charset.length());
+     if (PasswordLength == 1) {return result;}
+     z /= 256;
+     password[1] = (UINT4)this->charset[(z % 256) + charset_offset];
+     if (PasswordLength == 2) {return;}
+     z /= 256;
+     password[2] = (UINT4)this->charset[(z % 256) + charset_offset];
+     if (PasswordLength == 3) {return;}
+
+     // Second 3
+     z = (UINT4)(b+CurrentStep+Device_Table_Index) % (256*256*256);
+     password[3] = (UINT4)this->charset[(z % 256) + charset_offset];
+     if (PasswordLength == 4) {return;}
+     z /= 256;
+     password[4] = (UINT4)this->charset[(z % 256) + charset_offset];
+     if (PasswordLength == 5) {return;}
+     z /= 256;
+     password[5] = (UINT4)this->charset[(z % 256) + charset_offset];
+     if (PasswordLength == 6) {return;}
+
+     z = (UINT4)(c+CurrentStep+Device_Table_Index) % (256*256*256);
+     password[6] = (UINT4)this->charset[(z % 256) + charset_offset];
+     if (PasswordLength == 7) {return;}
+     z /= 256;
+     password[7] = (UINT4)this->charset[(z % 256) + charset_offset];
+     if (PasswordLength == 8) {return;}
+     z /= 256;
+     password[8] = (UINT4)this->charset[(z % 256) + charset_offset];
+     if (PasswordLength == 9) {return;}
+
+     z = (UINT4)(d+CurrentStep+Device_Table_Index) % (256*256*256);
+     password[9] = (UINT4)this->charset[(z % 256) + charset_offset];
+     if (PasswordLength == 10) {return;}
+     z /= 256;
+     password[10] = (UINT4)this->charset[(z % 256) + charset_offset];
+     if (PasswordLength == 11) {return;}
+     z /= 256;
+     password[11] = (UINT4)this->charset[(z % 256) + charset_offset];
+     if (PasswordLength == 12) {return;}
+
+     }
+     **/
 
 }

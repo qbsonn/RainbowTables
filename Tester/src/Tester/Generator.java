@@ -1,3 +1,5 @@
+
+
 package Tester;
 
 import javafx.concurrent.Task;
@@ -11,6 +13,10 @@ import java.io.FileOutputStream;
 
 /**
  * Created by Kuba on 2016-12-03.
+ */
+
+/**
+ * Klasa odpowiadająca za cały proces generowania tablic
  */
 public class Generator  {
 
@@ -103,8 +109,8 @@ public class Generator  {
     }
 
     public HashAndReduct getHashReduct(){
-       return hr;
-   }
+        return hr;
+    }
 
     /**
      * Metoda zwracajaca znak z charsetu na podstawie argumentu typu byte
@@ -152,9 +158,9 @@ public class Generator  {
 
 
     /**
-     * Metoda tworząca tablice
+     * Metoda tworząca tablice dla każdej kombinacji dla łancuchów o długościach jeden i zlicza liczbe powtarzających się słow
      */
-    public void initTable(ArrayList<String> startPoints)
+    public void initTable(ArrayList<String> startPoints, int choice)
 
     {
         System.out.println("Tworzenie");
@@ -167,12 +173,17 @@ public class Generator  {
         {       word=startPoints.get(i).getBytes(StandardCharsets.UTF_8);
             byte[] hash=null;
 
-        //  hr.generateRandomIndex(pwLength) ;
+            //  hr.generateRandomIndex(pwLength) ;
             for (int j=0;j<chainLen;j++)
-            {
-                hash=hr.calculateHash(word);
-               // word=hr.reduceFunction(hash,j,pwLength);
-                word=hr.rainbowCrackReduce(pwLength, j, hash);
+            {   if(choice==1)
+            { hash=hr.calculateHash(word);
+                word=hr.reduce(hash,j,pwLength);}
+                if(choice==2)
+                {  hash=hr.calculateHash(word);
+                    word=hr.rainbowCrackReduce(pwLength, j, hash);}
+                if(choice==3)
+                {  hash=hr.calculateHash(word);
+                    word=hr.reduceFunction(hash, j, pwLength);}
               /*  try {
                     System.out.println(new String(word, "UTF-8"));
                 }
@@ -198,7 +209,7 @@ public class Generator  {
         chains.clear();
         Collections.sort(uniqueChains);
         System.out.println("Trwa zapis tablicy do pliku");
-//        saveToFile();
+        saveToFile();
         System.out.println("Zapis zakończony. Tablica jest gotowa do uzycia!");
 //saveString();
         long stop=System.currentTimeMillis();
@@ -207,7 +218,10 @@ public class Generator  {
 
     }
 
-    public void initTable2()
+    /**
+     * Metoda odpowiadająca za tworzenie tablicy dla jednego łancucha i zliczanie liczby powtarzających się słow w tym łancuchu
+     */
+    public void initTable2(int choice)
 
     {
         System.out.println("Tworzenie");
@@ -225,29 +239,28 @@ public class Generator  {
         startPoints.add(sb.toString());
         byte[] word;
 
-              word=startPoints.get(0).getBytes(StandardCharsets.UTF_8);
-            byte[] hash=null;
+        word=startPoints.get(0).getBytes(StandardCharsets.UTF_8);
+        byte[] hash=null;
 
-            //  hr.generateRandomIndex(pwLength) ;
-            for (int j=0;j<chainLen;j++)
+        //  hr.generateRandomIndex(pwLength) ;
+        for (int j=0;j<chainLen;j++)
+        {
+            hash=hr.calculateHash(word);
+            word=hr.reduce(hash,j,pwLength);
+            // word=hr.rainbowCrackReduce(pwLength, j, hash);
+            String wordInChain=null;
+            try {
+                wordInChain=new String(word, "UTF-8");
+            }
+            catch(java.io.UnsupportedEncodingException e)
             {
-                hash=hr.calculateHash(word);
-                //word=hr.reduce(hash,j,pwLength);
-                word=hr.rainbowCrackReduce(pwLength, j, hash);
-                String wordInChain=null;
-                try {
-                     wordInChain=new String(word, "UTF-8");
-                }
-                catch(java.io.UnsupportedEncodingException e)
-                {
-                    e.printStackTrace();
+                e.printStackTrace();
 
-                }
-                chain.add(wordInChain);
+            }
+            chain.add(wordInChain);
 
         }
 
-System.out.println(chain.size());
         uniqueWordsInChain .addAll(chain);
 
         chain.clear();
@@ -426,4 +439,3 @@ System.out.println(chain.size());
     return null;
     }**/
 }
-

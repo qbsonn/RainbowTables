@@ -122,7 +122,7 @@ public class InputData {
      * @param _hash
      */
     public void setHashType(String _hash) {
-        if (_hash == "MD5" || _hash == "SHA-1") {
+        if (_hash.equals("MD5") || _hash.equals("SHA-1")) {
             hashType = _hash;
         } else
             System.out.println("hash error");
@@ -227,4 +227,3 @@ public class InputData {
     }
 
 }
-
