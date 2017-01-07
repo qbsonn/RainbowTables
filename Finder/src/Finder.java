@@ -67,7 +67,12 @@ public class Finder {
         return Arrays.binarySearch(lastValuesRainbowTable, word);
     }
 
-    public boolean exists(String word, int index) {return word.matches(lastValuesRainbowTable[index]);}
+    public boolean exists(String word, int index)
+    {
+        if (index >= 0 && index < lastValuesRainbowTable.length )
+            return word.matches(lastValuesRainbowTable[index]);
+        else return false;
+    }
 
     /** Wczytuje pierwsze słowo łancucha z łancucha o numerze index */
     public String getFirstValue(int index)
