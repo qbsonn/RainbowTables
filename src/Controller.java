@@ -389,7 +389,7 @@ public class Controller  implements  Initializable {
         System.out.println("Suma:" +fileSize);
 
         //showTimeLabel.setText("Szacunkowy czas generacji: " + String.valueOf(calculateTime(input)) + " minut. \n" + "Liczba haseł w tablicy: " + calculateNumberOfPasswords);
-        showTimeLabel.setText("Szacunkowy czas generacji: " + timeFormat.format(calendar.getTime()) + ". \n" + "Liczba haseł w tablicy: " + calculateNumberOfPasswords +"\n Liczba możliwych haseł dla charsetu: "+possiblePasswords+". \n Prawdopodobieństwo sukcesu: "+stringSucessRate+"%"+ "\n Pesymistyczna wielkość pliku: "+ fileSize+ " MB" );
+        showTimeLabel.setText("Szacunkowy czas generacji: " + timeFormat.format(calendar.getTime()) + ". \n" + "Liczba haseł w tablicy: " + calculateNumberOfPasswords +"\n Liczba możliwych haseł dla charsetu: "+possiblePasswords+". \n Prawdopodobieństwo sukcesu: "+stringSucessRate+"%"+ "\n Pesymistyczna wielkość pliku: "+ fileSize+ " MB " );
 
     }
 

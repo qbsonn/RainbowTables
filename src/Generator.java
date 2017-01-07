@@ -186,11 +186,14 @@ public class Generator extends Task implements Runnable {
 
         while (startPoints.size()<max)
         {
+            if (startPoints.size()==max/2)
+                updateProgress(0.3,100);
 
             StringBuilder sb = new StringBuilder();
             for (int j=0; j<maxPwLength; j++)
             {
                 code= rand.nextInt(charset.length());
+
                 sb.append( foundCharInCharset(code));
 
             }
@@ -284,12 +287,12 @@ public class Generator extends Task implements Runnable {
                //convertHash(hash);
                // word=hr.reduce(hash,1,pwLength);
                 word=hr.reduce(hash,j,minPwLength,maxPwLength);
-/*
+
                 try {
                     System.out.println(new String(word, "UTF-8"));
                 }
                 catch(Exception e){}
-*/
+
                 /*
                 String str=null;
                 try {

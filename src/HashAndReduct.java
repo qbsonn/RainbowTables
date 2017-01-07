@@ -93,27 +93,71 @@ public class HashAndReduct {
         chainLen=_chainLen;
 
          space = _maxPwLength - _minPwLength + 1; //Możliwe długości haseł
+        possiblepasswords = new long[space];
+if (space<=3) {
 
 
-       possiblepasswords=new long [space];
-        int startLenth=_maxPwLength;
-        passwordSpace=0;
-        long temp=0;
-        for (int i=0; i<space;i++)
-        {
-            temp=(long)Math.pow(charset.length(),startLenth);
+    int startLenth = _maxPwLength;
+    passwordSpace = 0;
+    long temp = 0;
+    for (int i = 0; i < space; i++) {
+        temp = (long) Math.pow(charset.length(), startLenth);
 
-            if (i>0)
-            {
-                possiblepasswords[i]=temp+possiblepasswords[i-1];
-            }
-            else possiblepasswords[i]=temp;
-            //  System.out.println(possiblepasswords[i]);
-            passwordSpace+=temp;
-            startLenth--;
-        }
+        if (i > 0) {
+            possiblepasswords[i] = temp + possiblepasswords[i - 1];
+        } else possiblepasswords[i] = temp;
+          System.out.println(possiblepasswords[i]);
+        passwordSpace += temp;
+        startLenth--;
+    }
+
+    for (int i = 0; i < space; i++) {
+
+        if (i == 0) {
+            System.out.println(chainLen * possiblepasswords[i] / passwordSpace + 1);
+        } else
+            System.out.println(chainLen * possiblepasswords[i] / passwordSpace + 1);
+
+    }
+
+}
+        else if (space>3&&space<=6) {
+
+    int startLenth = _maxPwLength;
+    passwordSpace = 0;
+    long temp = 0;
+    for (int i = 0; i < space; i++) {
+        temp = (long) Math.pow(5, startLenth);
+
+        if (i > 0) {
+            possiblepasswords[i] = temp + possiblepasswords[i - 1];
+        } else possiblepasswords[i] = temp;
+        System.out.println(possiblepasswords[i]);
+        passwordSpace += temp;
+        startLenth--;
+    }
+}
+        else
+{
 
 
+    int startLenth = _maxPwLength;
+    passwordSpace = 0;
+    long temp = 0;
+    for (int i = 0; i < space; i++) {
+        temp = (long) Math.pow(2.4, startLenth);
+
+        if (i > 0) {
+            possiblepasswords[i] = temp + possiblepasswords[i - 1];
+        } else possiblepasswords[i] = temp;
+         System.out.println(possiblepasswords[i]);
+        passwordSpace += temp;
+        startLenth--;
+    }
+
+
+
+}
 
 
     }
