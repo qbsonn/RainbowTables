@@ -106,9 +106,6 @@ public class Generator extends Task implements Runnable {
     hr=new HashAndReduct( hashType,charset,chainLen,minPwLength,maxPwLength);
 
         System.out.println("Nazwa tablicy: "+tableName+"algorytm: "+hashType+"dlugosc lan: "+chainLen+"ilosc: "+chainCount);
-
-
-
     }
 
     /**
@@ -119,8 +116,6 @@ public class Generator extends Task implements Runnable {
 
   public  Generator(InputData _input, String _type)
     {
-
-
         chainLen=_input.getChainLen();
         chainCount=_input.getChainCount();
         hashType=_input.getHashType();
@@ -129,47 +124,12 @@ public class Generator extends Task implements Runnable {
         minPwLength=_input.getMinPwLength();
         maxPwLength=_input.getMaxPwLength();
         startPoints=new HashSet<>();
-
-
-
-
         hr=new HashAndReduct( hashType,charset, chainLen,minPwLength,maxPwLength);
 
         System.out.println("Prognoza->> Nazwa tablicy: "+tableName+"algorytm: "+hashType+"dlugosc lan: "+chainLen+"ilosc: "+chainCount);
 
     }
 
-
-/*
-    public void calculateStartPoints()
-    {
-
-        updateMessage("Generowanie punktów początkowych...");
-        Random rand=new Random();
-        int code;
-
-        int alreadyDone=startPoints.size();
-
-        for (int i=0;i<chainCount-alreadyDone;i++)
-        {
-
-            StringBuilder sb = new StringBuilder();
-           for (int j=0; j<pwLength; j++)
-           {
-             code= rand.nextInt(charset.length());
-               sb.append( foundCharInCharset(code));
-
-           }
-                startPoints.add(sb.toString());
-           // updateProgress(i,chainLen*chainCount+chainCount+chainLen);
-
-
-        }
-
-
-        System.out.println("Utworzono poczatkowe punkty");
-    }
-*/
 
     /** Metoda obliczająca punkty początkowe łańcuchów*/
 
@@ -215,8 +175,6 @@ public class Generator extends Task implements Runnable {
         System.out.println("Utworzono poczatkowe punkty");
     }
 
-
-
     /**
      * Metoda zwracajaca znak z charsetu na podstawie argumentu typu byte
      * @param _byte znak w postaci bajtowej
@@ -256,12 +214,10 @@ public class Generator extends Task implements Runnable {
             if (_code ==i)
             {  x=i;
                 break;
-
-
             }
 
         }
-        //   System.out.println("pozy: "+x);
+
 
         return charset.charAt(x);
     }
@@ -274,7 +230,7 @@ public class Generator extends Task implements Runnable {
 
     {
         updateMessage("Trwa generacja tablicy... To może chwilę potrwać...");
-        System.out.println("Tworzenie");
+       // System.out.println("Tworzenie");
         updateProgress(1.5,100);
         int total=chainCount*chainLen;
         int actual=2*total/100;
@@ -332,7 +288,7 @@ public class Generator extends Task implements Runnable {
 
         }
 
-       System.out.println("Utworzono tablice" +chains.size());
+      // System.out.println("Utworzono tablice" +chains.size());
          updateProgress(98,100);
         updateMessage("Generacja zakończona. Trwa sortowanie");
 
@@ -366,7 +322,7 @@ public class Generator extends Task implements Runnable {
         }
         */
 
-        System.out.println("Czas wykonania:"+(stop-start)/1000 +" sekund");
+      //  System.out.println("Czas wykonania:"+(stop-start)/1000 +" sekund");
 
 
 
@@ -380,7 +336,7 @@ public class Generator extends Task implements Runnable {
 
     {
         updateMessage("Trwa generacja tablicy... To może chwilę potrwać...");
-        System.out.println("Tworzenie");
+       // System.out.println("Tworzenie");
         updateProgress(2,100);
         int total=chainCount*chainLen;
         int actual=2*total/100;

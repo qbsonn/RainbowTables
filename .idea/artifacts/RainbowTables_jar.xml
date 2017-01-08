@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="RainbowTables:jar">
+    <output-path>$PROJECT_DIR$/Pliki uruchomieniowe</output-path>
+    <root id="archive" name="RainbowTables.jar">
+      <element id="module-output" name="RainbowTables" />
+    </root>
+  </artifact>
+</component>

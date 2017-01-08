@@ -13,7 +13,6 @@ public class HashAndReduct {
 
     String hashType;
 
-
     /**
      * Tablica znaków z ktorych moga powstac slowa
      */
@@ -64,10 +63,10 @@ public class HashAndReduct {
         }
         catch(java.io.UnsupportedEncodingException e)
         {
-
+            e.printStackTrace();
 
         }
-        //System.out.println(str);
+
        return array;
     }
 
@@ -128,8 +127,6 @@ if (space<=3) {
 }
         else if (space>3&&space<=6) {
 
-
-
     int startLenth = _maxPwLength;
     passwordSpace = 0;
     long temp = 0;
@@ -145,25 +142,15 @@ if (space<=3) {
     }
 }
         else
-{
+        {
 
-    double pod;
 
-    if (chainLen<9000)
-    {
-        pod=2.4;
-    }
-    else
-    {
-        pod=2.4*Integer.toString(chainLen).length()/(Integer.toString(chainLen).length()-1);
-
-    }
 
     int startLenth = _maxPwLength;
     passwordSpace = 0;
     long temp = 0;
     for (int i = 0; i < space; i++) {
-        temp = (long) Math.pow(pod, startLenth);
+        temp = (long) Math.pow(2.4, startLenth);
 
         if (i > 0) {
             possiblepasswords[i] = temp + possiblepasswords[i - 1];
@@ -172,12 +159,7 @@ if (space<=3) {
         passwordSpace += temp;
         startLenth--;
     }
-
-
-
 }
-
-
     }
 
     /**
@@ -226,31 +208,6 @@ if (space<=3) {
         }
 
         else {
-            /*
-            int space = _maxPwLength - _minPwLength + 1; //Możliwe długości haseł
-
-
-            long [] possiblepasswords=new long [space];
-            int startLenth=_maxPwLength;
-            long passwordSpace=0;
-            long temp=0;
-            for (int i=0; i<space;i++)
-            {
-               temp=(long)Math.pow(charset.length(),startLenth);
-
-                if (i>0)
-                {
-                    possiblepasswords[i]=temp+possiblepasswords[i-1];
-                }
-                else possiblepasswords[i]=temp;
-              //  System.out.println(possiblepasswords[i]);
-                passwordSpace+=temp;
-                startLenth--;
-            }
-
-*/
-
-
 
             float div = (float) chainLen / (float) passwordSpace; //sprawdzanie czy dzielenie zmiennej chainLen i space jest liczba calkowita
 
@@ -265,14 +222,6 @@ if (space<=3) {
                     currentLenght = _maxPwLength - (i - 1);
                     break;
                 }
-
-/*
-            for (int i = 1; i <= space; i++) {
-                if (_functionNr <= (chainLen / space * i) - pom) {
-                    currentLenght = _maxPwLength - (i - 1);
-                    break;
-                }
-                */
 
 
             }
