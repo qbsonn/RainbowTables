@@ -14,6 +14,10 @@ public class Bruteforce {
     public int max; //var added for max char length
     public ArrayList<String> combinations;
 
+    /**
+     * Konstrukor bruteforce
+     * @param pwLength długość  słow jakie zostaną utworzone
+     */
     public Bruteforce(int pwLength) {
         combinations=new ArrayList<>();
         charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();

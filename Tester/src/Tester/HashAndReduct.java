@@ -109,7 +109,7 @@ public class HashAndReduct {
     }
 
     /**
-     * Funkcja redukcji zwracajaca slowo z hasha
+     * Funkcja redukcji z generatora zwracajaca slowo z hasha
      *
      * @param _hash hash z który redukujemy
      * @param _functionNr   numer funkcji redukcji
@@ -133,6 +133,12 @@ public class HashAndReduct {
 
         }
         return result;}
+
+    /**
+     * Metoda oblicza liczbe kompinacji hasła dla danej długości
+     * @param _pwLength
+     * @return kombincje
+     */
     public long[] getPlainSpace(int _pwLength){
         long[] m_nPlainSpaceUpToX= new long[_pwLength+1];
         m_nPlainSpaceUpToX[0] = 0;
@@ -143,12 +149,25 @@ public class HashAndReduct {
         return  m_nPlainSpaceUpToX;
     }
 
+    /**
+     * metoda zamienia tablice bajtów na typ long
+     * @param b tablica bajtów
+     * @return zamieniona tablica na zmienną typu long
+     */
     public long toLong(byte[] b) {
         ByteBuffer bb = ByteBuffer.allocate(b.length);
         bb.put(b);
         bb.flip();
         return bb.getLong();
     }
+
+    /**
+     * Metoda oblicza z hasha indeks
+     * @param hash hash
+     * @param nPos pozycja w łańcuchu
+     * @param _pwLength długośc hasła
+     * @return
+     */
     public long HashToIndex(byte[] hash, int nPos, int _pwLength){
         long   nRainbowTableIndex = 1;
         long  m_nReduceOffset = 65536 * nRainbowTableIndex;
@@ -156,6 +175,14 @@ public class HashAndReduct {
         // System.out.println(getPlainSpace(_pwLength)[_pwLength]);
         return m_nIndex;
     }
+
+    /**
+     * funkcja redukcji z RainbowCracka
+     * @param _pwLength długośc hasła
+     * @param nPos pozycja w łańcuchu
+     * @param hash  hash, który bedzie redukowany
+     * @return obliczone słowo
+     */
     public byte[] rainbowCrackReduce(int _pwLength,int nPos, byte[] hash) {
         byte[] plain=new byte[_pwLength];
         long nIndexOfX= HashToIndex(hash, nPos,_pwLength);
@@ -171,6 +198,13 @@ public class HashAndReduct {
         return plain;
     }
 
+    /**
+     * funlcja redukcji z rainbowCrackera
+     * @param hash hash, który bedzie redukowany
+     *  @param _functionNr   numer funkcji redukcji
+     * @param _pwLength dlugosc slowa
+     * @return obliczone słowo
+     */
     public byte[] reduceFunction (byte[] hash, int _functionNr, int _pwLength) {
         byte[] result = new byte[_pwLength];
         long a, b, c, d;
@@ -230,62 +264,5 @@ public class HashAndReduct {
 
         return result;
     }
-    /**  void GRTChainRunnerSHA1::reduceFunction(unsigned char *password, unsigned char *hash, uint32_t CurrentStep) {
-     long a, b, c, d;
-
-     long charset_offset = (long) _functionNr % charset.length();
-     long PasswordLength = (long)_pwLength;
-     long Device_Table_Index = 20;
-
-     a = Math.abs((hash[3]*(256*256*256) + hash[2]*(256*256) + hash[1]*256 + hash[0]));
-     b =  Math.abs((hash[7]*(256*256*256) + hash[6]*(256*256) + hash[5]*256 + hash[4]));
-     c =  Math.abs((hash[11]*(256*256*256) + hash[10]*(256*256) + hash[9]*256 + hash[8]));
-     d =  Math.abs((hash[15]*(256*256*256) + hash[14]*(256*256) + hash[13]*256 + hash[12]));
-
-
-     long z;
-     z = (a+_pwLength+Device_Table_Index) % (256*256*256);
-     result[0] =findInCharset((int)((z % 256) + charset_offset)%charset.length());
-     if (PasswordLength == 1) {return result;}
-     z /= 256;
-     password[1] = (UINT4)this->charset[(z % 256) + charset_offset];
-     if (PasswordLength == 2) {return;}
-     z /= 256;
-     password[2] = (UINT4)this->charset[(z % 256) + charset_offset];
-     if (PasswordLength == 3) {return;}
-
-     // Second 3
-     z = (UINT4)(b+CurrentStep+Device_Table_Index) % (256*256*256);
-     password[3] = (UINT4)this->charset[(z % 256) + charset_offset];
-     if (PasswordLength == 4) {return;}
-     z /= 256;
-     password[4] = (UINT4)this->charset[(z % 256) + charset_offset];
-     if (PasswordLength == 5) {return;}
-     z /= 256;
-     password[5] = (UINT4)this->charset[(z % 256) + charset_offset];
-     if (PasswordLength == 6) {return;}
-
-     z = (UINT4)(c+CurrentStep+Device_Table_Index) % (256*256*256);
-     password[6] = (UINT4)this->charset[(z % 256) + charset_offset];
-     if (PasswordLength == 7) {return;}
-     z /= 256;
-     password[7] = (UINT4)this->charset[(z % 256) + charset_offset];
-     if (PasswordLength == 8) {return;}
-     z /= 256;
-     password[8] = (UINT4)this->charset[(z % 256) + charset_offset];
-     if (PasswordLength == 9) {return;}
-
-     z = (UINT4)(d+CurrentStep+Device_Table_Index) % (256*256*256);
-     password[9] = (UINT4)this->charset[(z % 256) + charset_offset];
-     if (PasswordLength == 10) {return;}
-     z /= 256;
-     password[10] = (UINT4)this->charset[(z % 256) + charset_offset];
-     if (PasswordLength == 11) {return;}
-     z /= 256;
-     password[11] = (UINT4)this->charset[(z % 256) + charset_offset];
-     if (PasswordLength == 12) {return;}
-
-     }
-     **/
 
 }

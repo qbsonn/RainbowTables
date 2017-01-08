@@ -69,7 +69,7 @@ public class Generator  {
    double  sum;
     /**
      * Konstruktor klasy Generator
-     * @param _input
+     * @param _input dane wejsciowepodane przez użytkownika
      */
 
     public Generator(InputData _input)
@@ -103,16 +103,16 @@ public class Generator  {
 
 
     }
+
+    /**
+     * Metoda zwracająca strukture przechowującą łancuchy
+     * @return struktura danych, która rzechowuje łancuchy
+     */
     public List<Chain> getUnique(){
         return uniqueChains;
     }
-    public List<String> getUniqueWordsInChain(){
-        return uniqueWordsInChain;
-    }
 
-    public HashAndReduct getHashReduct(){
-        return hr;
-    }
+
 
     /**
      * Metoda zwracajaca znak z charsetu na podstawie argumentu typu byte
@@ -138,7 +138,11 @@ public class Generator  {
 
         return charset.charAt(x);
     }
-
+    /**
+     * Metoda zwracająca znak na podstawie jego kodu
+     * @param _code kod znaku
+     * @return znak
+     */
     public char foundCharInCharset(int _code)
     {
         int x=-1;
@@ -149,9 +153,7 @@ public class Generator  {
             {  x=i;
                 break;
 
-
             }
-
         }
         //   System.out.println("pozy: "+x);
 
@@ -265,21 +267,14 @@ public class Generator  {
 
             }
 
-
             sum=sum+chain.size();
             chain.clear();
 
-
-
-
         }
-
-
         sum=sum/10;
         long stop=System.currentTimeMillis();
 
         System.out.println("Czas wykonania:"+(stop-start)/1000 +" sekund");
-
     }
 
     /**
@@ -304,9 +299,6 @@ public class Generator  {
      * @param _text wyraz w formacie byte
      * @return
      */
-
-
-
     public String fromByteToString(byte[] _text) {
 
         StringBuilder sb = new StringBuilder();
@@ -317,20 +309,6 @@ public class Generator  {
         }
         //System.out.println(sb.toString());
         return sb.toString();
-    }
-
-
-
-    public void convertHash(byte[] _hash)
-    {
-
-        StringBuilder sb = new StringBuilder();
-        for (byte b : _hash ) {
-            sb.append(String.format("%02X ", b));
-        }
-        System.out.println(sb.toString());
-
-
     }
 
 
@@ -386,58 +364,7 @@ public class Generator  {
 
     }
 
-    public void saveString()
-    {
-        try {
-            PrintWriter fos = new PrintWriter(tableName+hashType+"s"+".txt");
-            int i=1;
 
-            for (Chain key: chains){
-                fos.println(i+ " "+key.getStartPoint()+" "+key.getEndPoint());
-
-                i++;
-            }
-            fos.close();
-        }
-        catch (java.io.IOException e)
-        {
-            e.printStackTrace();
-
-        }
-
-    }
-
-
-    public long calculateExample()
-    {
-
-        Random rand=new Random();
-        int code;
-        String startPoint;
-
-        StringBuilder sb = new StringBuilder();
-        for (int j=0; j<pwLength; j++)
-        {
-            code= rand.nextInt(charset.length());
-            sb.append( foundCharInCharset(code));
-
-        }
-        startPoint=sb.toString();
-        byte[] word;
-
-        word=startPoint.getBytes(StandardCharsets.UTF_8);
-        byte[] hash=null;
-
-
-        long start=System.nanoTime();
-        hash=hr.calculateHash(word);
-        word=hr.reduce(hash,1,pwLength);
-        long stop=System.nanoTime();
-        long time=stop-start;
-        System.out.println("Czas: "+time);
-
-        return time;
-    }
 
 
 
