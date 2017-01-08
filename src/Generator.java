@@ -10,7 +10,7 @@ import java.io.FileOutputStream;
 
 
 /**
- * Created by Kuba on 2016-12-03.
+ * Główna klasa generatora
  */
 public class Generator extends Task implements Runnable {
 
@@ -65,15 +65,18 @@ public class Generator extends Task implements Runnable {
 
 
     /**
-     * Konstruktor klasy Generator
-     * @param _input
+     * Kolekcja przechowująca unikalne lancuchy przy tworzeniu perfekcyjnej tablicy
      */
-
     private Set<Chain> perfectChains;
 
 
     boolean perfectTable;
 
+    /**
+     * Konstruktor klasy Generator
+     * @param _input dane wejściowe podane przez uzytkownika
+     * @param _perfect Jeśli tworzymy perfekcyjna teczowa tablice wtedy true
+     */
 
     public Generator(InputData _input, boolean _perfect)
     {
@@ -86,7 +89,7 @@ public class Generator extends Task implements Runnable {
         minPwLength=_input.getMinPwLength();
         maxPwLength=_input.getMaxPwLength();
         startPoints=new HashSet<>();
-        chains=new ArrayList<>();
+        chains=new ArrayList<>(chainCount);
         perfectTable=_perfect;
         if (_input.getStartPoints().size()!=0)
         {
@@ -108,6 +111,11 @@ public class Generator extends Task implements Runnable {
 
     }
 
+    /**
+     * Konstrukor klasy generator uzywany do obliczania przewidywanego czasu
+     * @param _input
+     * @param _type
+     */
 
   public  Generator(InputData _input, String _type)
     {
@@ -287,12 +295,12 @@ public class Generator extends Task implements Runnable {
                //convertHash(hash);
                // word=hr.reduce(hash,1,pwLength);
                 word=hr.reduce(hash,j,minPwLength,maxPwLength);
-
+/*
                 try {
                     System.out.println(new String(word, "UTF-8"));
                 }
                 catch(Exception e){}
-
+*/
                 /*
                 String str=null;
                 try {

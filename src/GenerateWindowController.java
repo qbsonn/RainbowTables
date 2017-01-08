@@ -16,7 +16,7 @@ import javafx.scene.control.*;
 import javafx.util.Duration;
 
 /**
- * Created by Kuba on 2016-12-17.
+ * Kontroler okna podczas tworzenia tablicy
  */
 public class GenerateWindowController  {
 

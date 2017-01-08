@@ -205,7 +205,7 @@ public class InputData {
      * Metoda wczytująca punkty początkowe z pliku
      * @param path ścieżka do pliku
      */
-    public void loadStartPoints(String path)
+    public boolean loadStartPoints(String path)
     {
 
         BufferedReader br=null;
@@ -223,6 +223,26 @@ public class InputData {
             while ((line = br.readLine()) != null) {
                 // process the line.
                 loadedStartPoints.add(line);
+                if (line.length()!=maxPwLength)
+                {
+
+                    return false;
+
+                }
+
+                else
+                {
+                    for (int i=0;i<line.length();i++)
+                    {
+
+                         if (charset.indexOf(line.charAt(i))<0)
+                             return false;
+
+                    }
+
+                }
+
+
 
             }
         }
@@ -239,10 +259,11 @@ public class InputData {
 
         }
 
+        return true;
     }
 
     /**
-     * Metoda zwracająca tablice punktów początkowych
+     * Metoda zwracająca tablice punktów początkowych wczytanych z pliku
      * @return
      */
     public ArrayList<String>  getStartPoints()

@@ -1,9 +1,6 @@
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
-/**
- * Created by Kuba on 2016-12-03.
- */
 
 /**
  * Klasa obliczajaca hasha i redukuja hashe w celu utworzenia nowych slow
@@ -29,9 +26,17 @@ public class HashAndReduct {
 
     int chainLen;
 
-
+    /**
+     * Liczba możliwych dłuogości haseł
+     */
     int space;
+    /**
+     * Liczba moziiwych haseł
+     */
     long passwordSpace;
+    /**
+     * Liczba mozliwych haseł danej długości
+     */
     long [] possiblepasswords;
 
     byte[] byteCharset;
@@ -123,6 +128,8 @@ if (space<=3) {
 }
         else if (space>3&&space<=6) {
 
+
+
     int startLenth = _maxPwLength;
     passwordSpace = 0;
     long temp = 0;
@@ -140,12 +147,23 @@ if (space<=3) {
         else
 {
 
+    double pod;
+
+    if (chainLen<9000)
+    {
+        pod=2.4;
+    }
+    else
+    {
+        pod=2.4*Integer.toString(chainLen).length()/(Integer.toString(chainLen).length()-1);
+
+    }
 
     int startLenth = _maxPwLength;
     passwordSpace = 0;
     long temp = 0;
     for (int i = 0; i < space; i++) {
-        temp = (long) Math.pow(2.4, startLenth);
+        temp = (long) Math.pow(pod, startLenth);
 
         if (i > 0) {
             possiblepasswords[i] = temp + possiblepasswords[i - 1];

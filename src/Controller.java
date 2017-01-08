@@ -31,7 +31,7 @@ import javafx.event.*;
 
 
 /**
- * Created by Kuba on 2016-12-10.
+ * Kontroler głownego okna programu
  */
 public class Controller  implements  Initializable {
 
@@ -178,7 +178,27 @@ public class Controller  implements  Initializable {
 
         if (startPointComboBox.getValue().toString()=="Z pliku..") {
             if (startPointsFile != null) {
-                input.loadStartPoints(startPointsFile);
+                {
+                    if (input.loadStartPoints(startPointsFile)==false)
+                    {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Błąd");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Plik z elementami początowymi jest błedny. Długość punktów powinna być równa najdłuższym hasłom, a znaki zawierać się w wybranym charsecie");
+
+                        alert.showAndWait();
+                        return;
+
+
+                    }
+
+
+
+
+                }
+
+
+
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Błąd");

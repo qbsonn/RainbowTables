@@ -29,9 +29,17 @@ public class HashAndReduct {
 
     int chainLen;
 
-
+    /**
+     * Liczba możliwych dłuogości haseł
+     */
     int space;
+    /**
+     * Liczba moziiwych haseł
+     */
     long passwordSpace;
+    /**
+     * Liczba mozliwych haseł danej długości
+     */
     long [] possiblepasswords;
 
     byte[] byteCharset;
