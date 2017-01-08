@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -10,6 +11,8 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 
 /**
@@ -24,8 +27,11 @@ public class Controller implements Initializable{
     @FXML TextField generatorHashTextField;
     @FXML TextField finderValueTextField;
     @FXML Label rainbowTableLabel;
+    @FXML Label label;
+    /** Zmienna określająca czy program wykonuje proces wyszukiwania hasha*/
     private boolean busy;
 
+    /** Metoda wywoływana po starcie aplikacji*/
     public void initialize(URL location, ResourceBundle resources)
     {
         comboBox.getItems().add("MD5");
@@ -33,6 +39,8 @@ public class Controller implements Initializable{
         busy = false;
     }
 
+    /** Metoda wywoływana po kliknięciu przycisku Szukaj
+     * Rozpoczyna działanie wątku, który wyszukuje hasło w tablicy. */
     public void buttonSzukajClicked()
     {
         if (!busy) {
@@ -50,6 +58,7 @@ public class Controller implements Initializable{
         }
     }
 
+    /** Metoda przeszukująca tęczową tablicę w celu znalezienia hasła*/
     public void lookThroughRainbowTable()
     {
         byte[] hash = DatatypeConverter.parseHexBinary(finderHashTextField.getText());
@@ -57,28 +66,48 @@ public class Controller implements Initializable{
         String correctValue;
         for (int i=finder.chainLength; i>=0; i--)
         {
-            if ((correctValue = findValueInAllChains2(hash,i)) != null)
+            final int index = i;
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    label.setText("Zaczyna od: "+ index);
+                }
+            });
+
+            if ((correctValue = findValueInAllChains(hash,i)) != null)
             {
                 System.out.println(i+" Poszukiwane haslo to: "+ correctValue);
                 finderValueTextField.setText(correctValue);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        label.setText("Wyszukiwanie zakończone");
+                    }
+                });
                 break;
             }
         }
-        if (finderValueTextField.getText().matches(""))
-            finderValueTextField.setText("Nie znaleziono hasła");
-
-        System.out.println("Koniec");
+        if (finderValueTextField.getText().matches("")) {
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    label.setText(sdf.format(cal.getTime()) + " Nie znaleziono hasła");
+                }
+            });
+        }
     }
 
-
-    private String findValueInAllChains2(byte[] hash, int startReductionFunction)
+    /** Metoda przeszukująca tęczową tablicę od odpowiedniej pozycji określonej przez zmienną startReductionFunction */
+    private String findValueInAllChains(byte[] hash, int startReductionFunction)
     {
         byte[] currentHash = hash;
         byte[] currentValue = finder.hashAndReduct.reduce(currentHash,startReductionFunction,finder.minValueLength,finder.maxValueLength);
 
         for (int i = startReductionFunction+1; i< finder.chainLength ; i++)
         {
-            // System.out.println("Sprawdza czy "+ currentValue + " jest");
             currentHash = finder.hashAndReduct.calculateHash(currentValue);
             currentValue = finder.hashAndReduct.reduce(currentHash,i,finder.minValueLength,finder.maxValueLength);
         }
@@ -86,14 +115,6 @@ public class Controller implements Initializable{
             int index = finder.exists(new String(currentValue, "UTF-8"));
             if (index >= 0)
             {
-               // System.out.println(startReductionFunction+" Znalazł");
-               /* String value = finder.getFirstValue(index);
-                if (value != null)
-                {
-                    String correctValue = findValueInChain(hash, value);
-                    if (correctValue != null)
-                        return correctValue;
-                }*/
                 String correctValue = tryToFindCorrectValue(hash,index);
                 if(correctValue != null)
                     return correctValue;
@@ -105,7 +126,6 @@ public class Controller implements Initializable{
                     exists = false;
                     if (finder.exists(new String(currentValue, "UTF-8"),index-j))
                     {
-                 //       System.out.println("Znalazł kolejne haslo (powtorzenie)");
                         exists = true;
                         correctValue = tryToFindCorrectValue(hash,index-j);
                         if (correctValue != null)
@@ -113,7 +133,6 @@ public class Controller implements Initializable{
                     }
                     if (finder.exists(new String(currentValue, "UTF-8"),index+j))
                     {
-                   //     System.out.println("Znalazł kolejne haslo (powtorzenie)");
                         exists = true;
                         correctValue = tryToFindCorrectValue(hash,index+j);
                         if (correctValue != null)
@@ -123,10 +142,11 @@ public class Controller implements Initializable{
                 }
             }
         }
-        catch (UnsupportedEncodingException e){System.out.println("Exception");}
+        catch (UnsupportedEncodingException e){}
         return null;
     }
 
+    /** Metoda przeszukująca dany łańcuch określony przez numer index */
     private String tryToFindCorrectValue(byte[] hash,int index)
     {
         String value = finder.getFirstValue(index);
@@ -138,6 +158,7 @@ public class Controller implements Initializable{
         return null;
     }
 
+    /** Metoda przechodząca od pierwszego słowa w łańcuchu i szukająca hasha */
     private String findValueInChain(byte[] hash, String firstValue)
     {
         String currentValue = firstValue;
@@ -161,7 +182,7 @@ public class Controller implements Initializable{
             try {
                 currentValue = new String(finder.hashAndReduct.reduce(currentHash,i,finder.minValueLength,finder.maxValueLength), "UTF-8");
             }
-            catch (UnsupportedEncodingException e){System.out.println("Exception");}
+            catch (UnsupportedEncodingException e){}
         }
         return null;
     }
@@ -179,6 +200,7 @@ public class Controller implements Initializable{
         generatorHashTextField.setText(HashAndReduct.calculateHash(value.getBytes(),(String)comboBox.getSelectionModel().getSelectedItem()));
     }
 
+    /** Metoda wczytująca tęczową tablicę z pliku, wywoływana po wciśnięciu przycisku */
     public void getRainbowTable()
     {
         FileChooser fileChooser = new FileChooser();

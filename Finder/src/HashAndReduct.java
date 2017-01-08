@@ -186,33 +186,19 @@ public class HashAndReduct {
     public static String calculateHash(byte[] _bytesOfMessage, String hashType) {
 
         byte[] thedigest=null;
-
         try {
-
             MessageDigest md = MessageDigest.getInstance(hashType);
-
             thedigest = md.digest(_bytesOfMessage);
-
         }
-
-        catch ( java.security.NoSuchAlgorithmException e)
-
-        {
-
+        catch ( java.security.NoSuchAlgorithmException e) {
             e.printStackTrace();
-
         }
 
         StringBuilder sb = new StringBuilder();
-
         for (byte b : thedigest) {
-
             sb.append(String.format("%02X", b));
-
         }
-
         return sb.toString();
-
     }
 
 
@@ -229,51 +215,19 @@ public class HashAndReduct {
 
     public byte[] reduce (byte[] _hash, int _functionNr, int _minPwLength,int _maxPwLength)
     {
-
         int currentLenght=_maxPwLength; //długość generowanego hasła
         int pom=0;
-
-
-
 
         if (_minPwLength==_maxPwLength)
         {
             currentLenght=_minPwLength;
         }
-
         else {
-            /*
-            int space = _maxPwLength - _minPwLength + 1; //Możliwe długości haseł
-
-
-            long [] possiblepasswords=new long [space];
-            int startLenth=_maxPwLength;
-            long passwordSpace=0;
-            long temp=0;
-            for (int i=0; i<space;i++)
-            {
-               temp=(long)Math.pow(charset.length(),startLenth);
-
-                if (i>0)
-                {
-                    possiblepasswords[i]=temp+possiblepasswords[i-1];
-                }
-                else possiblepasswords[i]=temp;
-              //  System.out.println(possiblepasswords[i]);
-                passwordSpace+=temp;
-                startLenth--;
-            }
-
-*/
-
-
-
             float div = (float) chainLen / (float) passwordSpace; //sprawdzanie czy dzielenie zmiennej chainLen i space jest liczba calkowita
 
             if (div % 1 == 0) {
                 pom = 1;
             }
-
 
             for (int i = 1; i <= space; i++) {
                 double max=(chainLen *(float)(  (float)possiblepasswords[i-1]/(float)passwordSpace))- pom;
@@ -281,33 +235,18 @@ public class HashAndReduct {
                     currentLenght = _maxPwLength - (i - 1);
                     break;
                 }
-
-/*
-            for (int i = 1; i <= space; i++) {
-                if (_functionNr <= (chainLen / space * i) - pom) {
-                    currentLenght = _maxPwLength - (i - 1);
-                    break;
-                }
-                */
-
-
             }
-
         }
-
-
 
         byte[] result = new byte[currentLenght];
         int j=0;
         int hashLength=_hash.length;
         int hashIndex = 0;
-        for (int i = 0; i < currentLenght; i++) {
+        for (int i = 0; i < currentLenght; i++)
+        {
             hashIndex = hashIndex + _hash[j%hashLength]^_functionNr;
-            j = j + _minPwLength;
-
-
+            j = j + 7;
             result[i] = findInCharset( Math.abs(hashIndex) % charset.length());
-
         }
         return result;
     }

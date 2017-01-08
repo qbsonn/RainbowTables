@@ -24,6 +24,8 @@
                   <Region prefHeight="40.0" prefWidth="150.0" />
                   <Label prefHeight="17.0" prefWidth="269.0" text="Poszukiwane słowo:" />
                   <TextField fx:id="finderValueTextField" prefHeight="40.0" prefWidth="295.0" />
+                  <Region prefHeight="96.0" prefWidth="230.0" />
+                  <Label fx:id="label" prefHeight="17.0" prefWidth="268.0" />
                </children>
             </VBox>
          </children>
@@ -47,16 +49,6 @@
          </children>
       </VBox>
    </left>
-   <top>
-      <Label alignment="CENTER" prefHeight="82.0" prefWidth="617.0" text="Tutaj jakieś fajne hasło!" textFill="#e80a0a" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="35.0" />
-         </font>
-         <effect>
-            <Shadow blurType="ONE_PASS_BOX" height="5.0" radius="2.0" width="5.0" />
-         </effect>
-      </Label>
-   </top>
    <right>
       <VBox prefHeight="318.0" prefWidth="149.0" BorderPane.alignment="CENTER">
          <children>
@@ -72,4 +64,7 @@
          </children>
       </VBox>
    </right>
+   <top>
+      <Region prefHeight="45.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+   </top>
 </BorderPane>

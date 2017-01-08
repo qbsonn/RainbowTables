@@ -23,10 +23,10 @@ public class Finder {
     {
         this.rainbowTablePath = rainbowTablePath;
         loadTable();
-       // System.out.println("zcgewp " + getFirstValue(exists("zcgewp")).getBytes());
         hashAndReduct = new HashAndReduct(hashType,charset,chainLength, minValueLength, maxValueLength);
     }
 
+    /** Metoda wczytująca tęczową tablicę z pliku*/
     public void loadTable()
     {
         String[] rainbowTable = null;
@@ -57,7 +57,6 @@ public class Finder {
         catch(IOException e)
         {}
         lastValuesRainbowTable = rainbowTable;
-
     }
 
     /** Sprawdza czy istnieje łancuch o ostatnim słowie word
@@ -67,6 +66,7 @@ public class Finder {
         return Arrays.binarySearch(lastValuesRainbowTable, word);
     }
 
+    /** Sprawdza czy pod danym indeksem w tablicy lastValuesRainbowTable znajduje się słowo word*/
     public boolean exists(String word, int index)
     {
         if (index >= 0 && index < lastValuesRainbowTable.length )
@@ -78,8 +78,7 @@ public class Finder {
     public String getFirstValue(int index)
     {
         String firstValue = null;
-        try
-        {
+        try {
             FileReader fr = new FileReader(rainbowTablePath);
             LineNumberReader lnr = new LineNumberReader(fr);
 
